@@ -1,0 +1,202 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum role_types {
+  super_admin
+  user
+}
+
+model User {
+  id           String     @id @default(uuid())
+  first_name   String?
+  last_name    String?
+  email        String     @unique
+  password     String?
+  phone_number String?
+  role_type    role_types
+  created_at   DateTime   @default(now())
+  updated_at   DateTime?
+  deleted_at   DateTime?
+
+  //relations 
+  invitation Invitation[]
+  payment    Payment[]
+  templates  Templates[]
+  Couple     Couple?
+}
+
+model Couple {
+  id            Int       @id @default(autoincrement())
+  couple_slug   String    @unique
+  partner1_name String
+  partner2_name String
+  created_at    DateTime  @default(now())
+  updated_at    DateTime?
+  deleted_at    DateTime?
+
+  //relations
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id String @unique
+
+  invitation Invitation[]
+
+  // indexes
+  @@index([user_id])
+}
+
+model Invitation {
+  id                 Int       @id @default(autoincrement())
+  event_date         DateTime?
+  welcome_message    String?
+  groom_parents      String?
+  bride_parents      String?
+  guest_message      String?
+  special_request    String?
+  dress_code         String?
+  gift_registry_name String?
+  gift_registry_link String?
+  bible_verse        String?
+  bible_reference    String?
+  primary_color      String?
+  secondary_color    String?
+  created_at         DateTime  @default(now())
+  updated_at         DateTime?
+
+  // relations
+  couple    Couple @relation(fields: [couple_id], references: [id])
+  couple_id Int
+
+  template    Templates @relation(fields: [template_id], references: [id])
+  template_id Int
+
+  created_by_user    User   @relation(fields: [created_by_user_id], references: [id])
+  created_by_user_id String
+
+  guest   Guest[]
+  event   Event[]
+  images  Images[]
+  payment Payment[]
+
+  // indexes
+  @@index([couple_id, template_id, created_by_user_id])
+}
+
+model Guest {
+  id               Int      @id @default(autoincrement())
+  first_name       String?
+  last_name        String?
+  email            String?
+  phone_number     String?
+  invited_people   Int?
+  confirmed_people Int?
+  guest_slug       String   @unique
+  created_at       DateTime @default(now())
+
+  // relations
+  invitation    Invitation @relation(fields: [invitation_id], references: [id])
+  invitation_id Int
+
+  // indexes
+  @@index([invitation_id])
+}
+
+model Event {
+  id             Int       @id @default(autoincrement())
+  event_type     String?
+  event_time     DateTime?
+  event_location String?
+  details        String?
+  created_at     DateTime  @default(now())
+  updated_at     DateTime?
+
+  // relations
+  invitation    Invitation @relation(fields: [invitation_id], references: [id])
+  invitation_id Int
+
+  // indexes
+  @@index([invitation_id])
+}
+
+model Images {
+  id           Int       @id @default(autoincrement())
+  image_url    String?
+  section_name String?
+  created_at   DateTime  @default(now())
+  updated_at   DateTime?
+
+  // relations
+  invitation    Invitation @relation(fields: [invitation_id], references: [id])
+  invitation_id Int
+
+  // indexes
+  @@index([invitation_id])
+}
+
+model Payment {
+  id             Int       @id @default(autoincrement())
+  amount         Float?
+  currency       String?
+  payment_method String?
+  payment_status String?
+  transaction_id String?
+  payment_date   DateTime?
+  note           String?
+  created_at     DateTime  @default(now())
+  updated_at     DateTime?
+
+  // relations
+  invitation    Invitation @relation(fields: [invitation_id], references: [id])
+  invitation_id Int
+
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id String
+
+  // indexes
+  @@index([invitation_id, user_id])
+}
+
+model Templates {
+  id                Int       @id @default(autoincrement())
+  template_name     String?
+  description       String?
+  preview_image_url String?
+  created_at        DateTime  @default(now())
+  updated_at        DateTime?
+
+  // relations
+  created_by_user    User   @relation(fields: [created_by_user_id], references: [id])
+  created_by_user_id String
+
+  template_sections Template_sections[]
+  invitation        Invitation[]
+
+  // indexes
+  @@index([created_by_user_id])
+}
+
+model Template_sections {
+  id             Int       @id @default(autoincrement())
+  section_name   String?
+  requires_image Boolean?
+  created_at     DateTime  @default(now())
+  updated_at     DateTime?
+
+  // relations
+  template    Templates @relation(fields: [template_id], references: [id])
+  template_id Int
+
+  // indexes
+  @@index([template_id])
+}
