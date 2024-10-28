@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import { Modal } from "../ui/GlobalModal";
+import { Modal } from "../ui/global-modal/GlobalModal";
 import { ConfirmAssitance } from "../ui/modals/ConfirmAssitanceModal";
 import { DenyAssistance } from "../ui/modals/DenyAssistanceModal";
+import { template1Font } from "@/fonts";
 
 export const ConfirmAssistance = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,17 +21,19 @@ export const ConfirmAssistance = () => {
 
   return (
     <>
-      <div className="flex justify-center bg-background text-black p-12">
+      <div
+        className={`${template1Font.className} flex justify-center bg-background text-black p-12`}
+      >
         <div className="flex flex-col text-center gap-3">
-          <p className="text-center text-xl text-secondary">
+          <p className="text-center text-xl text-custom-secondary">
             Por favor, confirma tu asistencia
           </p>
-          <p className="text-center text-xl text-secondary">
+          <p className="text-center text-xl text-custom-secondary">
             ¡Nos encantaría contar contigo!
           </p>
           <div className="flex flex-col gap-1">
             <button
-              className="inline-block px-4 py-3 bg-secondary border-tertiary text-background font-bold text-xs leading-tight rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out mt-2"
+              className="inline-block px-4 py-3 bg-custom-secondary border-custom-tertiary text-background font-bold text-xs leading-tight rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out mt-2"
               onClick={() => {
                 handleConfirmAssistance();
                 openModal();
@@ -39,7 +42,7 @@ export const ConfirmAssistance = () => {
               Confirmar asistencia
             </button>
             <button
-              className="inline-block px-4 py-1.5 border-secondary text-secondary font-bold text-xs leading-tight  hover:underline focus:underline active:underline transition duration-150 ease-in-out mt-2"
+              className="inline-block px-4 py-1.5 border-custom-secondary text-custom-secondary font-bold text-xs leading-tight  hover:underline focus:underline active:underline transition duration-150 ease-in-out mt-2"
               onClick={() => {
                 handleDenyAssistance();
                 openModal();

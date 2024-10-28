@@ -1,3 +1,4 @@
+import { template1Font } from "@/fonts";
 import { IoClose } from "react-icons/io5"; // Asegúrate de tener react-icons instalado
 
 interface Props {
@@ -8,7 +9,9 @@ interface Props {
 
 export const Modal = ({ children, closeModal, modalTitle }: Props) => {
   return (
-    <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+    <div
+      className={`${template1Font.className} fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50`}
+    >
       <div className="bg-white p-4 sm:p-6 md:p-8 rounded-lg shadow-lg max-w-xs sm:max-w-sm w-full relative overflow-y-auto">
         {/* Close button */}
         <button

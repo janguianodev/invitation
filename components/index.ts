@@ -1,3 +1,4 @@
+export * from "./dashboard/GuestsSummary";
 export * from "./invitation/ConfirmAssistance";
 export * from "./invitation/DressCode";
 export * from "./invitation/EventCountdown";
@@ -9,9 +10,12 @@ export * from "./invitation/MessageToGest";
 export * from "./invitation/SpecialPhrase";
 export * from "./invitation/SpecialRequest";
 export * from "./invitation/WelcomeMessage";
-
+export * from "./ui/color-initializer/ColorInitializer";
+export * from "./ui/footer/Footer";
+export * from "./ui/global-modal/GlobalModal";
 export * from "./ui/modals/ConfirmAssitanceModal";
-export * from "./ui/Footer";
-export * from "./ui/GlobalModal";
-
 export * from "./ui/modals/DenyAssistanceModal";
+export * from "./ui/navbar/Navbar";
+export * from "./ui/sidebar/Sidebar";
+export * from "./ui/sidebar/SidebarItem";
+export * from "./ui/title/Title";

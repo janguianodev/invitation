@@ -1,4 +1,4 @@
-import { cursiveFont } from "@/fonts";
+import { cursiveFont, template1Font } from "@/fonts";
 import { AnimatedP } from "../../utils/components/AnimatedP";
 
 export const InvitationHeader = () => {
@@ -14,17 +14,17 @@ export const InvitationHeader = () => {
         <AnimatedP
           animationkey="fadeIn"
           text="3 MAYO 2025"
-          className="text-4xl drop-shadow-lg"
+          className={`${template1Font.className} text-white antialiased text-4xl drop-shadow-lg`}
         />
         <AnimatedP
           animationkey="fadeIn"
           text="Ana & Josué"
-          className={`${cursiveFont.className} text-8xl drop-shadow-lg `}
+          className={`${cursiveFont.className} text-white text-8xl drop-shadow-lg `}
         />
         <AnimatedP
           animationkey="fadeIn"
           text="¡Nos casamos!"
-          className="text-4xl drop-shadow-lg"
+          className={`${template1Font.className} text-white antialiased text-4xl drop-shadow-lg`}
         />
       </div>
     </div>
