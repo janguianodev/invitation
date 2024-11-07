@@ -11,19 +11,19 @@ export const Navbar = () => {
   const closeSidebar = useSidebarStore((state) => state.closeSidebar);
 
   return (
-    <div className="flex flex-row justify-between items-center bg-secondary p-4 text-gray-700">
+    <div className="flex flex-row justify-between items-center bg-secondary p-4 text-white">
       <div className="flex items-center">
         {!isSidebarOpen ? (
           <button onClick={openSidebar}>
-            <IoMenu className="text-2xl text-gray-700" />
+            <IoMenu className="text-2xl text-white" />
           </button>
         ) : (
           <button onClick={closeSidebar}>
-            <TbLayoutSidebarLeftCollapseFilled className="text-gray-700 text-2xl" />
+            <TbLayoutSidebarLeftCollapseFilled className="text-white text-2xl" />
           </button>
         )}
       </div>
-      <p className="text-center text-gray-700 ">Welcome, user</p>
+      <p className="text-center text-white ">Welcome, user</p>
       <div />
     </div>
   );

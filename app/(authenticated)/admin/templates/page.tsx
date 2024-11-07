@@ -1,11 +1,14 @@
-import { Title } from "@/components";
+import { Table, Title } from "@/components";
+import Image from "next/image";
+import Link from "next/link";
+import { IoPencil } from "react-icons/io5";
 
 const templates = [
   {
     templateId: 1,
     templateName: "Template 1",
     description: "Description 1",
-    previewImageUrl: "https://via.placeholder.com/150",
+    previewImageUrl: "https://placehold.co/150/png",
     createdAt: "2021-09-01T00:00:00.000Z",
     createdBy: "User 1",
     sections: [
@@ -25,7 +28,7 @@ const templates = [
     templateId: 2,
     templateName: "Template 2",
     description: "Description 2",
-    previewImageUrl: "https://via.placeholder.com/150",
+    previewImageUrl: "https://placehold.co/150/png",
     createdAt: "2021-09-01T00:00:00.000Z",
     createdBy: "User 2",
     sections: [
@@ -45,7 +48,7 @@ const templates = [
     templateId: 3,
     templateName: "Template 3",
     description: "Description 3",
-    previewImageUrl: "https://via.placeholder.com/150",
+    previewImageUrl: "https://placehold.co/150/png",
     createdAt: "2021-09-01T00:00:00.000Z",
     createdBy: "User 3",
     sections: [
@@ -64,52 +67,51 @@ const templates = [
 ];
 
 export default function TemplatesPage() {
+  const headers = [
+    "Preview image",
+    "Name",
+    "Description",
+    "Created by",
+    "Created at",
+    "Sections",
+    "Actions",
+  ];
+
+  const renderActions = <T extends Record<string, any>>(item: T) => {
+    return (
+      <div className="flex space-x-2">
+        <Link
+          href={`/admin/templates/${item.templateId}`}
+          className="btn-primary"
+        >
+          <IoPencil size={20} />
+        </Link>
+        <Link
+          href={`/admin/templates/${item.templateId}/delete`}
+          className="btn-primary"
+        >
+          Delete
+        </Link>
+      </div>
+    );
+  };
+
   return (
     <div>
       <Title title="Templates" />
 
+      <div className="flex justify-end mb-5">
+        <Link href="/admin/templates/new" className="btn-primary">
+          Add new template
+        </Link>
+      </div>
+
       <div className="mb-10 mt-4">
-        <table className="min-w-full">
-          <thead className="bg-gray-200 border-b">
-            <tr>
-              <th className="text-left px-6 py-4">Preview</th>
-              <th className="text-left px-6 py-4">Name</th>
-              <th className="text-left px-6 py-4">Description</th>
-              <th className="text-left px-6 py-4">Created by</th>
-              <th className="text-left px-6 py-4">Created at</th>
-              <th className="text-left px-6 py-4">Sections</th>
-            </tr>
-          </thead>
-          <tbody>
-            {templates?.map((template) => (
-              <tr key={template.templateId} className="border-b">
-                <td className="px-6 py-4">
-                  <img
-                    src={template.previewImageUrl}
-                    alt={template.templateName}
-                    className="w-16 h-16 object-cover rounded"
-                  />
-                </td>
-                <td className="px-6 py-4">{template.templateName}</td>
-                <td className="px-6 py-4">{template.description}</td>
-                <td className="px-6 py-4">{template.createdBy}</td>
-                <td className="px-6 py-4">{template.createdAt}</td>
-                <td className="px-6 py-4">
-                  <ul>
-                    {template.sections.map((section) => (
-                      <li key={section.sectionId}>
-                        {section.sectionName}{" "}
-                        {section.requiresImage && (
-                          <span className="text-red-500">*</span>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <Table
+          data={templates}
+          headers={headers}
+          renderActions={(item) => renderActions(item)}
+        />
       </div>
     </div>
   );

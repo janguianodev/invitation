@@ -12,12 +12,12 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`h-screen bg-tertiary text-white flex flex-col transition-width duration-200 ${
+      className={`h-screen bg-secondary text-white flex flex-col transition-width duration-200 ${
         !isSidebarOpen ? "w-0" : "w-64"
       }`}
     >
       {/* Logo */}
-      <div className="flex items-center justify-center h-14 bg-tertiary">
+      <div className="flex items-center justify-center h-14 bg-secondary">
         <h1 className="text-xl font-semibold">Logo</h1>
       </div>
 

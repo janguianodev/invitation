@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { robotoFont } from "@/fonts";
 import ColorInitializer from "@/components/ui/color-initializer/ColorInitializer";
+import { Providers } from "@/components";
 
 export const metadata: Metadata = {
   title: {
@@ -19,8 +20,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${robotoFont.className} antialiased`}>
-        <ColorInitializer />
-        {children}
+        <Providers>
+          <ColorInitializer />
+          {children}
+        </Providers>
       </body>
     </html>
   );

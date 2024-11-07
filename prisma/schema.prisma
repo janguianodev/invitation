@@ -27,13 +27,13 @@ model User {
   phoneNumber String?
   roleType    roleTypes
   createdAt   DateTime  @default(now())
-  updatedAt   DateTime?
+  updatedAt   DateTime? @updatedAt
   deletedAt   DateTime?
 
   //relations 
   invitation Invitation[]
   payment    Payment[]
-  templates  Templates[]
+  templates  Template[]
   Couple     Couple?
 }
 
@@ -43,7 +43,7 @@ model Couple {
   partner1Name String
   partner2Name String
   createdAt    DateTime  @default(now())
-  updatedAt    DateTime?
+  updatedAt    DateTime? @updatedAt
   deletedAt    DateTime?
 
   //relations
@@ -75,13 +75,13 @@ model Invitation {
   recomendedLodging     String?
   recomendedLodgingLink String?
   createdAt             DateTime  @default(now())
-  updatedAt             DateTime?
+  updatedAt             DateTime? @updatedAt
 
   // relations
   couple   Couple @relation(fields: [coupleId], references: [id])
   coupleId Int
 
-  template   Templates @relation(fields: [templateId], references: [id])
+  template   Template @relation(fields: [templateId], references: [id])
   templateId Int
 
   createdByUser   User   @relation(fields: [createdByUserId], references: [id])
@@ -89,7 +89,7 @@ model Invitation {
 
   guest   Guest[]
   event   Event[]
-  images  Images[]
+  image   Image[]
   payment Payment[]
 
   // indexes
@@ -107,7 +107,7 @@ model Guest {
   confirmationCode String?
   guestSlug        String    @unique
   createdAt        DateTime  @default(now())
-  updatedAt        DateTime?
+  updatedAt        DateTime? @updatedAt
 
   // relations
   invitation   Invitation @relation(fields: [invitationId], references: [id])
@@ -125,7 +125,7 @@ model Event {
   eventAddress     String?
   eventAddressLink String?
   createdAt        DateTime  @default(now())
-  updatedAt        DateTime?
+  updatedAt        DateTime? @updatedAt
 
   // relations
   invitation   Invitation @relation(fields: [invitationId], references: [id])
@@ -135,19 +135,22 @@ model Event {
   @@index([invitationId])
 }
 
-model Images {
+model Image {
   id          Int       @id @default(autoincrement())
-  imageUrl    String?
-  sectionName String?
+  imageUrl    String    @db.VarChar(255)
+  sectionName String?   @db.VarChar(50)
   createdAt   DateTime  @default(now())
-  updatedAt   DateTime?
+  updatedAt   DateTime? @updatedAt
 
-  // relations
-  invitation   Invitation @relation(fields: [invitationId], references: [id])
-  invitationId Int
+  // Relaciones
+  invitation   Invitation? @relation(fields: [invitationId], references: [id])
+  invitationId Int?
 
-  // indexes
+  template   Template? @relation(fields: [templateId], references: [id])
+  templateId Int?
+
   @@index([invitationId])
+  @@index([templateId])
 }
 
 model Payment {
@@ -160,7 +163,7 @@ model Payment {
   paymentDate   DateTime?
   note          String?
   createdAt     DateTime  @default(now())
-  updatedAt     DateTime?
+  updatedAt     DateTime? @updatedAt
 
   // relations
   invitation   Invitation @relation(fields: [invitationId], references: [id])
@@ -173,36 +176,43 @@ model Payment {
   @@index([invitationId, userId])
 }
 
-model Templates {
-  id              Int       @id @default(autoincrement())
-  templateName    String?
-  description     String?
-  previewImageUrl String?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime?
+model SectionType {
+  id               Int               @id @default(autoincrement())
+  name             String            @unique @db.VarChar(50)
+  description      String?           @db.VarChar(255)
+  templateSections TemplateSection[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model TemplateSection {
+  id            Int       @id @default(autoincrement())
+  requiresImage Boolean
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime? @updatedAt
 
   // relations
+  template      Template    @relation(fields: [templateId], references: [id])
+  templateId    Int
+  sectionType   SectionType @relation(fields: [sectionTypeId], references: [id])
+  sectionTypeId Int
+
+  @@index([templateId])
+  @@index([sectionTypeId])
+}
+
+model Template {
+  id           Int       @id @default(autoincrement())
+  templateName String    @db.VarChar(100)
+  description  String    @db.VarChar(255)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime? @updatedAt
+
   createdByUser   User   @relation(fields: [createdByUserId], references: [id])
   createdByUserId String
 
-  templateSections TemplateSections[]
+  templateSections TemplateSection[]
   invitation       Invitation[]
-
-  // indexes
-  @@index([createdByUserId])
-}
-
-model TemplateSections {
-  id            Int       @id @default(autoincrement())
-  sectionName   String?
-  requiresImage Boolean?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime?
-
-  // relations
-  template   Templates @relation(fields: [templateId], references: [id])
-  templateId Int
-
-  // indexes
-  @@index([templateId])
+  image            Image[]
 }
