@@ -1,4 +1,4 @@
-import { cursiveFont } from "@/fonts";
+import { cursiveFont, template1Font } from "@/fonts";
 import { AnimatedP } from "../../utils/components/AnimatedP";
 
 export const EventCountdown = () => {
@@ -15,11 +15,13 @@ export const EventCountdown = () => {
 
       <div className="relative z-10 text-center">
         <AnimatedP
-          className={`${cursiveFont.className} text-9xl text-primary drop-shadow-md font-bold`}
+          className={`${cursiveFont.className} text-9xl text-custom-primary drop-shadow-md font-bold`}
           text="8 días"
           animationkey="pulseOpacity"
         />
-        <p className="text-2xl text-white drop-shadow-md">
+        <p
+          className={`${template1Font.className} text-2xl text-white drop-shadow-md`}
+        >
           para nuestro gran día
         </p>
       </div>

@@ -12,13 +12,15 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
         primary: {
-          DEFAULT: "#F79661",
+          DEFAULT: "#9bb78f",
         },
         secondary: {
-          DEFAULT: "#808C77",
+          DEFAULT: "#222222",
         },
-        tertiary: {
-          DEFAULT: "#E5E8E3",
+        custom: {
+          primary: "var(--custom-primary)",
+          secondary: "var(--custom-secondary)",
+          tertiary: "var(--custom-tertiary)",
         },
       },
     },

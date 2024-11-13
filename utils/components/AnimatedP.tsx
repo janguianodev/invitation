@@ -3,7 +3,6 @@
 import { AnimationType } from "@/interfaces";
 import { getAnimationValues } from "@/utils";
 import { motion } from "framer-motion";
-import { HTMLAttributes } from "react";
 
 interface Props {
   text: string;

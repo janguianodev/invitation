@@ -13,190 +13,214 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum role_types {
+enum roleTypes {
   super_admin
   user
 }
 
 model User {
-  id           String     @id @default(uuid())
-  first_name   String?
-  last_name    String?
-  email        String     @unique
-  password     String?
-  phone_number String?
-  role_type    role_types
-  created_at   DateTime   @default(now())
-  updated_at   DateTime?
-  deleted_at   DateTime?
+  id          String    @id @default(uuid())
+  firstName   String?
+  lastName    String?
+  email       String    @unique
+  password    String?
+  phoneNumber String?
+  roleType    roleTypes
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+  deletedAt   DateTime?
 
   //relations 
   invitation Invitation[]
   payment    Payment[]
-  templates  Templates[]
+  templates  Template[]
   Couple     Couple?
 }
 
 model Couple {
-  id            Int       @id @default(autoincrement())
-  couple_slug   String    @unique
-  partner1_name String
-  partner2_name String
-  created_at    DateTime  @default(now())
-  updated_at    DateTime?
-  deleted_at    DateTime?
+  id           String    @id @default(uuid())
+  coupleSlug   String    @unique
+  partner1Name String
+  partner2Name String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime? @updatedAt
+  deletedAt    DateTime?
 
   //relations
-  user    User   @relation(fields: [user_id], references: [id])
-  user_id String @unique
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique
 
   invitation Invitation[]
 
   // indexes
-  @@index([user_id])
+  @@index([userId])
 }
 
 model Invitation {
-  id                 Int       @id @default(autoincrement())
-  event_date         DateTime?
-  welcome_message    String?
-  groom_parents      String?
-  bride_parents      String?
-  guest_message      String?
-  special_request    String?
-  dress_code         String?
-  gift_registry_name String?
-  gift_registry_link String?
-  bible_verse        String?
-  bible_reference    String?
-  primary_color      String?
-  secondary_color    String?
-  created_at         DateTime  @default(now())
-  updated_at         DateTime?
+  id                    Int       @id @default(autoincrement())
+  eventDate             DateTime?
+  welcomeMessage        String?
+  groomParents          String?
+  brideParents          String?
+  guestMessage          String?
+  specialRequest        String?
+  dressCode             String?
+  giftRegistryType      String?
+  giftRegistryLink      String?
+  giftRegistryMsg       String?
+  bibleVerse            String?
+  bibleReference        String?
+  primaryColor          String?
+  secondaryColor        String?
+  recomendedLodging     String?
+  recomendedLodgingLink String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime? @updatedAt
+  deletedAt             DateTime?
 
   // relations
-  couple    Couple @relation(fields: [couple_id], references: [id])
-  couple_id Int
+  couple   Couple @relation(fields: [coupleId], references: [id])
+  coupleId String
 
-  template    Templates @relation(fields: [template_id], references: [id])
-  template_id Int
+  template   Template @relation(fields: [templateId], references: [id])
+  templateId Int
 
-  created_by_user    User   @relation(fields: [created_by_user_id], references: [id])
-  created_by_user_id String
+  createdByUser   User   @relation(fields: [createdByUserId], references: [id])
+  createdByUserId String
 
   guest   Guest[]
   event   Event[]
-  images  Images[]
+  image   Image[]
   payment Payment[]
 
   // indexes
-  @@index([couple_id, template_id, created_by_user_id])
+  @@index([coupleId, templateId, createdByUserId])
 }
 
 model Guest {
-  id               Int      @id @default(autoincrement())
-  first_name       String?
-  last_name        String?
+  id               String    @id @default(uuid())
+  firstName        String?
+  lastName         String?
   email            String?
-  phone_number     String?
-  invited_people   Int?
-  confirmed_people Int?
-  guest_slug       String   @unique
-  created_at       DateTime @default(now())
+  phoneNumber      String?
+  invitedPeople    Int?
+  confirmedPeople  Int?
+  confirmationCode String?
+  guestSlug        String    @unique
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime? @updatedAt
+  deletedAt        DateTime?
 
   // relations
-  invitation    Invitation @relation(fields: [invitation_id], references: [id])
-  invitation_id Int
+  invitation   Invitation @relation(fields: [invitationId], references: [id])
+  invitationId Int
 
   // indexes
-  @@index([invitation_id])
+  @@index([invitationId])
 }
 
 model Event {
-  id             Int       @id @default(autoincrement())
-  event_type     String?
-  event_time     DateTime?
-  event_location String?
-  details        String?
-  created_at     DateTime  @default(now())
-  updated_at     DateTime?
+  id               Int       @id @default(autoincrement())
+  eventType        String?
+  eventTime        DateTime?
+  eventLocation    String?
+  eventAddress     String?
+  eventAddressLink String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime? @updatedAt
+  deletedAt        DateTime?
 
   // relations
-  invitation    Invitation @relation(fields: [invitation_id], references: [id])
-  invitation_id Int
+  invitation   Invitation @relation(fields: [invitationId], references: [id])
+  invitationId Int
 
   // indexes
-  @@index([invitation_id])
+  @@index([invitationId])
 }
 
-model Images {
-  id           Int       @id @default(autoincrement())
-  image_url    String?
-  section_name String?
-  created_at   DateTime  @default(now())
-  updated_at   DateTime?
+model Image {
+  id          Int       @id @default(autoincrement())
+  imageUrl    String    @db.VarChar(255)
+  sectionName String?   @db.VarChar(50)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+  deletedAt   DateTime?
 
-  // relations
-  invitation    Invitation @relation(fields: [invitation_id], references: [id])
-  invitation_id Int
+  // Relaciones
+  invitation   Invitation? @relation(fields: [invitationId], references: [id])
+  invitationId Int?
 
-  // indexes
-  @@index([invitation_id])
+  template   Template? @relation(fields: [templateId], references: [id])
+  templateId Int?
+
+  @@index([invitationId])
+  @@index([templateId])
 }
 
 model Payment {
-  id             Int       @id @default(autoincrement())
-  amount         Float?
-  currency       String?
-  payment_method String?
-  payment_status String?
-  transaction_id String?
-  payment_date   DateTime?
-  note           String?
-  created_at     DateTime  @default(now())
-  updated_at     DateTime?
+  id            Int       @id @default(autoincrement())
+  amount        Float?
+  currency      String?
+  paymentMethod String?
+  paymentStatus String?
+  transactionId String?
+  paymentDate   DateTime?
+  note          String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime? @updatedAt
+  deletedAt     DateTime?
 
   // relations
-  invitation    Invitation @relation(fields: [invitation_id], references: [id])
-  invitation_id Int
+  invitation   Invitation @relation(fields: [invitationId], references: [id])
+  invitationId Int
 
-  user    User   @relation(fields: [user_id], references: [id])
-  user_id String
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
 
   // indexes
-  @@index([invitation_id, user_id])
+  @@index([invitationId, userId])
 }
 
-model Templates {
-  id                Int       @id @default(autoincrement())
-  template_name     String?
-  description       String?
-  preview_image_url String?
-  created_at        DateTime  @default(now())
-  updated_at        DateTime?
+model SectionType {
+  id               Int               @id @default(autoincrement())
+  name             String            @unique @db.VarChar(50)
+  description      String            @db.VarChar(255)
+  templateSections TemplateSection[]
 
-  // relations
-  created_by_user    User   @relation(fields: [created_by_user_id], references: [id])
-  created_by_user_id String
-
-  template_sections Template_sections[]
-  invitation        Invitation[]
-
-  // indexes
-  @@index([created_by_user_id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  deletedAt DateTime?
 }
 
-model Template_sections {
-  id             Int       @id @default(autoincrement())
-  section_name   String?
-  requires_image Boolean?
-  created_at     DateTime  @default(now())
-  updated_at     DateTime?
+model TemplateSection {
+  id            Int       @id @default(autoincrement())
+  requiresImage Boolean
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime? @updatedAt
+  deletedAt     DateTime?
 
   // relations
-  template    Templates @relation(fields: [template_id], references: [id])
-  template_id Int
+  template      Template    @relation(fields: [templateId], references: [id])
+  templateId    Int
+  sectionType   SectionType @relation(fields: [sectionTypeId], references: [id])
+  sectionTypeId Int
 
-  // indexes
-  @@index([template_id])
+  @@index([templateId])
+  @@index([sectionTypeId])
+}
+
+model Template {
+  id           Int       @id @default(autoincrement())
+  templateName String    @db.VarChar(100)
+  description  String    @db.VarChar(255)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime? @updatedAt
+  deletedAt    DateTime?
+
+  createdByUser   User   @relation(fields: [createdByUserId], references: [id])
+  createdByUserId String
+
+  templateSections TemplateSection[]
+  invitation       Invitation[]
+  image            Image[]
 }

@@ -1,17 +1,18 @@
+import { template1Font } from "@/fonts";
 import React from "react";
-import { FaGift } from "react-icons/fa";
 import { IoMdMail } from "react-icons/io";
-import { IoGift, IoGiftSharp, IoMail } from "react-icons/io5";
-import { TbMailHeart } from "react-icons/tb";
+import { IoGiftSharp } from "react-icons/io5";
 
 export const Gift = () => {
   return (
-    <div className="flex flex-col justify-center items-center bg-secondary p-12 gap-3">
-      <p className="text-center text-xl sm:text-2xl">
+    <div
+      className={`${template1Font.className} flex flex-col justify-center items-center bg-custom-secondary p-12 gap-3`}
+    >
+      <p className="text-center text-white text-xl sm:text-2xl">
         ¡Gracias por creer en nosotros y por acompañarnos en esta ocasión tan
         especial!
       </p>
-      <div className="flex justify-center items-center gap-3">
+      <div className="flex justify-center items-center gap-3 text-white">
         <IoGiftSharp size={30} />
         <IoMdMail size={30} className="mt-1" />
       </div>
