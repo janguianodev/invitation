@@ -23,5 +23,5 @@ export * from "./ui/sidebar/Sidebar";
 export * from "./ui/sidebar/SidebarItem";
 export * from "./ui/table/Table";
 export * from "./ui/table/TableBody";
-export * from "./ui/table/TableHead";
+export * from "./ui/table/TableHeader";
 export * from "./ui/title/Title";

@@ -5,7 +5,6 @@ import { Sections } from "./Sections";
 import { useFieldArray, useForm } from "react-hook-form";
 import { addEditTemplateSchema } from "../utils/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { initialValues } from "../utils/initialValues";
 import { useAlert } from "@/hooks";
 import { AlertVariant } from "@/utils";
 import { useRouter } from "next/navigation";
@@ -28,7 +27,6 @@ export const AddEditTemplate = ({ template, slug }: Props) => {
     register,
     handleSubmit,
     control,
-    getValues,
     setValue,
     formState: { errors },
     watch,
@@ -74,8 +72,12 @@ export const AddEditTemplate = ({ template, slug }: Props) => {
       return;
     }
 
-    showAlert(AlertVariant.SUCCESS, "Template created successfully");
-    router.replace(`/admin/templates/${updatedTemplate?.id}`);
+    showAlert(
+      AlertVariant.SUCCESS,
+      `Template ${updatedTemplate?.id ? "updated" : "created"} successfully`
+    );
+
+    router.replace(`/admin/templates`);
   };
 
   useEffect(() => {
@@ -132,9 +134,9 @@ export const AddEditTemplate = ({ template, slug }: Props) => {
           )}
         </div>
 
-        <div className="flex flex-col gap-1">
+        <div>
           {template.image?.map((item) => (
-            <div key={item.id}>
+            <div key={item.id} className="w-[200px] flex flex-col">
               <TemplateImage
                 src={item.imageUrl}
                 alt="Template image"

@@ -1,3 +1,5 @@
+"use server";
+
 import prisma from "@/lib/prisma";
 
 export const getTemplateById = async (id: string) => {
@@ -7,7 +9,7 @@ export const getTemplateById = async (id: string) => {
     if (isNaN(parsedId)) return null;
 
     const template = await prisma.template.findUnique({
-      where: { id: parsedId },
+      where: { id: parsedId, deletedAt: null },
       include: {
         templateSections: {
           include: {
@@ -18,6 +20,9 @@ export const getTemplateById = async (id: string) => {
           select: {
             id: true,
             imageUrl: true,
+          },
+          where: {
+            deletedAt: null,
           },
         },
       },

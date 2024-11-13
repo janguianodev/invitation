@@ -1,4 +1,3 @@
-import { TemplateImage } from "@/components";
 export interface TemplateI {
   id: number;
   templateName: string;

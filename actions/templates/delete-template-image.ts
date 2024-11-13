@@ -12,7 +12,7 @@ export const deleteTemplateImage = async (
 
   try {
     await cloudinary.uploader.destroy(imageName);
-    const deletedImage = await prisma.image.delete({
+    const deletedImage = await prisma.image.update({
       where: {
         id: imageId,
       },
@@ -24,12 +24,16 @@ export const deleteTemplateImage = async (
           },
         },
       },
+      data: {
+        deletedAt: new Date(),
+      },
     });
 
     // revalidate paths
     revalidatePath("/admin/templates");
     revalidatePath(`/admin/templates/${deletedImage.template?.id}`);
   } catch (error) {
+    console.log("Error deleting image", error);
     return {
       ok: false,
       message: "Error deleting image",

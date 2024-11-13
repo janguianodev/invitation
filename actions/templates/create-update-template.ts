@@ -3,11 +3,10 @@
 import prisma from "@/lib/prisma";
 import { Template } from "@prisma/client";
 import { uploadImages } from "../images/upload-images";
+import { revalidatePath } from "next/cache";
 
 export const createUpdateTemplate = async (formData: FormData) => {
   const data = Object.fromEntries(formData);
-
-  console.log("data: ", data);
 
   const { id, ...rest } = data;
 
@@ -20,6 +19,7 @@ export const createUpdateTemplate = async (formData: FormData) => {
           data: {
             templateName: rest.templateName as string,
             description: rest.description as string,
+            updatedAt: new Date(),
           },
         });
       } else {
@@ -52,6 +52,8 @@ export const createUpdateTemplate = async (formData: FormData) => {
       return { template, createdSections };
     });
 
+    revalidatePath("/admin/templates");
+
     return {
       ok: true,
       template: { ...prismaTx.template, sections: prismaTx.createdSections },
@@ -66,14 +68,10 @@ const uploadAndCreateImage = async (
   formDataImage: File,
   templateId: number
 ) => {
-  console.log({ formDataImage, templateId });
-
   const uploadedImage = await uploadImages(
     [formDataImage],
     `templates/${templateId}`
   );
-
-  console.log("uploadedImage: ", uploadedImage);
 
   if (!uploadedImage) {
     throw new Error("Error uploading image");
@@ -141,6 +139,7 @@ const createUpdateSections = async (
         data: {
           sectionTypeId: data.sectionTypeId,
           requiresImage: data.requiresImage,
+          updatedAt: new Date(),
         },
       })
     )

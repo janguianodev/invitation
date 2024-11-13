@@ -1,51 +1,36 @@
-import Image from "next/image";
+import { ReactNode } from "react";
 
 interface Props<T> {
-  data: T[];
-  renderActions?: (item: T) => React.ReactNode;
+  columns: Record<
+    string,
+    {
+      getter: (data: T) => ReactNode | string | undefined;
+    }
+  >;
+  payload: T[];
+  renderActions?: (item: T) => ReactNode;
 }
 
-export const TableBody = <T extends Record<string, any>>({
-  data,
+export const TableBody = <T,>({
+  columns,
+  payload,
   renderActions,
-}: Props<T>) => {
-  return (
-    <tbody>
-      {data?.map((item, index) => (
-        <tr key={index} className="border-b">
-          <td className="px-6 py-4">
-            <Image
-              src={item.previewImageUrl}
-              alt={item.templateName}
-              className="w-16 h-16 object-cover rounded"
-              width={64}
-              height={64}
-            />
-          </td>
-          <td className="px-6 py-4">{item.templateName}</td>
-          <td className="px-6 py-4">{item.description}</td>
-          <td className="px-6 py-4">{item.createdBy}</td>
-          <td className="px-6 py-4">{item.createdAt}</td>
-
-          {item.sections && (
-            <td className="px-6 py-4">
-              <ul>
-                {item.sections.map((section: any) => (
-                  <li key={section.sectionId}>
-                    {section.sectionName}{" "}
-                    {section.requiresImage && (
-                      <span className="text-red-500">*</span>
-                    )}
-                  </li>
-                ))}
-              </ul>
+}: Props<T>) => (
+  <tbody>
+    {payload.map((rowData, index) => (
+      <tr key={index} className="border-b border-gray-300">
+        {Object.keys(columns).map((key) => {
+          const { getter } = columns[key];
+          return (
+            <td key={key} className="py-2 px-4">
+              {getter(rowData)}
             </td>
-          )}
-          {renderActions && (
-            <td className="px-6 py-4">{renderActions(item)}</td>
-          )}
-        </tr>
-      ))}
-    </tbody>
-  );
-};
+          );
+        })}
+        {renderActions && (
+          <td className="py-2 px-4">{renderActions(rowData)}</td>
+        )}
+      </tr>
+    ))}
+  </tbody>
+);

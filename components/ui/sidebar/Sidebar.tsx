@@ -2,7 +2,7 @@
 
 import { useSidebarStore } from "@/store";
 import { SidebarItem } from "./SidebarItem";
-import { userRoutes, superadminRoutes } from "@/routes";
+import { superadminRoutes } from "@/routes";
 
 const Sidebar = () => {
   const isSidebarOpen = useSidebarStore((state) => state.isSidebarOpen);
