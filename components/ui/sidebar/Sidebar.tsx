@@ -2,13 +2,18 @@
 
 import { useSidebarStore } from "@/store";
 import { SidebarItem } from "./SidebarItem";
-import { superadminRoutes } from "@/routes";
+import { superadminRoutes, userRoutes } from "@/routes";
+import { useSession } from "next-auth/react";
+import { roleTypes } from "@prisma/client";
 
 const Sidebar = () => {
   const isSidebarOpen = useSidebarStore((state) => state.isSidebarOpen);
+  const { data: session } = useSession();
 
-  // ! TODO: validate user role and show only the right options
-  const options = superadminRoutes;
+  const routes =
+    session?.user.role === roleTypes.super_admin
+      ? superadminRoutes
+      : userRoutes;
 
   return (
     <div
@@ -24,7 +29,7 @@ const Sidebar = () => {
       <nav>
         <ul>
           {isSidebarOpen &&
-            options.map((option, index) => (
+            routes.map((option, index) => (
               <SidebarItem
                 key={index}
                 icon={option.icon}

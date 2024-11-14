@@ -56,6 +56,7 @@ export const authConfig = {
     async session({ session, token }) {
       session.user.id = token.id as string;
       session.user.email = token.email as string;
+      session.user.role = token.roleType as string;
 
       return session;
     },

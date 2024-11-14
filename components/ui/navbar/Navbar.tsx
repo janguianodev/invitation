@@ -26,7 +26,7 @@ export const Navbar = () => {
         )}
       </div>
       <p className="text-center text-white w-full ">
-        Welcome {session?.user?.name}
+        Welcome, {session?.user?.name}
       </p>
       <div />
       <button onClick={() => signOut()}>
