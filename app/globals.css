@@ -16,6 +16,12 @@ body {
   background-color: var(--background);
 }
 
+html,
+body,
+:root{
+  height: 100%;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
