@@ -1,11 +1,13 @@
 "use client";
 
 import { useSidebarStore } from "@/store";
+import { useSession, signOut } from "next-auth/react";
 import React from "react";
-import { IoMenu } from "react-icons/io5";
+import { IoLogOutOutline, IoMenu } from "react-icons/io5";
 import { TbLayoutSidebarLeftCollapseFilled } from "react-icons/tb";
 
 export const Navbar = () => {
+  const { data: session } = useSession();
   const isSidebarOpen = useSidebarStore((state) => state.isSidebarOpen);
   const openSidebar = useSidebarStore((state) => state.openSidebar);
   const closeSidebar = useSidebarStore((state) => state.closeSidebar);
@@ -23,8 +25,13 @@ export const Navbar = () => {
           </button>
         )}
       </div>
-      <p className="text-center text-white ">Welcome, user</p>
+      <p className="text-center text-white w-full ">
+        Welcome, {session?.user?.name}
+      </p>
       <div />
+      <button onClick={() => signOut()}>
+        <IoLogOutOutline size={30} />
+      </button>
     </div>
   );
 };

@@ -25,3 +25,5 @@ export * from "./ui/table/Table";
 export * from "./ui/table/TableBody";
 export * from "./ui/table/TableHeader";
 export * from "./ui/title/Title";
+export * from "./ui/auth/login/SignUpForm";
+export * from "./ui/loader/Loader";

@@ -4,9 +4,18 @@ import prisma from "@/lib/prisma";
 import { Template } from "@prisma/client";
 import { uploadImages } from "../images/upload-images";
 import { revalidatePath } from "next/cache";
+import { auth } from "@/auth.config";
+import { NextResponse } from "next/server";
 
 export const createUpdateTemplate = async (formData: FormData) => {
+  const session = await auth();
   const data = Object.fromEntries(formData);
+
+  if (!session?.user) {
+    return new NextResponse("Unauthorized", {
+      status: 401,
+    });
+  }
 
   const { id, ...rest } = data;
 
@@ -27,7 +36,7 @@ export const createUpdateTemplate = async (formData: FormData) => {
           data: {
             templateName: rest.templateName as string,
             description: rest.description as string,
-            createdByUserId: "942d14fd-e390-428c-a826-cc39e680816c",
+            createdByUserId: session.user.id as string,
           },
         });
       }
