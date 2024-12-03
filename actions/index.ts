@@ -5,3 +5,6 @@ export { getTemplateById } from "./templates/get-template-by-id";
 export { deleteTemplateImage } from "./templates/delete-template-image";
 export { getTemplates } from "./templates/get-templates";
 export { deleteTemplate } from "./templates/delete-template";
+
+export { getUserInvitations } from "./invitations/get-user-invitations";
+export { getInvitationSections } from "./invitations/get-invitation-sections";

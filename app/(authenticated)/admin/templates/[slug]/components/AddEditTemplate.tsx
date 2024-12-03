@@ -72,6 +72,7 @@ export const AddEditTemplate = ({ template, slug }: Props) => {
       return;
     }
 
+    // TODO: checkmessage
     showAlert(
       AlertVariant.SUCCESS,
       `Template ${updatedTemplate?.id ? "updated" : "created"} successfully`

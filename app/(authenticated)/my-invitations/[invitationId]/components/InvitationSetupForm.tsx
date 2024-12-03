@@ -3,11 +3,18 @@
 import React from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { ItineraryForm } from "./ItineraryForm";
-import { GiftTable } from "./GiftTable";
 import { InvitationSetupFormI } from "@/interfaces";
 import { saveInvitationData } from "@/actions";
 import { GiftTableType } from "../constants/gift-table";
 import { invitationSetupInitialValues } from "../utils/initialValues";
+import { GiftRegistry } from "./GiftRegistry";
+
+export interface InvitationImages {
+  brideImage: FileList;
+  bibleImage: FileList;
+  eventDateImage: FileList;
+  specialRequestImage: FileList;
+}
 
 export const InvitationSetupForm = () => {
   const {
@@ -16,7 +23,7 @@ export const InvitationSetupForm = () => {
     control,
     formState: { errors },
     watch,
-  } = useForm<InvitationSetupFormI>({
+  } = useForm<InvitationSetupFormI & InvitationImages>({
     defaultValues: invitationSetupInitialValues,
   });
 
@@ -83,6 +90,20 @@ export const InvitationSetupForm = () => {
           )}
         </div>
         <div className="flex flex-col gap-1">
+          <label className="text-gray-600" htmlFor="image">
+            Imagen
+          </label>
+          <input
+            type="file"
+            id="brideImage"
+            className={errors.brideImage ? "input-error" : "input-primary"}
+            {...(register("brideImage"), { required: true })}
+          />
+          {errors.brideImage && (
+            <span className="text-red-500">Este campo es requerido</span>
+          )}
+        </div>
+        <div className="flex flex-col gap-1">
           <label className="text-gray-600" htmlFor="primaryColor">
             Color 1 de la invitación
           </label>
@@ -121,6 +142,20 @@ export const InvitationSetupForm = () => {
             {...register("eventDate", { required: true })}
           />
           {errors.eventDate && (
+            <span className="text-red-500">Este campo es requerido</span>
+          )}
+        </div>
+        <div className="flex flex-col gap-1">
+          <label className="text-gray-600" htmlFor="image">
+            Imagen
+          </label>
+          <input
+            type="file"
+            id="eventDateImage"
+            className={errors.eventDateImage ? "input-error" : "input-primary"}
+            {...(register("eventDateImage"), { required: true })}
+          />
+          {errors.eventDateImage && (
             <span className="text-red-500">Este campo es requerido</span>
           )}
         </div>
@@ -164,6 +199,20 @@ export const InvitationSetupForm = () => {
             {...register("bibleReference", { required: true })}
           />
           {errors.bibleReference && (
+            <span className="text-red-500">Este campo es requerido</span>
+          )}
+        </div>
+        <div className="flex flex-col gap-1">
+          <label className="text-gray-600" htmlFor="image">
+            Imagen
+          </label>
+          <input
+            type="file"
+            id="bibleImage"
+            className={errors.bibleImage ? "input-error" : "input-primary"}
+            {...(register("bibleImage"), { required: true })}
+          />
+          {errors.bibleImage && (
             <span className="text-red-500">Este campo es requerido</span>
           )}
         </div>
@@ -239,6 +288,22 @@ export const InvitationSetupForm = () => {
             <span className="text-red-500">Este campo es requerido</span>
           )}
         </div>
+        <div className="flex flex-col gap-1">
+          <label className="text-gray-600" htmlFor="image">
+            Imagen
+          </label>
+          <input
+            type="file"
+            id="specialRequestImage"
+            className={
+              errors.specialRequestImage ? "input-error" : "input-primary"
+            }
+            {...(register("specialRequestImage"), { required: true })}
+          />
+          {errors.specialRequestImage && (
+            <span className="text-red-500">Este campo es requerido</span>
+          )}
+        </div>
 
         <div className="flex flex-col gap-1 md:col-span-2">
           <div className="flex justify-between items-center">
@@ -262,7 +327,7 @@ export const InvitationSetupForm = () => {
           ))}
         </div>
 
-        <GiftTable errors={errors} register={register} watch={watch} />
+        <GiftRegistry errors={errors} register={register} watch={watch} />
       </div>
 
       <button type="submit" className="btn-primary">

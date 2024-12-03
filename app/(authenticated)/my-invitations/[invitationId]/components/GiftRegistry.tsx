@@ -3,14 +3,15 @@
 import { FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-form";
 import { GiftTableType } from "../constants/gift-table";
 import { InvitationSetupFormI } from "@/interfaces";
+import { InvitationImages } from "./InvitationSetupForm";
 
 interface Props {
-  register: UseFormRegister<InvitationSetupFormI>;
-  errors: FieldErrors<InvitationSetupFormI>;
-  watch: UseFormWatch<InvitationSetupFormI>;
+  register: UseFormRegister<InvitationSetupFormI & InvitationImages>;
+  errors: FieldErrors<InvitationSetupFormI & InvitationImages>;
+  watch: UseFormWatch<InvitationSetupFormI & InvitationImages>;
 }
 
-export const GiftTable = ({ errors, register, watch }: Props) => {
+export const GiftRegistry = ({ errors, register, watch }: Props) => {
   const selectedGiftType = watch("giftTable.type");
 
   return (
