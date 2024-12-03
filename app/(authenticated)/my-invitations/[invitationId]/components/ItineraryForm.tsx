@@ -4,10 +4,11 @@ import { FieldErrors, UseFormRegister } from "react-hook-form";
 import { IoMdRemoveCircle } from "react-icons/io";
 import { eventTypes } from "../constants/itinerary";
 import { InvitationSetupFormI } from "@/interfaces";
+import { InvitationImages } from "./InvitationSetupForm";
 
 interface Props {
-  register: UseFormRegister<InvitationSetupFormI>;
-  errors: FieldErrors<InvitationSetupFormI>;
+  register: UseFormRegister<InvitationSetupFormI & InvitationImages>;
+  errors: FieldErrors<InvitationSetupFormI & InvitationImages>;
   index: number;
   remove: (index: number) => void;
 }

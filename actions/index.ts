@@ -10,3 +10,5 @@ export { getGuestsByInvitationId } from "./guest/get-guests";
 export { deleteGuest } from "./guest/delete-guest";
 export { createOrUpdateGuest } from "./guest/create-update-guest";
 export { getGuestsSummary } from "./guest/get-guests-summary";
+export { getUserInvitations } from "./invitations/get-user-invitations";
+export { getInvitationSections } from "./invitations/get-invitation-sections";

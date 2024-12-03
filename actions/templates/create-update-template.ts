@@ -6,8 +6,17 @@ import { uploadImages } from "../images/upload-images";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth.config";
 import { NextResponse } from "next/server";
+import { TemplateI } from "@/interfaces";
 
-export const createUpdateTemplate = async (formData: FormData) => {
+type CreateUpdateTemplateResponse = {
+  ok: boolean;
+  template?: Partial<TemplateI>;
+  error?: string;
+};
+
+export const createUpdateTemplate = async (
+  formData: FormData
+): Promise<CreateUpdateTemplateResponse> => {
   const session = await auth();
   const data = Object.fromEntries(formData);
 
@@ -65,7 +74,14 @@ export const createUpdateTemplate = async (formData: FormData) => {
 
     return {
       ok: true,
-      template: { ...prismaTx.template, sections: prismaTx.createdSections },
+      template: {
+        ...prismaTx.template,
+        templateSections: prismaTx.createdSections.map((section) => ({
+          id: section.id,
+          sectionName: section.sectionType.name,
+          requiresImage: section.requiresImage,
+        })),
+      },
     };
   } catch (error) {
     console.log("Error creating template", error);
@@ -150,6 +166,9 @@ const createUpdateSections = async (
           requiresImage: data.requiresImage,
           updatedAt: new Date(),
         },
+        include: {
+          sectionType: true,
+        },
       })
     )
   );
@@ -161,6 +180,9 @@ const createUpdateSections = async (
           templateId: data.templateId,
           sectionTypeId: data.sectionTypeId,
           requiresImage: data.requiresImage,
+        },
+        include: {
+          sectionType: true,
         },
       })
     )
