@@ -3,7 +3,7 @@ import { AnimatedP } from "@/utils";
 
 export const SpecialPhrase = () => {
   return (
-    <div className="bg-custom-secondary flex flex-col sm:flex-row justify-center items-center  w-full h-screen mx-auto text-center gap-5 shadow-lg">
+    <div className="bg-invitation-secondary flex flex-col sm:flex-row justify-center items-center  w-full h-screen mx-auto text-center gap-5 shadow-lg">
       <div
         className="w-full sm:w-1/2 h-full"
         style={{

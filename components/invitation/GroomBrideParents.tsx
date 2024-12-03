@@ -4,7 +4,7 @@ import { cursiveFont, template1Font } from "@/fonts";
 
 export const GroomBrideParents = () => {
   return (
-    <div className="flex flex-col justify-center p-12 text-custom-secondary bg-white">
+    <div className="flex flex-col justify-center p-12 text-invitation-secondary bg-white">
       <div className="flex flex-row justify-center rotate-[130deg]">
         <Image
           src={"/images/green-leaf.svg"}

@@ -8,6 +8,8 @@ import { saveInvitationData } from "@/actions";
 import { GiftTableType } from "../constants/gift-table";
 import { invitationSetupInitialValues } from "../utils/initialValues";
 import { GiftRegistry } from "./GiftRegistry";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { InvitationSetupFormSchema } from "../utils/zod-shema";
 
 export interface InvitationImages {
   brideImage: FileList;
@@ -25,19 +27,13 @@ export const InvitationSetupForm = () => {
     watch,
   } = useForm<InvitationSetupFormI & InvitationImages>({
     defaultValues: invitationSetupInitialValues,
+    resolver: zodResolver(InvitationSetupFormSchema),
   });
 
   const { fields, append, remove } = useFieldArray({
     control,
     name: "itinerary",
   });
-
-  // ! TODO: don't forget to get the couple_id in the invitation query, first I need to create the couple
-  // !      and then I need to get the couple_id to save the invitation data
-
-  // ! TODO: Add the image upload input to the sections that require an image upload
-  // !      Add the validations needed like required, max size, format, etc
-  // !      please do not forget this!
 
   const onSubmit = async (data: InvitationSetupFormI) => {
     if (
@@ -69,7 +65,7 @@ export const InvitationSetupForm = () => {
             type="text"
             id="brideName"
             className={errors.brideName ? "input-error" : "input-primary"}
-            {...register("brideName", { required: true })}
+            {...register("brideName")}
           />
           {errors.brideName && (
             <span className="text-red-500">Este campo es requerido</span>
@@ -83,7 +79,7 @@ export const InvitationSetupForm = () => {
             type="text"
             id="groomName"
             className={errors.groomName ? "input-error" : "input-primary"}
-            {...register("groomName", { required: true })}
+            {...register("groomName")}
           />
           {errors.groomName && (
             <span className="text-red-500">Este campo es requerido</span>
@@ -91,43 +87,15 @@ export const InvitationSetupForm = () => {
         </div>
         <div className="flex flex-col gap-1">
           <label className="text-gray-600" htmlFor="image">
-            Imagen
+            Imagen de la novia
           </label>
           <input
             type="file"
             id="brideImage"
             className={errors.brideImage ? "input-error" : "input-primary"}
-            {...(register("brideImage"), { required: true })}
+            {...register("brideImage")}
           />
           {errors.brideImage && (
-            <span className="text-red-500">Este campo es requerido</span>
-          )}
-        </div>
-        <div className="flex flex-col gap-1">
-          <label className="text-gray-600" htmlFor="primaryColor">
-            Color 1 de la invitación
-          </label>
-          <input
-            type="color"
-            id="primaryColor"
-            className={errors.primaryColor ? "input-error" : "input-primary"}
-            {...register("primaryColor", { required: true })}
-          />
-          {errors.primaryColor && (
-            <span className="text-red-500">Este campo es requerido</span>
-          )}
-        </div>
-        <div className="flex flex-col gap-1">
-          <label className="text-gray-600" htmlFor="secondaryColor">
-            Color 2 de la invitación
-          </label>
-          <input
-            type="color"
-            id="secondaryColor"
-            className={errors.secondaryColor ? "input-error" : "input-primary"}
-            {...register("secondaryColor", { required: true })}
-          />
-          {errors.secondaryColor && (
             <span className="text-red-500">Este campo es requerido</span>
           )}
         </div>
@@ -139,7 +107,7 @@ export const InvitationSetupForm = () => {
             type="date"
             id="eventDate"
             className={errors.eventDate ? "input-error" : "input-primary"}
-            {...register("eventDate", { required: true })}
+            {...register("eventDate")}
           />
           {errors.eventDate && (
             <span className="text-red-500">Este campo es requerido</span>
@@ -147,13 +115,13 @@ export const InvitationSetupForm = () => {
         </div>
         <div className="flex flex-col gap-1">
           <label className="text-gray-600" htmlFor="image">
-            Imagen
+            Imagen de la fecha del evento
           </label>
           <input
             type="file"
             id="eventDateImage"
             className={errors.eventDateImage ? "input-error" : "input-primary"}
-            {...(register("eventDateImage"), { required: true })}
+            {...register("eventDateImage")}
           />
           {errors.eventDateImage && (
             <span className="text-red-500">Este campo es requerido</span>
@@ -166,7 +134,7 @@ export const InvitationSetupForm = () => {
           <textarea
             id="welcomeMessage"
             className={errors.welcomeMessage ? "input-error" : "input-primary"}
-            {...register("welcomeMessage", { required: true })}
+            {...register("welcomeMessage")}
           />
           {errors.welcomeMessage && (
             <span className="text-red-500">Este campo es requerido</span>
@@ -180,7 +148,7 @@ export const InvitationSetupForm = () => {
             type="text"
             id="bibleVerse"
             className={errors.bibleVerse ? "input-error" : "input-primary"}
-            {...register("bibleVerse", { required: true })}
+            {...register("bibleVerse")}
           />
           {errors.bibleVerse && (
             <span className="text-red-500">Este campo es requerido</span>
@@ -196,7 +164,7 @@ export const InvitationSetupForm = () => {
             id="bibleReference"
             placeholder="Juan 3:16"
             className={errors.bibleReference ? "input-error" : "input-primary"}
-            {...register("bibleReference", { required: true })}
+            {...register("bibleReference")}
           />
           {errors.bibleReference && (
             <span className="text-red-500">Este campo es requerido</span>
@@ -204,13 +172,13 @@ export const InvitationSetupForm = () => {
         </div>
         <div className="flex flex-col gap-1">
           <label className="text-gray-600" htmlFor="image">
-            Imagen
+            Imagen de la biblia
           </label>
           <input
             type="file"
             id="bibleImage"
             className={errors.bibleImage ? "input-error" : "input-primary"}
-            {...(register("bibleImage"), { required: true })}
+            {...register("bibleImage")}
           />
           {errors.bibleImage && (
             <span className="text-red-500">Este campo es requerido</span>
@@ -226,7 +194,7 @@ export const InvitationSetupForm = () => {
             id=""
             placeholder="Juan Perez, María González"
             className={errors.brideParents ? "input-error" : "input-primary"}
-            {...register("brideParents", { required: true })}
+            {...register("brideParents")}
           />
           {errors.brideParents && (
             <span className="text-red-500">Este campo es requerido</span>
@@ -242,7 +210,7 @@ export const InvitationSetupForm = () => {
             id="groomParents"
             placeholder="Juan Perez, María González"
             className={errors.groomParents ? "input-error" : "input-primary"}
-            {...register("groomParents", { required: true })}
+            {...register("groomParents")}
           />
           {errors.groomParents && (
             <span className="text-red-500">Este campo es requerido</span>
@@ -255,7 +223,7 @@ export const InvitationSetupForm = () => {
           <textarea
             id="guestMessage"
             className={errors.guestMessage ? "input-error" : "input-primary"}
-            {...register("guestMessage", { required: true })}
+            {...register("guestMessage")}
           />
           {errors.guestMessage && (
             <span className="text-red-500">Este campo es requerido</span>
@@ -268,7 +236,7 @@ export const InvitationSetupForm = () => {
           <input
             type="text"
             id="dressCode"
-            {...register("dressCode", { required: true })}
+            {...register("dressCode")}
             className={errors.dressCode ? "input-error" : "input-primary"}
           />
           {errors.dressCode && (
@@ -282,7 +250,7 @@ export const InvitationSetupForm = () => {
           <textarea
             id="specialRequest"
             className={errors.specialRequest ? "input-error" : "input-primary"}
-            {...register("specialRequest", { required: true })}
+            {...register("specialRequest")}
           />
           {errors.specialRequest && (
             <span className="text-red-500">Este campo es requerido</span>
@@ -290,7 +258,7 @@ export const InvitationSetupForm = () => {
         </div>
         <div className="flex flex-col gap-1">
           <label className="text-gray-600" htmlFor="image">
-            Imagen
+            Imagen de la petición especial
           </label>
           <input
             type="file"
@@ -298,7 +266,7 @@ export const InvitationSetupForm = () => {
             className={
               errors.specialRequestImage ? "input-error" : "input-primary"
             }
-            {...(register("specialRequestImage"), { required: true })}
+            {...register("specialRequestImage")}
           />
           {errors.specialRequestImage && (
             <span className="text-red-500">Este campo es requerido</span>

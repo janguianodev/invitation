@@ -6,7 +6,7 @@ import { IoGiftSharp } from "react-icons/io5";
 export const Gift = () => {
   return (
     <div
-      className={`${template1Font.className} flex flex-col justify-center items-center bg-custom-secondary p-12 gap-3`}
+      className={`${template1Font.className} flex flex-col justify-center items-center bg-invitation-secondary p-12 gap-3`}
     >
       <p className="text-center text-white text-xl sm:text-2xl">
         ¡Gracias por creer en nosotros y por acompañarnos en esta ocasión tan

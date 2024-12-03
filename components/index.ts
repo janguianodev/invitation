@@ -13,7 +13,6 @@ export * from "./invitation/WelcomeMessage";
 export * from "./providers/Providers";
 export * from "./template/image/TemplateImage";
 export * from "./ui/alert/Alert";
-export * from "./ui/color-initializer/ColorInitializer";
 export * from "./ui/footer/Footer";
 export * from "./ui/global-modal/GlobalModal";
 export * from "./ui/modals/ConfirmAssitanceModal";

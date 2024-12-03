@@ -32,8 +32,6 @@ model User {
 
   //relations 
   invitation Invitation[]
-  payment    Payment[]
-  templates  Template[]
   Couple     Couple?
 }
 
@@ -82,38 +80,37 @@ model Invitation {
   couple   Couple? @relation(fields: [coupleId], references: [id])
   coupleId String?
 
-  template   Template @relation(fields: [templateId], references: [id])
-  templateId Int
-
   createdByUser   User?   @relation(fields: [createdByUserId], references: [id])
   createdByUserId String?
 
-  guest   Guest[]
-  event   Event[]
-  image   Image[]
-  payment Payment[]
+  guest Guest[]
+  event Event[]
+  image Image[]
 
   // indexes
-  @@index([coupleId, templateId, createdByUserId])
+  @@index([coupleId, createdByUserId])
 }
 
 model Guest {
   id               String    @id @default(uuid())
   firstName        String?
   lastName         String?
-  email            String?
   phoneNumber      String?
-  invitedPeople    Int?
-  confirmedPeople  Int?
+  invitedPeople    Int? // Number of people invited
+  confirmedPeople  Int? // Number of people confirmed
   confirmationCode String?
   guestSlug        String    @unique
+  isGroup          Boolean   @default(false) // If the guest is a group
   createdAt        DateTime  @default(now())
   updatedAt        DateTime? @updatedAt
   deletedAt        DateTime?
 
-  // relations
-  invitation   Invitation @relation(fields: [invitationId], references: [id])
-  invitationId String
+  // relaciones
+  invitation    Invitation @relation(fields: [invitationId], references: [id])
+  invitationId  String
+  groupMembers  Guest[]    @relation("GroupMembers") // Group members
+  parentGroup   Guest?     @relation("GroupMembers", fields: [parentGroupId], references: [id])
+  parentGroupId String? // Recursively reference to the parent group
 
   // indexes
   @@index([invitationId])
@@ -150,78 +147,5 @@ model Image {
   invitation   Invitation? @relation(fields: [invitationId], references: [id])
   invitationId String?
 
-  template   Template? @relation(fields: [templateId], references: [id])
-  templateId Int?
-
   @@index([invitationId])
-  @@index([templateId])
-}
-
-model Payment {
-  id            Int       @id @default(autoincrement())
-  amount        Float?
-  currency      String?
-  paymentMethod String?
-  paymentStatus String?
-  transactionId String?
-  paymentDate   DateTime?
-  note          String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime? @updatedAt
-  deletedAt     DateTime?
-
-  // relations
-  invitation   Invitation @relation(fields: [invitationId], references: [id])
-  invitationId String
-
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
-
-  // indexes
-  @@index([invitationId, userId])
-}
-
-model SectionType {
-  id          Int    @id @default(autoincrement())
-  name        String @unique @db.VarChar(50)
-  description String @db.VarChar(255)
-
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
-  deletedAt DateTime?
-
-  templateSections TemplateSection[]
-}
-
-model TemplateSection {
-  id            Int       @id @default(autoincrement())
-  requiresImage Boolean
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime? @updatedAt
-  deletedAt     DateTime?
-
-  // relations
-  template      Template    @relation(fields: [templateId], references: [id])
-  templateId    Int
-  sectionType   SectionType @relation(fields: [sectionTypeId], references: [id])
-  sectionTypeId Int
-
-  @@index([templateId])
-  @@index([sectionTypeId])
-}
-
-model Template {
-  id           Int       @id @default(autoincrement())
-  templateName String    @db.VarChar(100)
-  description  String    @db.VarChar(255)
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime? @updatedAt
-  deletedAt    DateTime?
-
-  createdByUser   User   @relation(fields: [createdByUserId], references: [id])
-  createdByUserId String
-
-  templateSections TemplateSection[]
-  invitation       Invitation[]
-  image            Image[]
 }

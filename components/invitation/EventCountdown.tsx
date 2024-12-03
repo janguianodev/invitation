@@ -15,7 +15,7 @@ export const EventCountdown = () => {
 
       <div className="relative z-10 text-center">
         <AnimatedP
-          className={`${cursiveFont.className} text-9xl text-custom-primary drop-shadow-md font-bold`}
+          className={`${cursiveFont.className} text-9xl text-invitation-primary drop-shadow-md font-bold`}
           text="8 días"
           animationkey="pulseOpacity"
         />
