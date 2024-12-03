@@ -7,3 +7,5 @@ export type {
   Itinerary,
 } from "./invitation-setup-form";
 export type { TemplatesI } from "./templates";
+
+export type { InvitationsI } from "./invitations";
