@@ -7,7 +7,7 @@ export const WelcomeMessage = () => {
       <AnimatedP
         animationkey="fadeInUp"
         text="Comienza el viaje más importante de nuestras vidas y queremos que seas parte de él."
-        className={`${template1Font.className} text-2xl sm:text-4xl text-custom-secondary`}
+        className={`${template1Font.className} text-2xl sm:text-4xl text-invitation-secondary`}
       />
     </div>
   );

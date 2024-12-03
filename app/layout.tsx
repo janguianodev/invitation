@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { robotoFont } from "@/fonts";
-import ColorInitializer from "@/components/ui/color-initializer/ColorInitializer";
 import { Providers } from "@/components";
 import { SessionProvider } from "next-auth/react";
 
@@ -22,10 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${robotoFont.className} antialiased`}>
         <SessionProvider>
-          <Providers>
-            <ColorInitializer />
-            {children}
-          </Providers>
+          <Providers>{children}</Providers>
         </SessionProvider>
       </body>
     </html>

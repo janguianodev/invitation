@@ -38,7 +38,7 @@ export const Itinerary = () => {
     <>
       <div className="flex flex-row justify-center px-12 pt-12">
         <p
-          className={`${cursiveFont.className} text-custom-secondary text-6xl font-bold`}
+          className={`${cursiveFont.className} text-invitation-secondary text-6xl font-bold`}
         >
           Itinerario
         </p>
@@ -48,18 +48,18 @@ export const Itinerary = () => {
           <AnimatedLi
             animationkey="fadeInLeft"
             key={index}
-            className="border-l-2 border-custom-tertiary"
+            className="border-l-2 border-invitation-tertiary"
           >
             <div className="md:flex flex-start">
-              <div className="bg-custom-secondary w-6 h-6 p-4 flex items-center justify-center rounded-full -ml-4">
+              <div className="bg-invitation-secondary w-6 h-6 p-4 flex items-center justify-center rounded-full -ml-4">
                 <span className="text-white">{item.icon}</span>
               </div>
-              <div className="block p-6 rounded-lg shadow-lg bg-custom-tertiary w-full ml-6 mb-10">
+              <div className="block p-6 rounded-lg shadow-lg bg-invitation-tertiary w-full ml-6 mb-10">
                 <div className="flex justify-between mb-3">
-                  <p className="font-medium text-custom-secondary text-md sm:text-xl">
+                  <p className="font-medium text-invitation-secondary text-md sm:text-xl">
                     {item.title}
                   </p>
-                  <p className="font-medium text-custom-secondary text-md sm:text-xl">
+                  <p className="font-medium text-invitation-secondary text-md sm:text-xl">
                     {item.time}
                   </p>
                 </div>
@@ -73,7 +73,7 @@ export const Itinerary = () => {
                   <p className="text-gray-700 text-xs">{item.address}</p>
                 </div>
                 <LinkButton
-                  className="inline-block px-4 py-1.5 bg-custom-secondary text-white font-bold text-xs leading-tight rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out"
+                  className="inline-block px-4 py-1.5 bg-invitation-secondary text-white font-bold text-xs leading-tight rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out"
                   link={item.mapsLink}
                   text="Abrir mapa"
                 />

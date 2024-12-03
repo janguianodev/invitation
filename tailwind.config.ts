@@ -17,10 +17,10 @@ const config: Config = {
         secondary: {
           DEFAULT: "#222222",
         },
-        custom: {
-          primary: "var(--custom-primary)",
-          secondary: "var(--custom-secondary)",
-          tertiary: "var(--custom-tertiary)",
+        invitation: {
+          primary: "#F79661",
+          secondary: "#808C77",
+          tertiary: "#E5E8E3",
         },
       },
     },
