@@ -25,8 +25,11 @@ export const columns = {
   invitationDetails: {
     name: "No asistirán",
     width: "5%",
-    getter: (item: GuestI) =>
-      (item.invitedPeople ?? 0) - (item.confirmedPeople ?? 0),
+    getter: (item: GuestI) => {
+      if (item.confirmedPeople === null) return "No ha respondido";
+
+      return (item.invitedPeople ?? 0) - (item.confirmedPeople ?? 0);
+    },
   },
   actions: {
     name: "Acciones",
