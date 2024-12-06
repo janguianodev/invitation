@@ -5,35 +5,28 @@ export const columns = {
   fullName: {
     name: "Nombre Completo",
     width: "20%",
-    getter: (item: GuestI) => `${item.firstName || ""} ${item.lastName || ""}`,
-  },
-  email: {
-    name: "Correo Electrónico",
-    width: "20%",
-    getter: (item: GuestI) => item.email || "No proporcionado",
+    getter: (item: GuestI) => item.name || "No proporcionado",
   },
   phoneNumber: {
     name: "Teléfono",
-    width: "15%",
+    width: "10%",
     getter: (item: GuestI) => item.phoneNumber || "No proporcionado",
   },
   invitedPeople: {
     name: "Invitados",
-    width: "10%",
+    width: "5%",
     getter: (item: GuestI) => item.invitedPeople || 0,
   },
   confirmedPeople: {
     name: "Confirmados",
-    width: "10%",
+    width: "5%",
     getter: (item: GuestI) => item.confirmedPeople || 0,
   },
   invitationDetails: {
-    name: "Detalles de Invitación",
-    width: "15%",
+    name: "No asistirán",
+    width: "5%",
     getter: (item: GuestI) =>
-      item.invitation && item.invitation.eventDate
-        ? `Evento: ${item.invitation.eventDate.toLocaleDateString()}`
-        : "Sin invitación",
+      (item.invitedPeople ?? 0) - (item.confirmedPeople ?? 0),
   },
   actions: {
     name: "Acciones",

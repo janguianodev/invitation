@@ -1,54 +1,98 @@
 "use server";
 
 import { GuestFormInputs } from "@/app/(authenticated)/guests/[guestId]/utils/schema";
+import { auth } from "@/auth.config";
 import prisma from "@/lib/prisma";
 import { nanoid } from "nanoid";
 import { revalidatePath } from "next/cache";
 
-export const createOrUpdateGuest = async (
-  data: GuestFormInputs,
-  invitationId: number
-) => {
+export const createOrUpdateGuest = async (data: GuestFormInputs) => {
+  const session = await auth();
+
   try {
-    const { id, guestSlug, firstName, lastName, confirmationCode, ...rest } =
-      data;
+    const invitation = await prisma.invitation.findFirst({
+      where: {
+        createdByUserId: session?.user.id,
+      },
+    });
 
-    const slug =
-      guestSlug || generateSlug(firstName || "N/A", lastName || "N/A");
+    if (!invitation) {
+      return {
+        ok: false,
+        error: "No se encontró la invitación de ese invitado",
+      };
+    }
 
-    const normalizedData = {
-      ...rest,
-      firstName,
-      lastName,
-      guestSlug: slug,
-      updatedAt: new Date(),
-      invitationId: invitationId,
-      confirmationCode:
-        confirmationCode !== undefined
-          ? confirmationCode.toString()
-          : undefined,
-    };
+    const { id, guestSlug, name, guestPasses, ...rest } = data;
 
-    const guest = id
-      ? await prisma.guest.update({
-          where: { id },
-          data: normalizedData,
-        })
-      : await prisma.guest.create({
-          data: normalizedData,
+    const slug = guestSlug || generateSlug(name);
+
+    if (id) {
+      const guest = await prisma.guest.update({
+        where: {
+          id,
+        },
+        data: {
+          ...rest,
+          name,
+          guestSlug: slug,
+          invitationId: invitation.id,
+        },
+      });
+
+      if (guestPasses.length > 0) {
+        await prisma.guest.deleteMany({
+          where: {
+            parentGroupId: guest.id,
+          },
         });
 
+        await prisma.guest.createMany({
+          data: guestPasses.map((pass, index) => ({
+            name: pass.name,
+            guestSlug: `${slug}-${index}`,
+            invitationId: invitation.id,
+            parentGroupId: guest.id,
+          })),
+        });
+
+        revalidatePath("/guests");
+        return { ok: true, guests: { ...guest, guestPasses } };
+      }
+    } else {
+      const guest = await prisma.guest.create({
+        data: {
+          ...rest,
+          name,
+          guestSlug: slug,
+          invitationId: invitation.id,
+        },
+      });
+
+      if (guestPasses.length > 0) {
+        await prisma.guest.createMany({
+          data: guestPasses.map((pass, index) => ({
+            name: pass.name,
+            guestSlug: `${slug}-${index}`,
+            invitationId: invitation.id,
+            parentGroupId: guest.id,
+          })),
+        });
+
+        revalidatePath("/guests");
+        return { ok: true, guests: { ...guest, guestPasses } };
+      }
+    }
+
     revalidatePath("/guests");
-    return { ok: true, guest };
+    return { ok: true, guests: {} };
   } catch (error) {
     console.error("Error crear/actualizar invitado:", error);
     return { ok: false, error: "Fallo crear o actualizar invitado" };
   }
 };
 
-const generateSlug = (firstName: string, lastName: string): string => {
-  const baseSlug = `${firstName}-${lastName}`
-    .toLowerCase()
-    .replace(/\s+/g, "-");
+const generateSlug = (name: string): string => {
+  const baseSlug = name.toLowerCase().split(" ").join("_").replace(/\s+/g, "-");
   return `${baseSlug}-${nanoid(8)}`;
 };

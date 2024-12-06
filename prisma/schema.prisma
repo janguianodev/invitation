@@ -93,10 +93,9 @@ model Invitation {
 
 model Guest {
   id               String    @id @default(uuid())
-  firstName        String?
-  lastName         String?
-  phoneNumber      String?
-  invitedPeople    Int? // Number of people invited
+  name             String
+  phoneNumber      String
+  invitedPeople    Int // Number of people invited
   confirmedPeople  Int? // Number of people confirmed
   confirmationCode String?
   guestSlug        String    @unique
