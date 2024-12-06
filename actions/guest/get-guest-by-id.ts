@@ -1,16 +1,24 @@
 "use server";
 
+import { auth } from "@/auth.config";
 import prisma from "@/lib/prisma";
 
-export const getGuestByIdAndInvitation = async (
-  guestId: string,
-  invitationId: number
-) => {
+export const getGuestByIdAndInvitation = async (guestId: string) => {
+  const session = await auth();
+
   try {
+    const invitation = await prisma.invitation.findFirst({
+      where: {
+        createdByUserId: session?.user.id,
+      },
+    });
+
+    if (!invitation) return undefined;
+
     const guest = await prisma.guest.findFirst({
       where: {
         id: guestId,
-        invitationId: invitationId,
+        invitationId: invitation.id,
         deletedAt: null,
       },
       include: {
@@ -20,32 +28,37 @@ export const getGuestByIdAndInvitation = async (
 
     if (!guest) return undefined;
 
+    const guestPasses = await prisma.guest.findMany({
+      where: {
+        parentGroupId: guest.id,
+        deletedAt: null,
+      },
+    });
+
     return {
       id: guest.id,
-      firstName: guest.firstName ?? "",
-      lastName: guest.lastName ?? "",
-      email: guest.email ?? "",
+      name: guest.name ?? "",
       phoneNumber: guest.phoneNumber ?? "",
       invitedPeople: guest.invitedPeople ?? 0,
-      confirmedPeople: guest.confirmedPeople ?? 0,
-      confirmationCode:
-        typeof guest.confirmationCode === "string"
-          ? parseInt(guest.confirmationCode, 10) || undefined
-          : guest.confirmationCode ?? undefined,
+      confirmedPeople: guest.confirmedPeople,
+      confirmationCode: guest.confirmationCode ?? "",
       guestSlug: guest.guestSlug,
       createdAt: guest.createdAt,
       updatedAt: guest.updatedAt,
+      isGroup: guest.isGroup,
+      parentGroupId: guest.parentGroupId ?? null,
       invitation: {
         id: guest.invitation.id,
         eventDate: guest.invitation.eventDate,
         welcomeMessage: guest.invitation.welcomeMessage ?? null,
       },
+      guestPasses: guestPasses.map((pass) => ({
+        id: pass.id,
+        name: pass.name ?? "",
+      })),
     };
   } catch (error) {
-    console.error(
-      `Error obtener invitado por id ${guestId} y invitationId ${invitationId}`,
-      error
-    );
-    throw new Error("Error obtener invitado por id e invitationId");
+    console.error(`Error obtener invitado por id ${guestId}`, error);
+    throw new Error("Error obtener invitado por id");
   }
 };

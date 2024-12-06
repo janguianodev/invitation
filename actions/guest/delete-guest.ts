@@ -9,8 +9,21 @@ export const deleteGuest = async (id: string) => {
       where: { id },
       data: { deletedAt: new Date() },
     });
+
+    const guestPass = await prisma.guest.updateMany({
+      where: { parentGroupId: id },
+      data: { deletedAt: new Date() },
+    });
+
     revalidatePath("/guests");
-    return { ok: true, guest };
+
+    return {
+      ok: true,
+      guest: {
+        ...guest,
+        guestPasses: guestPass,
+      },
+    };
   } catch (error) {
     console.error("Error eliminar invitado:", error);
     return { ok: false, error: "Fallo al eminimar invitado" };
