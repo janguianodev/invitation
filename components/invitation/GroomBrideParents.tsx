@@ -2,7 +2,29 @@ import Image from "next/image";
 import { AnimatedP } from "../../utils/components/AnimatedP";
 import { cursiveFont, template1Font } from "@/fonts";
 
-export const GroomBrideParents = () => {
+interface Props {
+  data: {
+    brideParents: string;
+    groomParents: string;
+  };
+}
+
+export const GroomBrideParents = ({ data }: Props) => {
+  const { brideParents, groomParents } = data;
+
+  const renderParentNames = (parents: string) => {
+    return parents.split(",").map((parent, index) => {
+      return (
+        <AnimatedP
+          key={index}
+          text={parent}
+          className={`${template1Font.className} text-xl sm:text-2xl text-center`}
+          animationkey="fadeIn"
+        />
+      );
+    });
+  };
+
   return (
     <div className="flex flex-col justify-center p-12 text-invitation-secondary bg-white">
       <div className="flex flex-row justify-center rotate-[130deg]">
@@ -19,16 +41,7 @@ export const GroomBrideParents = () => {
       <div className="flex flex-col sm:flex-row w-full justify-center items-center gap-10 mt-8">
         <div>
           <div className="mt-3">
-            <AnimatedP
-              text="Maria Esther García Raya"
-              className={`${template1Font.className} text-xl sm:text-2xl text-center`}
-              animationkey="fadeIn"
-            />
-            <AnimatedP
-              text="Juan Balderas Rodriguez"
-              className={`${template1Font.className} text-xl sm:text-2xl text-center`}
-              animationkey="fadeIn"
-            />
+            {brideParents && renderParentNames(brideParents)}
           </div>
         </div>
         <div>
@@ -36,16 +49,7 @@ export const GroomBrideParents = () => {
         </div>
         <div>
           <div className="mt-3">
-            <AnimatedP
-              text="Sanjuana González Niño"
-              className={`${template1Font.className} text-xl sm:text-2xl text-center`}
-              animationkey="fadeIn"
-            />
-            <AnimatedP
-              text="Isabel Anguiano Urbano"
-              className={`${template1Font.className} text-xl sm:text-2xl text-center`}
-              animationkey="fadeIn"
-            />
+            {groomParents && renderParentNames(groomParents)}
           </div>
         </div>
       </div>

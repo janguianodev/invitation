@@ -68,8 +68,6 @@ model Invitation {
   giftRegistryMsg       String?
   bibleVerse            String?
   bibleReference        String?
-  primaryColor          String?
-  secondaryColor        String?
   recomendedLodging     String?
   recomendedLodgingLink String?
   createdAt             DateTime  @default(now())
@@ -98,6 +96,7 @@ model Guest {
   invitedPeople    Int? // Number of people invited
   confirmedPeople  Int? // Number of people confirmed
   confirmationCode String?
+  message          String?
   guestSlug        String    @unique
   isGroup          Boolean   @default(false) // If the guest is a group
   createdAt        DateTime  @default(now())
@@ -118,7 +117,7 @@ model Guest {
 model Event {
   id               Int       @id @default(autoincrement())
   eventType        String?
-  eventTime        DateTime?
+  eventTime        String?
   eventLocation    String?
   eventAddress     String?
   eventAddressLink String?

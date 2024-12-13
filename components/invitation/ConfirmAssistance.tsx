@@ -2,11 +2,15 @@
 
 import React, { useState } from "react";
 import { Modal } from "../ui/global-modal/GlobalModal";
-import { ConfirmAssitance } from "../ui/modals/ConfirmAssitanceModal";
+import { ConfirmAssitanceModal } from "../ui/modals/ConfirmAssitanceModal";
 import { DenyAssistance } from "../ui/modals/DenyAssistanceModal";
 import { template1Font } from "@/fonts";
 
-export const ConfirmAssistance = () => {
+interface Props {
+  invitedPeople: number;
+}
+
+export const ConfirmAssistance = ({ invitedPeople }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [confirmAssistance, setConfirmAssistance] = useState(false);
 
@@ -61,14 +65,16 @@ export const ConfirmAssistance = () => {
           }
           closeModal={closeModal}
         >
-          {confirmAssistance ? <ConfirmAssitance /> : <DenyAssistance />}
+          {confirmAssistance ? (
+            <ConfirmAssitanceModal
+              invitedPeople={invitedPeople}
+              closeModal={closeModal}
+            />
+          ) : (
+            <DenyAssistance closeModal={closeModal} />
+          )}
         </Modal>
       )}
     </>
   );
 };
-// I'll manage this in a modal window later
-// <select name="asistencia" id="asistencia">
-//   <option value="1">1 persona</option>
-//   <option value="2">2 personas</option>
-// </select>

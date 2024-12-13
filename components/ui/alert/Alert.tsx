@@ -46,7 +46,7 @@ export const Alert: React.FC<Props> = ({ message, variant, onClose }) => {
     <motion.div
       {...animation}
       exit={{ opacity: 0 }}
-      className={`absolute flex w-1/2 p-3 text-sm text-white ${getVariantStyles()} rounded-md mb-4 top-16 right-2 `}
+      className={`fixed flex w-1/2 p-3 text-sm text-white ${getVariantStyles()} rounded-md mb-4 top-16 right-2 `}
       style={{ zIndex: 100 }}
     >
       {message}

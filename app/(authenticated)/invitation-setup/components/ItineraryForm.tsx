@@ -2,9 +2,9 @@ import React from "react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 
 import { IoMdRemoveCircle } from "react-icons/io";
-import { eventTypes } from "../constants/itinerary";
 import { InvitationSetupFormI } from "@/interfaces";
 import { InvitationImages } from "./InvitationSetupForm";
+import { eventTypes } from "@/utils";
 
 interface Props {
   register: UseFormRegister<InvitationSetupFormI & InvitationImages>;
