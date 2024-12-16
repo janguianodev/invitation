@@ -6,18 +6,12 @@ interface Props {
   params: {
     guestId: string;
   };
-  searchParams: {
-    invitationId?: string;
-  };
 }
 
-export default async function GuestPage({ params, searchParams }: Props) {
-  const rawInvitationId = searchParams.invitationId;
-  const invitationId: number = rawInvitationId ? parseInt(rawInvitationId) : 0;
-
+export default async function GuestPage({ params }: Props) {
   const { guestId } = params;
 
-  const guest = await getGuestByIdAndInvitation(guestId, invitationId);
+  const guest = await getGuestByIdAndInvitation(guestId);
 
   const title = !guest ? "Crear invitado" : "Editar invitado";
 
@@ -26,7 +20,7 @@ export default async function GuestPage({ params, searchParams }: Props) {
       <Title title={title} />
 
       <div className="bg-white rounded p-4">
-        <AddEditGuestForm guest={guest} invitationId={invitationId} />
+        <AddEditGuestForm guest={guest ?? {}} />
       </div>
     </div>
   );

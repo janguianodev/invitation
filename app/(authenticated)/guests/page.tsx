@@ -1,17 +1,17 @@
 import { GuestsSummary, Table, Title } from "@/components";
 import Link from "next/link";
-import { getGuestsByInvitationId } from "@/actions";
+import { getGuestsByInvitationId, getGuestsSummary } from "@/actions";
 import { columns } from "./utils/columns";
 import { GuestI } from "./interfaces/GuestInterface";
 import { renderActions } from "./utils/actions";
 
 export default async function GuestsPage() {
-  // TODO: Get the invitation id
-  const guests: GuestI[] = await getGuestsByInvitationId(3);
+  const guests: GuestI[] = await getGuestsByInvitationId();
+  const guestsSummary = await getGuestsSummary();
 
   return (
     <div>
-      <GuestsSummary />
+      <GuestsSummary data={guestsSummary} />
 
       <Title title="Invitados" />
 

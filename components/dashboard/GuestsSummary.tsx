@@ -1,28 +1,14 @@
-"use client";
-
-import React, { useEffect, useState } from "react";
-import { getGuestsSummary } from "@/actions/guest/get-guests-summary";
-
-export const GuestsSummary = () => {
-  const [summary, setSummary] = useState<{
+interface Props {
+  data: {
     attending: number;
     notAttending: number;
     pending: number;
     total: number;
-  } | null>();
+  };
+}
 
-  useEffect(() => {
-    const fetchSummary = async () => {
-      try {
-        const data = await getGuestsSummary();
-        setSummary(data);
-      } catch (error) {
-        console.error("Fallo al obtener informacion de invitados:", error);
-      }
-    };
-
-    fetchSummary();
-  }, []);
+export const GuestsSummary = ({ data }: Props) => {
+  const { attending, notAttending, pending, total } = data;
 
   return (
     <div className="p-4">
@@ -30,7 +16,7 @@ export const GuestsSummary = () => {
         <div className="flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
           <div className="flex flex-col items-center space-y-2">
             <div className="text-6xl font-bold tracking-tight leading-none text-green-600">
-              {summary?.attending}
+              {attending}
             </div>
             <div className="text-lg text-center font-medium text-green-600">
               Asistirán
@@ -41,7 +27,7 @@ export const GuestsSummary = () => {
         <div className="flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
           <div className="flex flex-col items-center space-y-2">
             <div className="text-6xl font-bold tracking-tight leading-none text-red-500">
-              {summary?.notAttending}
+              {notAttending}
             </div>
             <div className="text-lg text-center font-medium text-red-600">
               No asistirán
@@ -52,10 +38,10 @@ export const GuestsSummary = () => {
         <div className="flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
           <div className="flex flex-col items-center space-y-2">
             <div className="text-6xl font-bold tracking-tight leading-none text-amber-500">
-              {summary?.pending}
+              {pending}
             </div>
             <div className="text-lg text-center font-medium text-amber-600">
-              Pendientes
+              Pendientes de confirmar
             </div>
           </div>
         </div>
@@ -63,10 +49,10 @@ export const GuestsSummary = () => {
         <div className="flex flex-col px-6 py-2 bg-white shadow rounded-lg overflow-hidden">
           <div className="flex flex-col items-center space-y-2">
             <div className="text-6xl font-bold tracking-tight leading-none text-blue-500">
-              {summary?.total}
+              {total}
             </div>
             <div className="text-lg text-center font-medium text-blue-500">
-              Total
+              Total de invitados
             </div>
           </div>
         </div>

@@ -39,10 +39,7 @@ export const DeleteGuest = ({ guest }: { guest: GuestI }) => {
           <div className="bg-white p-6 rounded shadow-md w-[300px]">
             <p className="text-gray-800 mb-4">
               ¿Estás seguro de que deseas eliminar a{" "}
-              <strong>
-                {guest.firstName} {guest.lastName}
-              </strong>
-              ?
+              <strong>{guest.name}</strong>?
             </p>
             <div className="flex justify-end gap-2">
               <button
