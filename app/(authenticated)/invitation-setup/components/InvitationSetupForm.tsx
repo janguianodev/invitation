@@ -5,11 +5,12 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { ItineraryForm } from "./ItineraryForm";
 import { InvitationSetupFormI } from "@/interfaces";
 import { saveInvitationData } from "@/actions";
-import { GiftTableType } from "../constants/gift-table";
 import { invitationSetupInitialValues } from "../utils/initialValues";
 import { GiftRegistry } from "./GiftRegistry";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { InvitationSetupFormSchema } from "../utils/zod-shema";
+import { useAlert } from "@/hooks";
+import { AlertVariant } from "@/utils";
 
 export interface InvitationImages {
   brideImage: FileList;
@@ -23,27 +24,45 @@ export const InvitationSetupForm = () => {
     register,
     handleSubmit,
     control,
+    reset,
     formState: { errors },
     watch,
   } = useForm<InvitationSetupFormI & InvitationImages>({
     defaultValues: invitationSetupInitialValues,
     resolver: zodResolver(InvitationSetupFormSchema),
   });
-
+  const { showAlert } = useAlert();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "itinerary",
   });
 
-  const onSubmit = async (data: InvitationSetupFormI) => {
-    if (
-      data.giftTable.type === GiftTableType.Regalo ||
-      data.giftTable.type === GiftTableType.Sobre
-    ) {
-      data.giftTable.link = "";
+  const onSubmit = async (data: InvitationSetupFormI & InvitationImages) => {
+    const formData = new FormData();
+    for (const key in data) {
+      if (Object.prototype.hasOwnProperty.call(data, key)) {
+        const value =
+          data[key as keyof (InvitationSetupFormI & InvitationImages)];
+
+        if (value instanceof FileList && value.length > 0) {
+          formData.append(key, value[0]);
+        } else if (typeof value === "string") {
+          formData.append(key, value);
+        } else if (Array.isArray(value)) {
+          formData.append(key, JSON.stringify(value));
+        } else if (typeof value === "object" && value !== null) {
+          formData.append(key, JSON.stringify(value));
+        }
+      }
     }
 
-    await saveInvitationData(data);
+    const response = await saveInvitationData(formData);
+    if (!response.ok) {
+      showAlert(AlertVariant.ERROR, "Error al crear la invitación");
+      return;
+    }
+    showAlert(AlertVariant.SUCCESS, `Invitación creada exitosamente`);
+    reset();
   };
 
   const newItinerary = {
@@ -96,7 +115,7 @@ export const InvitationSetupForm = () => {
             {...register("brideImage")}
           />
           {errors.brideImage && (
-            <span className="text-red-500">Este campo es requerido</span>
+            <span className="text-red-500">{errors.brideImage.message}</span>
           )}
         </div>
         <div className="flex flex-col gap-1">

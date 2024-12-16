@@ -14,35 +14,54 @@ export const InvitationSetupFormSchema = z.object({
   groomName: z.string().min(1, "Este campo es requerido"),
   brideImage: z
     .any()
-    .refine((files) => files.size <= MAX_FILE_SIZE, {
-      message: `Máximo tamaño de imagen es 5MB.`,
-    })
     .refine(
-      (files) => ACCEPTED_IMAGE_MIME_TYPES.includes(files.type),
+      (file) =>
+        file instanceof FileList && (!file[0] || file[0].size <= MAX_FILE_SIZE),
+      {
+        message: `Máximo tamaño de imagen es 5MB.`,
+      }
+    )
+    .refine(
+      (file) =>
+        file instanceof FileList &&
+        (!file[0] || ACCEPTED_IMAGE_MIME_TYPES.includes(file[0].type)),
       "Formatos permitidos: JPG, JPEG, PNG, WEBP"
     )
     .optional(),
   eventDate: z.string().min(1, "Este campo es requerido"),
   eventDateImage: z
     .any()
-    .refine((files) => files.size <= MAX_FILE_SIZE, {
-      message: `Máximo tamaño de imagen es 5MB.`,
-    })
     .refine(
-      (files) => ACCEPTED_IMAGE_MIME_TYPES.includes(files.type),
+      (file) =>
+        file instanceof FileList && (!file[0] || file[0].size <= MAX_FILE_SIZE),
+      {
+        message: `Máximo tamaño de imagen es 5MB.`,
+      }
+    )
+    .refine(
+      (file) =>
+        file instanceof FileList &&
+        (!file[0] || ACCEPTED_IMAGE_MIME_TYPES.includes(file[0].type)),
       "Formatos permitidos: JPG, JPEG, PNG, WEBP"
     )
     .optional(),
+
   welcomeMessage: z.string().min(1, "Este campo es requerido"),
   bibleVerse: z.string().min(1, "Este campo es requerido"),
   bibleReference: z.string().min(1, "Este campo es requerido"),
   bibleImage: z
     .any()
-    .refine((files) => files.size <= MAX_FILE_SIZE, {
-      message: `Máximo tamaño de imagen es 5MB.`,
-    })
     .refine(
-      (files) => ACCEPTED_IMAGE_MIME_TYPES.includes(files.type),
+      (file) =>
+        file instanceof FileList && (!file[0] || file[0].size <= MAX_FILE_SIZE),
+      {
+        message: `Máximo tamaño de imagen es 5MB.`,
+      }
+    )
+    .refine(
+      (file) =>
+        file instanceof FileList &&
+        (!file[0] || ACCEPTED_IMAGE_MIME_TYPES.includes(file[0].type)),
       "Formatos permitidos: JPG, JPEG, PNG, WEBP"
     )
     .optional(),
@@ -53,11 +72,17 @@ export const InvitationSetupFormSchema = z.object({
   specialRequest: z.string().min(1, "Este campo es requerido"),
   specialRequestImage: z
     .any()
-    .refine((files) => files.size <= MAX_FILE_SIZE, {
-      message: `Máximo tamaño de imagen es 5MB.`,
-    })
     .refine(
-      (files) => ACCEPTED_IMAGE_MIME_TYPES.includes(files.type),
+      (file) =>
+        file instanceof FileList && (!file[0] || file[0].size <= MAX_FILE_SIZE),
+      {
+        message: `Máximo tamaño de imagen es 5MB.`,
+      }
+    )
+    .refine(
+      (file) =>
+        file instanceof FileList &&
+        (!file[0] || ACCEPTED_IMAGE_MIME_TYPES.includes(file[0].type)),
       "Formatos permitidos: JPG, JPEG, PNG, WEBP"
     )
     .optional(),
@@ -72,11 +97,7 @@ export const InvitationSetupFormSchema = z.object({
       })
     )
     .optional(),
-  giftTable: z
-    .object({
-      message: z.string().min(1, "Este campo es requerido"),
-      type: z.string().min(1, "Este campo es requerido"),
-      link: z.string().min(1, "Este campo es requerido"),
-    })
-    .optional(),
+  giftRegistryType: z.string().optional(),
+  giftRegistryLink: z.string().optional(),
+  giftRegistryMsg: z.string().optional(),
 });

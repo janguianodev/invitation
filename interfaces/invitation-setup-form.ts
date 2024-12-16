@@ -13,7 +13,9 @@ export interface InvitationSetupFormI {
   dressCode: string;
   specialRequest: string;
   itinerary: Itinerary[];
-  giftTable: GiftTable;
+  giftRegistryType: string;
+  giftRegistryLink: string;
+  giftRegistryMsg: string;
 }
 
 export interface Itinerary {
@@ -22,10 +24,4 @@ export interface Itinerary {
   eventLocation: string;
   eventAddress: string;
   eventAddressLink: string;
-}
-
-export interface GiftTable {
-  message: string;
-  type: string;
-  link: string;
 }
