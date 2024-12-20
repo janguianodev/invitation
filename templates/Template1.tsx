@@ -1,7 +1,5 @@
-import { ConfirmedAssistance } from "@/components/invitation/ConfirmedAssistance";
 import { InvitationDataI } from "../interfaces/invitation";
 import {
-  ConfirmAssistance,
   DressCode,
   EventCountdown,
   Footer,
@@ -21,7 +19,6 @@ interface Props {
 }
 
 export const Template1 = ({ invitationData }: Props) => {
-  console.log("invitationData", invitationData);
   return (
     <>
       {/* Header */}
