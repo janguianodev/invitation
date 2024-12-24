@@ -4,6 +4,7 @@ import { auth } from "@/auth.config";
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { uploadImages } from "../images/upload-images";
+import { revalidatePath } from "next/cache";
 
 interface EventI {
   eventType: string;
@@ -81,6 +82,23 @@ export const saveInvitationData = async (formData: FormData) => {
             },
           });
 
+      // Eliminar eventos antiguos
+      if (id) {
+        await tx.event.deleteMany({
+          where: { invitationId: invitation.id },
+        });
+      }
+
+      // Insertar nuevos eventos
+      if (formattedItinerary.length > 0) {
+        await tx.event.createMany({
+          data: formattedItinerary.map((event: object) => ({
+            ...event,
+            invitationId: invitation.id,
+          })),
+        });
+      }
+
       // Crear o actualizar la pareja asociada a la invitación
       const couple = await tx.couple.upsert({
         where: { userId: session.user.id },
@@ -109,10 +127,15 @@ export const saveInvitationData = async (formData: FormData) => {
       return { updatedInvitation, couple };
     });
 
+    revalidatePath("/my-invitations");
+    revalidatePath(`/my-invitations/${id}`);
+
     return {
       ok: true,
-      invitation: result.updatedInvitation,
-      couple: result.couple,
+      updatedData: {
+        invitation: result.updatedInvitation,
+        couple: result.couple,
+      },
     };
   } catch (error) {
     console.error("Error al guardar la data en invitation:", error);

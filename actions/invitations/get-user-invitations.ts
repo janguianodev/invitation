@@ -11,24 +11,6 @@ export const getUserInvitations = async (): Promise<InvitationsI[]> => {
     const invitations = await prisma.invitation.findMany({
       include: {
         couple: true,
-        template: {
-          include: {
-            templateSections: {
-              include: {
-                sectionType: true,
-              },
-            },
-            image: true,
-            createdByUser: {
-              select: {
-                id: true,
-                firstName: true,
-                lastName: true,
-                email: true,
-              },
-            },
-          },
-        },
         createdByUser: true,
       },
       orderBy: {
@@ -54,7 +36,11 @@ export const getUserInvitations = async (): Promise<InvitationsI[]> => {
         giftRegistryLink: invitation.giftRegistryLink,
         giftRegistryMsg: invitation.giftRegistryMsg,
         bibleVerse: invitation.bibleVerse,
-        bibleReference: invitation.bibleReference,
+        brideImage: invitation.brideImage as string,
+        eventDateImage: invitation.eventDateImage as string,
+        bibleReference: invitation.bibleReference as string,
+        bibleImage: invitation.bibleImage as string,
+        specialRequestImage: invitation.specialRequestImage as string,
         primaryColor: invitation.primaryColor,
         secondaryColor: invitation.secondaryColor,
         recomendedLodging: invitation.recomendedLodging,
@@ -62,25 +48,8 @@ export const getUserInvitations = async (): Promise<InvitationsI[]> => {
         createdAt: invitation.createdAt,
         updatedAt: invitation.updatedAt,
         coupleId: invitation.coupleId,
-        templateId: invitation.templateId,
         createdByUserId: invitation.createdByUserId,
         couple: invitation.couple,
-        template: {
-          templateId: invitation.template.id,
-          templateName: invitation.template.templateName,
-          description: invitation.template.description,
-          previewImageUrl: invitation.template.image[0].imageUrl,
-          createdAt: invitation.template.createdAt,
-          createdBy: invitation.template.createdByUser,
-          sections: invitation.template.templateSections.map((section) => {
-            return {
-              sectionId: section.id,
-              sectionName: section.sectionType.name,
-              requiresImage: section.requiresImage,
-              description: section.sectionType.description,
-            };
-          }),
-        },
         createdByUser: invitation.createdByUser,
       };
     });

@@ -12,4 +12,4 @@ export { createOrUpdateGuest } from "./guest/create-update-guest";
 export { getGuestsSummary } from "./guest/get-guests-summary";
 export { getCoupleSlug } from "./guest/get-couple-slug";
 export { getUserInvitations } from "./invitations/get-user-invitations";
-export { getInvitationSections } from "./invitations/get-invitation-sections";
+export { getInvitation } from "./invitations/get-invitation";

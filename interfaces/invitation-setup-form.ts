@@ -1,27 +1,39 @@
 export interface InvitationSetupFormI {
   brideName: string;
   groomName: string;
-  primaryColor: string;
-  secondaryColor: string;
-  eventDate: string;
-  welcomeMessage: string;
-  bibleVerse: string;
-  bibleReference: string;
-  brideParents: string;
-  groomParents: string;
-  guestMessage: string;
-  dressCode: string;
-  specialRequest: string;
-  itinerary: Itinerary[];
-  giftRegistryType: string;
-  giftRegistryLink: string;
-  giftRegistryMsg: string;
+  primaryColor?: string | null;
+  secondaryColor?: string | null;
+  eventDate: string | null;
+  welcomeMessage?: string | null;
+  bibleVerse?: string | null;
+  brideImage?: string | undefined | FileList;
+  eventDateImage?: string | undefined | FileList;
+  bibleImage?: string | undefined | FileList;
+  specialRequestImage?: string | undefined | FileList;
+  bibleReference?: string | null;
+  brideParents?: string | null;
+  groomParents?: string | null;
+  guestMessage?: string | null;
+  dressCode?: string | null;
+  specialRequest?: string | null;
+  itinerary?: Itinerary[];
+  giftRegistryType?: string | null;
+  giftRegistryLink?: string | null;
+  giftRegistryMsg?: string | null;
 }
 
 export interface Itinerary {
-  eventType: string;
-  eventTime: string;
-  eventLocation: string;
-  eventAddress: string;
-  eventAddressLink: string;
+  id?: number;
+  eventType: string | null;
+  eventTime: string | null | Date;
+  eventLocation: string | null;
+  eventAddress: string | null;
+  eventAddressLink: string | null;
+}
+
+export interface InvitationImages {
+  brideImage: string | undefined | FileList;
+  bibleImage: string | undefined | FileList;
+  eventDateImage: string | undefined | FileList;
+  specialRequestImage: string | undefined | FileList;
 }

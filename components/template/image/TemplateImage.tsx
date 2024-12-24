@@ -6,6 +6,7 @@ interface Props {
   className?: React.StyleHTMLAttributes<HTMLImageElement>["className"];
   width: number;
   height: number;
+  priority?: boolean;
 }
 
 export const TemplateImage = ({
@@ -14,6 +15,7 @@ export const TemplateImage = ({
   width,
   className,
   src,
+  priority = false,
 }: Props) => {
   const localSrc = src || "/images/placeholder.jpg";
   return (
@@ -23,6 +25,7 @@ export const TemplateImage = ({
       height={height}
       alt={alt}
       className={className}
+      priority={priority}
     />
   );
 };
