@@ -44,8 +44,6 @@ export const InvitationSetupForm = ({ invitation, slug }: Props) => {
     name: "itinerary",
   });
 
-  console.log({ fields });
-
   const onSubmit = async (data: InvitationSetupFormI & InvitationImages) => {
     const formData = new FormData();
     const cleanedItinerary = data.itinerary?.filter((event) => event.eventType);

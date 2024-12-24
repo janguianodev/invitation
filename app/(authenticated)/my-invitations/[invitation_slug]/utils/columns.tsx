@@ -2,27 +2,35 @@ import { InvitationsI } from "@/interfaces";
 import { renderActions } from "./actions";
 
 export const columns = {
-  groomParents: {
-    name: "groomParents",
-    width: "20%",
-    getter: (item: InvitationsI) => item.groomParents || "No proporcionado",
+  brideName: {
+    name: "Nombre de la novia",
+    width: "10%",
+    getter: (item: InvitationsI) =>
+      item.couple?.partner1Name || "No proporcionado",
+  },
+  groomName: {
+    name: "Nombre del novio",
+    width: "10%",
+    getter: (item: InvitationsI) =>
+      item.couple?.partner2Name || "No proporcionado",
   },
   brideParents: {
-    name: "brideParents",
+    name: "Papás de la novia",
     width: "10%",
     getter: (item: InvitationsI) => item.brideParents || "No proporcionado",
   },
-  coupleSlug: {
-    name: "coupleSlug",
-    width: "5%",
-    getter: (item: InvitationsI) =>
-      item.couple?.coupleSlug || "No proporcionado",
+  groomParents: {
+    name: "Papás de la novio",
+    width: "10%",
+    getter: (item: InvitationsI) => item.groomParents || "No proporcionado",
   },
   eventDate: {
-    name: "eventDate",
-    width: "5%",
+    name: "Dia del evento",
+    width: "10%",
     getter: (item: InvitationsI) =>
-      item.eventDate?.toString() || "No proporcionado",
+      item.eventDate
+        ? new Date(item.eventDate).toLocaleDateString()
+        : "No proporcionado",
   },
   actions: {
     name: "Acciones",
