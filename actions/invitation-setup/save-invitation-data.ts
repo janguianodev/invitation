@@ -67,7 +67,6 @@ export const saveInvitationData = async (formData: FormData) => {
             data: {
               ...rest,
               ...uploadedImages,
-              event: { createMany: { data: formattedItinerary } },
               eventDate: parsedEventDate,
               updatedAt: new Date(),
             },
@@ -76,7 +75,6 @@ export const saveInvitationData = async (formData: FormData) => {
             data: {
               ...rest,
               ...uploadedImages,
-              event: { createMany: { data: formattedItinerary } },
               eventDate: parsedEventDate,
               createdByUserId: session.user.id,
             },

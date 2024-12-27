@@ -15,6 +15,8 @@ import { cleanFormData } from "../utils/cleanFormData";
 import { validateImageSrc } from "../utils/validateImgSrc";
 import { initializeDefaultValues } from "../utils/initializeDefaultValues";
 import { InvitationImages } from "@/interfaces/invitation-setup-form";
+import { useState } from "react";
+import { FiLoader } from "react-icons/fi";
 
 interface Props {
   invitation: Partial<InvitationsI | unknown>;
@@ -22,6 +24,7 @@ interface Props {
 }
 
 export const InvitationSetupForm = ({ invitation, slug }: Props) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const invitationTyped = invitation as Partial<InvitationsI>;
   const router = useRouter();
 
@@ -45,6 +48,7 @@ export const InvitationSetupForm = ({ invitation, slug }: Props) => {
   });
 
   const onSubmit = async (data: InvitationSetupFormI & InvitationImages) => {
+    setIsSubmitting(true);
     const formData = new FormData();
     const cleanedItinerary = data.itinerary?.filter((event) => event.eventType);
     const cleanedData = {
@@ -57,11 +61,16 @@ export const InvitationSetupForm = ({ invitation, slug }: Props) => {
     const response = await saveInvitationData(formValues);
     if (!response.ok) {
       showAlert(AlertVariant.ERROR, "Error al crear la invitación");
+      setIsSubmitting(false);
       return;
     }
     reset();
 
-    showAlert(AlertVariant.SUCCESS, `Invitación creada exitosamente`);
+    showAlert(
+      AlertVariant.SUCCESS,
+      `Invitación ${slug === "new" ? "creada" : "actualizada"} con éxito`
+    );
+    setIsSubmitting(false);
     router.push("/my-invitations");
   };
 
@@ -356,8 +365,16 @@ export const InvitationSetupForm = ({ invitation, slug }: Props) => {
         <GiftRegistry errors={errors} register={register} watch={watch} />
       </div>
 
-      <button type="submit" className="btn-primary">
-        Guardar datos
+      <button
+        type="submit"
+        className="btn-primary flex justify-center"
+        disabled={isSubmitting}
+      >
+        {isSubmitting ? (
+          <FiLoader className="animate-spin text-2xl" />
+        ) : (
+          "Guardar cambios"
+        )}
       </button>
     </form>
   );
