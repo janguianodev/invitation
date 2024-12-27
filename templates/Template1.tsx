@@ -27,6 +27,7 @@ export const Template1 = ({ invitationData }: Props) => {
           eventDate: invitationData.eventDate || new Date(),
           partner1Name: invitationData.couple?.partner1Name || "",
           partner2Name: invitationData.couple?.partner2Name || "",
+          image: invitationData.brideImage || "",
         }}
       />
 
@@ -38,6 +39,7 @@ export const Template1 = ({ invitationData }: Props) => {
         data={{
           bibleReference: invitationData.bibleReference || "",
           bibleVerse: invitationData.bibleVerse || "",
+          image: invitationData.bibleImage || "",
         }}
       />
 
@@ -53,7 +55,10 @@ export const Template1 = ({ invitationData }: Props) => {
       <MessageToGest guestMessage={invitationData.guestMessage || ""} />
 
       {/* Countdown para la boda */}
-      <EventCountdown eventDate={invitationData.eventDate || new Date()} />
+      <EventCountdown
+        eventDate={invitationData.eventDate || new Date()}
+        image={invitationData.eventDateImage || ""}
+      />
 
       {/* itinerario */}
       <Itinerary events={invitationData.event} />
@@ -62,7 +67,10 @@ export const Template1 = ({ invitationData }: Props) => {
       <DressCode dressCode={invitationData.dressCode || ""} />
 
       {/* No niños o información importante para los invitados */}
-      <SpecialRequest specialRequest={invitationData.specialRequest || ""} />
+      <SpecialRequest
+        specialRequest={invitationData.specialRequest || ""}
+        image={invitationData.specialRequestImage || ""}
+      />
 
       {/* Regalo o contribución */}
       <Gift

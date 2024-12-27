@@ -5,6 +5,7 @@ interface Props {
   data: {
     bibleReference: string;
     bibleVerse: string;
+    image: string;
   };
 }
 
@@ -15,7 +16,7 @@ export const SpecialPhrase = ({ data }: Props) => {
       <div
         className="w-full sm:w-1/2 h-full"
         style={{
-          backgroundImage: `url('https://images.pexels.com/photos/1777846/pexels-photo-1777846.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')`,
+          backgroundImage: `url('${data.image}')`,
           backgroundPosition: "center",
           backgroundSize: "cover",
         }}

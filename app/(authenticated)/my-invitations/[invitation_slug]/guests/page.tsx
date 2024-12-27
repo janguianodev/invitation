@@ -21,7 +21,7 @@ export default async function GuestsPage({ params }: Props) {
     <div>
       <GuestsSummary data={guestsSummary} />
 
-      <Title title="Invitados" />
+      <Title title="Lista de Invitados" />
 
       <div className="flex justify-end mb-5">
         <Link

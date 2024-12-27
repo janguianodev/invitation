@@ -7,6 +7,7 @@ interface props {
     eventDate: Date;
     partner1Name: string;
     partner2Name: string;
+    image: string;
   };
 }
 
@@ -22,8 +23,9 @@ export const InvitationHeader = ({ data }: props) => {
     <div
       className="w-full h-screen flex justify-center items-end"
       style={{
-        backgroundImage: `url('https://images.pexels.com/photos/2253870/pexels-photo-2253870.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1282&dpr=1')`,
+        backgroundImage: `url('${data.image}')`,
         backgroundPosition: "top center",
+        backgroundSize: "cover",
       }}
     >
       <div className="flex items-center flex-col text-center bg-gradient-to-b from-transparent to-background w-full p-12 gap-4">

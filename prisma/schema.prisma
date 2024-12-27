@@ -121,7 +121,7 @@ model Guest {
 model Event {
   id               Int       @id @default(autoincrement())
   eventType        String?
-  eventTime        String?
+  eventTime        DateTime?
   eventLocation    String?
   eventAddress     String?
   eventAddressLink String?

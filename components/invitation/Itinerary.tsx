@@ -36,7 +36,9 @@ export const Itinerary = ({ events }: Props) => {
                     {eventTypes[item.eventType as EventType].label}
                   </p>
                   <p className="font-medium text-invitation-secondary text-md sm:text-xl">
-                    {`${item.eventTime} hrs`}
+                    {`${(item.eventTime || new Date())
+                      .toISOString()
+                      .slice(11, 16)} hrs`}
                   </p>
                 </div>
                 <p className="text-gray-700 text-sm sm:text-md">

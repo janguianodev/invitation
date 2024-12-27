@@ -4,9 +4,10 @@ import { getDaysToEvent } from "@/utils";
 
 interface Props {
   eventDate: Date;
+  image: string;
 }
 
-export const EventCountdown = ({ eventDate }: Props) => {
+export const EventCountdown = ({ eventDate, image }: Props) => {
   const daysToEvent = getDaysToEvent(eventDate);
 
   const getMessage = (daysToEvent: string) => {
@@ -25,7 +26,7 @@ export const EventCountdown = ({ eventDate }: Props) => {
     <div
       className="relative flex justify-center items-center h-screen"
       style={{
-        backgroundImage: `url('https://images.pexels.com/photos/2959192/pexels-photo-2959192.jpeg')`,
+        backgroundImage: `url(${image})`,
         backgroundPosition: "top center",
         backgroundSize: "cover",
       }}

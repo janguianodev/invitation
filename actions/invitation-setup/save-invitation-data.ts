@@ -149,5 +149,5 @@ const createCoupleSlug = (brideName: string, groomName: string) => {
   const bride = brideName.toLowerCase().split(" ")[0];
   const groom = groomName.toLowerCase().split(" ")[0];
 
-  return `${bride}y${groom}-${nanoid(8)}`;
+  return `${bride}_y_${groom}-${nanoid(8)}`;
 };

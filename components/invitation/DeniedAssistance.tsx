@@ -10,7 +10,7 @@ export const DeniedAssistance = () => {
           Gracias por informarnos
         </p>
         <p className="text-center text-xl text-invitation-secondary">
-          Es una pena que no puedas acompañarnos en este día tan especial
+          Es una pena que no puedas acompañarnos en este día
         </p>
       </div>
     </div>

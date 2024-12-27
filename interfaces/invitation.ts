@@ -22,12 +22,16 @@ export interface InvitationDataI {
   createdByUserId: string | null;
   event: EventI[];
   guests: GuestI;
+  brideImage: string | null;
+  eventDateImage: string | null;
+  bibleImage: string | null;
+  specialRequestImage: string | null;
 }
 
 export interface EventI {
   id: number;
   eventType: string | null;
-  eventTime: string | null;
+  eventTime: Date | null;
   eventLocation: string | null;
   eventAddress: string | null;
   eventAddressLink: string | null;

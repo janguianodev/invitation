@@ -70,8 +70,8 @@ export const InvitationSetupForm = ({ invitation, slug }: Props) => {
       AlertVariant.SUCCESS,
       `Invitación ${slug === "new" ? "creada" : "actualizada"} con éxito`
     );
-    setIsSubmitting(false);
     router.push("/my-invitations");
+    setIsSubmitting(false);
   };
 
   const newItinerary = {
