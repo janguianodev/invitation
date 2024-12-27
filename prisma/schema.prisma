@@ -48,7 +48,7 @@ model Couple {
   user   User   @relation(fields: [userId], references: [id])
   userId String @unique
 
-  invitation Invitation[]
+  invitation Invitation[] @relation("CoupleToInvitation")
 
   // indexes
   @@index([userId])
@@ -67,6 +67,10 @@ model Invitation {
   giftRegistryLink      String?
   giftRegistryMsg       String?
   bibleVerse            String?
+  brideImage            String?
+  eventDateImage        String?
+  bibleImage            String?
+  specialRequestImage   String?
   bibleReference        String?
   recomendedLodging     String?
   recomendedLodgingLink String?
@@ -75,7 +79,7 @@ model Invitation {
   deletedAt             DateTime?
 
   // relations
-  couple   Couple? @relation(fields: [coupleId], references: [id])
+  couple   Couple? @relation("CoupleToInvitation", fields: [coupleId], references: [id])
   coupleId String?
 
   createdByUser   User?   @relation(fields: [createdByUserId], references: [id])

@@ -21,9 +21,11 @@ export const invitationSetupInitialValues = {
       eventAddressLink: "",
     },
   ],
-  giftTable: {
-    message: "",
-    type: "",
-    link: "",
-  },
+  giftRegistryType: "",
+  giftRegistryLink: "",
+  giftRegistryMsg: "",
+  brideImage: undefined,
+  eventDateImage: undefined,
+  bibleImage: undefined,
+  specialRequestImage: undefined,
 };

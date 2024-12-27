@@ -12,7 +12,6 @@ export { createOrUpdateGuest } from "./guest/create-update-guest";
 export { getGuestsSummary } from "./guest/get-guests-summary";
 export { getCoupleSlug } from "./guest/get-couple-slug";
 export { getUserInvitations } from "./invitations/get-user-invitations";
-export { getInvitationSections } from "./invitations/get-invitation-sections";
 export { getInvitationDataBySlug } from "./invitation/get-invitation-data-by-slug";
 export { confirmAssistance } from "./invitation/confirm-assistance";
 export { denyAssistance } from "./invitation/deny-assistance";
