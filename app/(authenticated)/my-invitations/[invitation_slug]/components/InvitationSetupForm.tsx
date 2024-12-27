@@ -1,49 +1,77 @@
 "use client";
 
-import React from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { ItineraryForm } from "./ItineraryForm";
-import { InvitationSetupFormI } from "@/interfaces";
+import { InvitationSetupFormI, InvitationsI } from "@/interfaces";
 import { saveInvitationData } from "@/actions";
-import { GiftTableType } from "../constants/gift-table";
-import { invitationSetupInitialValues } from "../utils/initialValues";
 import { GiftRegistry } from "./GiftRegistry";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { InvitationSetupFormSchema } from "../utils/zod-shema";
+import { useAlert } from "@/hooks";
+import { AlertVariant } from "@/utils";
+import { TemplateImage } from "@/components";
+import { useRouter } from "next/navigation";
+import { cleanFormData } from "../utils/cleanFormData";
+import { validateImageSrc } from "../utils/validateImgSrc";
+import { initializeDefaultValues } from "../utils/initializeDefaultValues";
+import { InvitationImages } from "@/interfaces/invitation-setup-form";
+import { useState } from "react";
+import { FiLoader } from "react-icons/fi";
 
-export interface InvitationImages {
-  brideImage: FileList;
-  bibleImage: FileList;
-  eventDateImage: FileList;
-  specialRequestImage: FileList;
+interface Props {
+  invitation: Partial<InvitationsI | unknown>;
+  slug: string;
 }
 
-export const InvitationSetupForm = () => {
+export const InvitationSetupForm = ({ invitation, slug }: Props) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const invitationTyped = invitation as Partial<InvitationsI>;
+  const router = useRouter();
+
+  const defaultValues = initializeDefaultValues(slug, invitation);
   const {
     register,
     handleSubmit,
     control,
+    reset,
     formState: { errors },
     watch,
   } = useForm<InvitationSetupFormI & InvitationImages>({
-    defaultValues: invitationSetupInitialValues,
+    defaultValues,
     resolver: zodResolver(InvitationSetupFormSchema),
   });
 
+  const { showAlert } = useAlert();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "itinerary",
   });
 
-  const onSubmit = async (data: InvitationSetupFormI) => {
-    if (
-      data.giftTable.type === GiftTableType.Regalo ||
-      data.giftTable.type === GiftTableType.Sobre
-    ) {
-      data.giftTable.link = "";
-    }
+  const onSubmit = async (data: InvitationSetupFormI & InvitationImages) => {
+    setIsSubmitting(true);
+    const formData = new FormData();
+    const cleanedItinerary = data.itinerary?.filter((event) => event.eventType);
+    const cleanedData = {
+      ...data,
+      itinerary: cleanedItinerary,
+    };
 
-    await saveInvitationData(data);
+    const { formValues } = cleanFormData(cleanedData, formData);
+
+    const response = await saveInvitationData(formValues);
+    if (!response.ok) {
+      showAlert(AlertVariant.ERROR, "Error al crear la invitación");
+      setIsSubmitting(false);
+      return;
+    }
+    reset();
+
+    showAlert(
+      AlertVariant.SUCCESS,
+      `Invitación ${slug === "new" ? "creada" : "actualizada"} con éxito`
+    );
+    setIsSubmitting(false);
+    router.push("/my-invitations");
   };
 
   const newItinerary = {
@@ -92,11 +120,20 @@ export const InvitationSetupForm = () => {
           <input
             type="file"
             id="brideImage"
-            className={errors.brideImage ? "input-error" : "input-primary"}
             {...register("brideImage")}
+            className={errors.brideImage ? "input-error" : "input-primary"}
           />
           {errors.brideImage && (
-            <span className="text-red-500">Este campo es requerido</span>
+            <span className="text-red-500">{errors.brideImage.message}</span>
+          )}
+          {(watch("brideImage") || invitationTyped.brideImage) && (
+            <TemplateImage
+              src={validateImageSrc(invitationTyped.brideImage as string)}
+              alt="Imagen de la novia"
+              width={200}
+              height={200}
+              priority
+            />
           )}
         </div>
         <div className="flex flex-col gap-1">
@@ -125,6 +162,15 @@ export const InvitationSetupForm = () => {
           />
           {errors.eventDateImage && (
             <span className="text-red-500">Este campo es requerido</span>
+          )}
+          {(watch("eventDateImage") || invitationTyped.eventDateImage) && (
+            <TemplateImage
+              src={validateImageSrc(invitationTyped.eventDateImage as string)}
+              alt="Imagen de la fecha del evento"
+              width={200}
+              height={200}
+              priority
+            />
           )}
         </div>
         <div className="flex flex-col gap-1">
@@ -182,6 +228,15 @@ export const InvitationSetupForm = () => {
           />
           {errors.bibleImage && (
             <span className="text-red-500">Este campo es requerido</span>
+          )}
+          {(watch("bibleImage") || invitationTyped.bibleImage) && (
+            <TemplateImage
+              src={validateImageSrc(invitationTyped.bibleImage as string)}
+              alt="Imagen de la biblia"
+              width={200}
+              height={200}
+              priority
+            />
           )}
         </div>
         <div className="flex flex-col gap-1">
@@ -271,6 +326,18 @@ export const InvitationSetupForm = () => {
           {errors.specialRequestImage && (
             <span className="text-red-500">Este campo es requerido</span>
           )}
+          {(watch("specialRequestImage") ||
+            invitationTyped.specialRequestImage) && (
+            <TemplateImage
+              src={validateImageSrc(
+                invitationTyped.specialRequestImage as string
+              )}
+              alt="Imagen de la petición especial"
+              width={200}
+              height={200}
+              priority
+            />
+          )}
         </div>
 
         <div className="flex flex-col gap-1 md:col-span-2">
@@ -298,8 +365,16 @@ export const InvitationSetupForm = () => {
         <GiftRegistry errors={errors} register={register} watch={watch} />
       </div>
 
-      <button type="submit" className="btn-primary">
-        Guardar datos
+      <button
+        type="submit"
+        className="btn-primary flex justify-center"
+        disabled={isSubmitting}
+      >
+        {isSubmitting ? (
+          <FiLoader className="animate-spin text-2xl" />
+        ) : (
+          "Guardar cambios"
+        )}
       </button>
     </form>
   );

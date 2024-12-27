@@ -12,32 +12,32 @@ interface Props {
 }
 
 export const GiftRegistry = ({ errors, register, watch }: Props) => {
-  const selectedGiftType = watch("giftTable.type");
+  const selectedGiftType = watch("giftRegistryType");
 
   return (
     <div className="flex flex-col gap-1 md:col-span-2">
       <p className="text-gray-600 font-semibold">Mesa de regalos</p>
 
       <div className="flex flex-col gap-1 mt-2">
-        <label className="text-gray-600" htmlFor="giftTable.message">
+        <label className="text-gray-600" htmlFor="giftRegistryMsg">
           Mensaje de la mesa de regalos
         </label>
         <input
           type="text"
-          id="giftTable.message"
+          id="giftRegistryMsg"
           className={
-            errors.giftTable?.message ? "input-error" : "input-primary"
+            errors.giftRegistryMsg?.message ? "input-error" : "input-primary"
           }
-          {...register("giftTable.message", {
+          {...register("giftRegistryMsg", {
             required: "Este campo es requerido",
           })}
         />
-        {errors.giftTable?.message && (
+        {errors.giftRegistryMsg?.message && (
           <span className="text-red-500">Este campo es requerido</span>
         )}
       </div>
 
-      {errors?.giftTable?.type && (
+      {errors?.giftRegistryMsg?.type && (
         <span className="text-red-500">Debes seleccionar una opción</span>
       )}
 
@@ -48,7 +48,7 @@ export const GiftRegistry = ({ errors, register, watch }: Props) => {
               type="radio"
               id={type}
               value={type}
-              {...register("giftTable.type", {
+              {...register("giftRegistryType", {
                 required: "Este campo es requerido",
               })}
             />
@@ -69,17 +69,17 @@ export const GiftRegistry = ({ errors, register, watch }: Props) => {
             </label>
             <input
               type="text"
-              id="giftTable.link"
+              id="giftRegistryLink"
               className={
-                errors.giftTable?.link ? "input-error" : "input-primary"
+                errors.giftRegistryLink ? "input-error" : "input-primary"
               }
-              {...register("giftTable.link", {
+              {...register("giftRegistryLink", {
                 required: "Este campo es requerido",
               })}
             />
-            {errors.giftTable?.link && (
+            {errors.giftRegistryLink && (
               <span className="text-red-500">
-                {errors.giftTable.link.message}
+                {errors.giftRegistryLink.message}
               </span>
             )}
           </div>

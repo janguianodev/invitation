@@ -1,4 +1,4 @@
-import { TemplatesI } from "./templates";
+import { Itinerary } from "./invitation-setup-form";
 
 export interface InvitationsI {
   id: string;
@@ -13,6 +13,10 @@ export interface InvitationsI {
   giftRegistryLink: string | null;
   giftRegistryMsg: string | null;
   bibleVerse: string | null;
+  brideImage?: string | undefined | FileList;
+  eventDateImage?: string | undefined | FileList;
+  bibleImage?: string | undefined | FileList;
+  specialRequestImage?: string | undefined | FileList;
   bibleReference: string | null;
   primaryColor: string | null;
   secondaryColor: string | null;
@@ -21,12 +25,11 @@ export interface InvitationsI {
   createdAt: Date;
   updatedAt?: Date | null;
   deletedAt?: Date | null;
-  coupleId: string | null;
-  templateId: number;
-  createdByUserId: string | null;
   couple: CoupleI | null;
-  template: TemplatesI;
+  coupleId: string | null;
   createdByUser: UserI | null;
+  createdByUserId: string | null;
+  itinerary?: Itinerary[];
 }
 
 export interface CoupleI {
