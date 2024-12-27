@@ -11,7 +11,7 @@ export const renderActions = async (item: GuestI) => {
   return (
     <div className="flex space-x-2">
       <Link
-        href={`/guests/${item.id}`}
+        href={`guests/${item.id}`}
         className="text-gray-500 hover:text-green-600"
       >
         <MdModeEdit size={20} />

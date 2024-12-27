@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useAlert } from "@/hooks";
 import { AlertVariant } from "@/utils";
 import { GuestFormInputs, GuestFormSchema } from "../utils/schema";
@@ -15,6 +15,11 @@ interface Props {
 }
 
 const AddEditGuestForm = ({ guest }: Props) => {
+  const pathname = usePathname();
+  const invitation_slug = pathname.split("/")[2];
+  const router = useRouter();
+  const { showAlert } = useAlert();
+
   const [numInvitedPeople, setNumInvitedPeople] = useState(
     guest.invitedPeople || ""
   );
@@ -29,9 +34,6 @@ const AddEditGuestForm = ({ guest }: Props) => {
     resolver: zodResolver(GuestFormSchema),
   });
 
-  const router = useRouter();
-  const { showAlert } = useAlert();
-
   const handleInvitedPeopleChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -42,7 +44,7 @@ const AddEditGuestForm = ({ guest }: Props) => {
 
   const onSubmit = async (data: GuestFormInputs) => {
     const newData = { ...data, invitedPeople: +numInvitedPeople };
-    const response = await createOrUpdateGuest(newData);
+    const response = await createOrUpdateGuest(newData, invitation_slug);
     if (!response.ok) {
       showAlert(
         AlertVariant.ERROR,
@@ -54,7 +56,7 @@ const AddEditGuestForm = ({ guest }: Props) => {
       AlertVariant.SUCCESS,
       `Invitado ${guest?.id ? "Actualizado" : "Creado"} exitosamente`
     );
-    router.replace("/guests");
+    router.replace(`/my-invitations/${invitation_slug}/guests`);
   };
 
   return (

@@ -15,3 +15,4 @@ export { getUserInvitations } from "./invitations/get-user-invitations";
 export { getInvitationDataBySlug } from "./invitation/get-invitation-data-by-slug";
 export { confirmAssistance } from "./invitation/confirm-assistance";
 export { denyAssistance } from "./invitation/deny-assistance";
+export { getInvitation } from "./invitations/get-invitation";
