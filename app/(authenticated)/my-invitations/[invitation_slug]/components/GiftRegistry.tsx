@@ -3,7 +3,7 @@
 import { FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-form";
 import { GiftTableType } from "../constants/gift-table";
 import { InvitationSetupFormI } from "@/interfaces";
-import { InvitationImages } from "./InvitationSetupForm";
+import { InvitationImages } from "@/interfaces/invitation-setup-form";
 
 interface Props {
   register: UseFormRegister<InvitationSetupFormI & InvitationImages>;

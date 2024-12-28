@@ -9,7 +9,7 @@ import {
   createSchema,
 } from "./utils/confirm-assistance-schema";
 import { confirmAssistance } from "@/actions";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useAlert } from "@/hooks";
 import { AlertVariant } from "@/utils";
 
@@ -20,7 +20,6 @@ interface Props {
 
 export const ConfirmAssitanceModal = ({ invitedPeople, closeModal }: Props) => {
   const { showAlert } = useAlert();
-  const router = useRouter();
   const pathname = usePathname();
   const getGuestSlug = pathname.split("/").slice(-1)[0];
   const getCoupleSlug = pathname.split("/").slice(-2)[0];
@@ -47,8 +46,6 @@ export const ConfirmAssitanceModal = ({ invitedPeople, closeModal }: Props) => {
     };
 
     const confirm = await confirmAssistance(newData);
-
-    console.log("confirm", confirm);
 
     if (!confirm.ok) {
       showAlert(
