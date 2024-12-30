@@ -114,29 +114,6 @@ export const InvitationSetupForm = ({ invitation, slug }: Props) => {
           )}
         </div>
         <div className="flex flex-col gap-1">
-          <label className="text-gray-600" htmlFor="image">
-            Imagen de la novia
-          </label>
-          <input
-            type="file"
-            id="brideImage"
-            {...register("brideImage")}
-            className={errors.brideImage ? "input-error" : "input-primary"}
-          />
-          {errors.brideImage && (
-            <span className="text-red-500">{errors.brideImage.message}</span>
-          )}
-          {(watch("brideImage") || invitationTyped.brideImage) && (
-            <TemplateImage
-              src={validateImageSrc(invitationTyped.brideImage as string)}
-              alt="Imagen de la novia"
-              width={200}
-              height={200}
-              priority
-            />
-          )}
-        </div>
-        <div className="flex flex-col gap-1">
           <label className="text-gray-600" htmlFor="">
             Fecha del evento
           </label>
@@ -148,29 +125,6 @@ export const InvitationSetupForm = ({ invitation, slug }: Props) => {
           />
           {errors.eventDate && (
             <span className="text-red-500">Este campo es requerido</span>
-          )}
-        </div>
-        <div className="flex flex-col gap-1">
-          <label className="text-gray-600" htmlFor="image">
-            Imagen de la fecha del evento
-          </label>
-          <input
-            type="file"
-            id="eventDateImage"
-            className={errors.eventDateImage ? "input-error" : "input-primary"}
-            {...register("eventDateImage")}
-          />
-          {errors.eventDateImage && (
-            <span className="text-red-500">Este campo es requerido</span>
-          )}
-          {(watch("eventDateImage") || invitationTyped.eventDateImage) && (
-            <TemplateImage
-              src={validateImageSrc(invitationTyped.eventDateImage as string)}
-              alt="Imagen de la fecha del evento"
-              width={200}
-              height={200}
-              priority
-            />
           )}
         </div>
         <div className="flex flex-col gap-1">
@@ -214,29 +168,6 @@ export const InvitationSetupForm = ({ invitation, slug }: Props) => {
           />
           {errors.bibleReference && (
             <span className="text-red-500">Este campo es requerido</span>
-          )}
-        </div>
-        <div className="flex flex-col gap-1">
-          <label className="text-gray-600" htmlFor="image">
-            Imagen de la biblia
-          </label>
-          <input
-            type="file"
-            id="bibleImage"
-            className={errors.bibleImage ? "input-error" : "input-primary"}
-            {...register("bibleImage")}
-          />
-          {errors.bibleImage && (
-            <span className="text-red-500">Este campo es requerido</span>
-          )}
-          {(watch("bibleImage") || invitationTyped.bibleImage) && (
-            <TemplateImage
-              src={validateImageSrc(invitationTyped.bibleImage as string)}
-              alt="Imagen de la biblia"
-              width={200}
-              height={200}
-              priority
-            />
           )}
         </div>
         <div className="flex flex-col gap-1">
@@ -309,6 +240,76 @@ export const InvitationSetupForm = ({ invitation, slug }: Props) => {
           />
           {errors.specialRequest && (
             <span className="text-red-500">Este campo es requerido</span>
+          )}
+        </div>
+        <div></div>
+        <div className="flex flex-col gap-1">
+          <label className="text-gray-600" htmlFor="image">
+            Imagen de la novia
+          </label>
+          <input
+            type="file"
+            id="brideImage"
+            {...register("brideImage")}
+            className={errors.brideImage ? "input-error" : "input-primary"}
+          />
+          {errors.brideImage && (
+            <span className="text-red-500">{errors.brideImage.message}</span>
+          )}
+          {(watch("brideImage") || invitationTyped.brideImage) && (
+            <TemplateImage
+              src={validateImageSrc(invitationTyped.brideImage as string)}
+              alt="Imagen de la novia"
+              width={200}
+              height={200}
+              priority
+            />
+          )}
+        </div>
+        <div className="flex flex-col gap-1">
+          <label className="text-gray-600" htmlFor="image">
+            Imagen de la fecha del evento
+          </label>
+          <input
+            type="file"
+            id="eventDateImage"
+            className={errors.eventDateImage ? "input-error" : "input-primary"}
+            {...register("eventDateImage")}
+          />
+          {errors.eventDateImage && (
+            <span className="text-red-500">Este campo es requerido</span>
+          )}
+          {(watch("eventDateImage") || invitationTyped.eventDateImage) && (
+            <TemplateImage
+              src={validateImageSrc(invitationTyped.eventDateImage as string)}
+              alt="Imagen de la fecha del evento"
+              width={200}
+              height={200}
+              priority
+            />
+          )}
+        </div>
+        <div className="flex flex-col gap-1">
+          <label className="text-gray-600" htmlFor="image">
+            Imagen de la biblia
+          </label>
+          <input
+            type="file"
+            id="bibleImage"
+            className={errors.bibleImage ? "input-error" : "input-primary"}
+            {...register("bibleImage")}
+          />
+          {errors.bibleImage && (
+            <span className="text-red-500">Este campo es requerido</span>
+          )}
+          {(watch("bibleImage") || invitationTyped.bibleImage) && (
+            <TemplateImage
+              src={validateImageSrc(invitationTyped.bibleImage as string)}
+              alt="Imagen de la biblia"
+              width={200}
+              height={200}
+              priority
+            />
           )}
         </div>
         <div className="flex flex-col gap-1">

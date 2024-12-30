@@ -1,5 +1,6 @@
 import { InvitationsI } from "@/interfaces";
 import { renderActions } from "./actions";
+import { formatDate } from "@/utils";
 
 export const columns = {
   brideName: {
@@ -28,9 +29,7 @@ export const columns = {
     name: "Dia del evento",
     width: "10%",
     getter: (item: InvitationsI) =>
-      item.eventDate
-        ? new Date(item.eventDate).toLocaleDateString()
-        : "No proporcionado",
+      item.eventDate ? formatDate(item.eventDate) : "No proporcionado",
   },
   actions: {
     name: "Acciones",

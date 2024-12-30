@@ -7,25 +7,31 @@ export const formatDate = (date: Date): string => {
 };
 
 export const getDaysToEvent = (eventDate: Date) => {
-  const todayTime = new Date().getTime();
-  const eventTime = eventDate.getTime();
+  const today = moment.utc().startOf("day");
+  const event = moment.utc(eventDate).startOf("day");
 
-  const daysDiff = Math.floor((eventTime - todayTime) / (1000 * 60 * 60 * 24));
-
-  if (daysDiff > 30) {
-    const monthsDiff = Math.floor(daysDiff / 30);
-    const remainingDays = daysDiff % 30;
-
-    return `${monthsDiff} meses ${remainingDays} días`;
-  }
-
-  if (daysDiff === 0) {
+  // Si las fechas son iguales
+  if (today.isSame(event)) {
     return "Hoy";
   }
 
-  if (daysDiff < 0) {
+  // Si la fecha ya pasó
+  if (today.isAfter(event)) {
     return "Gracias por acompañarnos";
   }
 
-  return `${daysDiff} día${daysDiff > 1 ? "s" : ""}`;
+  // Calcula la diferencia en días
+  const totalDays = event.diff(today, "days");
+
+  // Si es más de 1 mes
+  if (totalDays > 30) {
+    const months = Math.floor(totalDays / 30);
+    const days = totalDays % 30;
+    return `${months} mes${months > 1 ? "es" : ""} ${days} día${
+      days !== 1 ? "s" : ""
+    }`;
+  }
+
+  // Si está en el rango de días
+  return `${totalDays} día${totalDays !== 1 ? "s" : ""}`;
 };
