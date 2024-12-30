@@ -5,13 +5,14 @@ import AddEditGuestForm from "./components/AddEditGuestForm";
 interface Props {
   params: {
     guestId: string;
+    invitation_slug: string;
   };
 }
 
 export default async function GuestPage({ params }: Props) {
-  const { guestId } = params;
+  const { guestId, invitation_slug } = params;
 
-  const guest = await getGuestByIdAndInvitation(guestId);
+  const guest = await getGuestByIdAndInvitation(guestId, invitation_slug);
 
   const title = !guest ? "Crear invitado" : "Editar invitado";
 

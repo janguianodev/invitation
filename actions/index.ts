@@ -1,6 +1,6 @@
 export { uploadImages } from "./images/upload-images";
 export { saveInvitationData } from "./invitation-setup/save-invitation-data";
-export { createUpdateTemplate } from "./templates/create-update-template";
+// export { createUpdateTemplate } from "./templates/create-update-template";
 export { getTemplateById } from "./templates/get-template-by-id";
 export { deleteTemplateImage } from "./templates/delete-template-image";
 export { getTemplates } from "./templates/get-templates";
@@ -12,4 +12,7 @@ export { createOrUpdateGuest } from "./guest/create-update-guest";
 export { getGuestsSummary } from "./guest/get-guests-summary";
 export { getCoupleSlug } from "./guest/get-couple-slug";
 export { getUserInvitations } from "./invitations/get-user-invitations";
+export { getInvitationDataBySlug } from "./invitation/get-invitation-data-by-slug";
+export { confirmAssistance } from "./invitation/confirm-assistance";
+export { denyAssistance } from "./invitation/deny-assistance";
 export { getInvitation } from "./invitations/get-invitation";

@@ -1,12 +1,32 @@
 import { cursiveFont, template1Font } from "@/fonts";
 import { AnimatedP } from "../../utils/components/AnimatedP";
+import { getDaysToEvent } from "@/utils";
 
-export const EventCountdown = () => {
+interface Props {
+  eventDate: Date;
+  image: string;
+}
+
+export const EventCountdown = ({ eventDate, image }: Props) => {
+  const daysToEvent = getDaysToEvent(eventDate);
+
+  const getMessage = (daysToEvent: string) => {
+    if (daysToEvent === "Hoy") {
+      return "es nuestro gran día";
+    }
+
+    if (daysToEvent === "Gracias por acompañarnos") {
+      return "en nuestro gran día";
+    }
+
+    return "para nuestro gran día";
+  };
+
   return (
     <div
       className="relative flex justify-center items-center h-screen"
       style={{
-        backgroundImage: `url('https://images.pexels.com/photos/2959192/pexels-photo-2959192.jpeg')`,
+        backgroundImage: `url(${image})`,
         backgroundPosition: "top center",
         backgroundSize: "cover",
       }}
@@ -16,13 +36,13 @@ export const EventCountdown = () => {
       <div className="relative z-10 text-center">
         <AnimatedP
           className={`${cursiveFont.className} text-9xl text-invitation-primary drop-shadow-md font-bold`}
-          text="8 días"
+          text={daysToEvent}
           animationkey="pulseOpacity"
         />
         <p
           className={`${template1Font.className} text-2xl text-white drop-shadow-md`}
         >
-          para nuestro gran día
+          {getMessage(daysToEvent)}
         </p>
       </div>
     </div>

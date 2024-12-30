@@ -18,8 +18,6 @@ export interface InvitationsI {
   bibleImage?: string | undefined | FileList;
   specialRequestImage?: string | undefined | FileList;
   bibleReference: string | null;
-  primaryColor: string | null;
-  secondaryColor: string | null;
   recomendedLodging: string | null;
   recomendedLodgingLink: string | null;
   createdAt: Date;

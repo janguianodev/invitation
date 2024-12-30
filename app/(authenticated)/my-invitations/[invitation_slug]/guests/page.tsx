@@ -5,18 +5,29 @@ import { columns } from "./utils/columns";
 import { GuestI } from "./interfaces/GuestInterface";
 import { renderActions } from "./utils/actions";
 
-export default async function GuestsPage() {
-  const guests: GuestI[] = await getGuestsByInvitationId();
-  const guestsSummary = await getGuestsSummary();
+interface Props {
+  params: {
+    invitation_slug: string;
+  };
+}
+
+export default async function GuestsPage({ params }: Props) {
+  const { invitation_slug } = params;
+
+  const guests: GuestI[] = await getGuestsByInvitationId(invitation_slug);
+  const guestsSummary = await getGuestsSummary(invitation_slug);
 
   return (
     <div>
       <GuestsSummary data={guestsSummary} />
 
-      <Title title="Invitados" />
+      <Title title="Lista de Invitados" />
 
       <div className="flex justify-end mb-5">
-        <Link href="/guests/new" className="btn-primary">
+        <Link
+          href={`/my-invitations/${invitation_slug}/guests/new`}
+          className="btn-primary"
+        >
           Crear Invitado
         </Link>
       </div>

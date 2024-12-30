@@ -5,6 +5,7 @@ import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { uploadImages } from "../images/upload-images";
 import { revalidatePath } from "next/cache";
+import { nanoid } from "nanoid";
 
 interface EventI {
   eventType: string;
@@ -101,7 +102,10 @@ export const saveInvitationData = async (formData: FormData) => {
       const couple = await tx.couple.upsert({
         where: { userId: session.user.id },
         create: {
-          coupleSlug: `${brideName}-${groomName}-${invitation.id}`,
+          coupleSlug: createCoupleSlug(
+            brideName as string,
+            groomName as string
+          ),
           partner1Name: brideName as string,
           partner2Name: groomName as string,
           userId: session.user.id,
@@ -139,4 +143,11 @@ export const saveInvitationData = async (formData: FormData) => {
     console.error("Error al guardar la data en invitation:", error);
     return { ok: false, error: "Error al guargar invitacion" };
   }
+};
+
+const createCoupleSlug = (brideName: string, groomName: string) => {
+  const bride = brideName.toLowerCase().split(" ")[0];
+  const groom = groomName.toLowerCase().split(" ")[0];
+
+  return `${bride}_y_${groom}-${nanoid(8)}`;
 };

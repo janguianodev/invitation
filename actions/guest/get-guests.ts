@@ -1,22 +1,12 @@
 "use server";
 
-import { auth } from "@/auth.config";
 import prisma from "@/lib/prisma";
 
-export const getGuestsByInvitationId = async () => {
-  const session = await auth();
+export const getGuestsByInvitationId = async (invitation_slug: string) => {
   try {
-    const invitation = await prisma.invitation.findFirst({
-      where: {
-        createdByUserId: session?.user.id,
-      },
-    });
-
-    if (!invitation) return [];
-
     const guests = await prisma.guest.findMany({
       where: {
-        invitationId: invitation?.id,
+        invitationId: invitation_slug,
         deletedAt: null,
         isGroup: true,
       },

@@ -31,6 +31,11 @@ export const columns = {
       return (item.invitedPeople ?? 0) - (item.confirmedPeople ?? 0);
     },
   },
+  message: {
+    name: "Mensaje",
+    width: "20%",
+    getter: (item: GuestI) => item.message || "No proporcionado",
+  },
   actions: {
     name: "Acciones",
     width: "10%",

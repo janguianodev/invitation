@@ -1,6 +1,10 @@
 import { cursiveFont, template1Font } from "@/fonts";
 
-export const DressCode = () => {
+interface Props {
+  dressCode: string;
+}
+
+export const DressCode = ({ dressCode }: Props) => {
   return (
     <div className="flex flex-col justify-center items-center bg-invitation-secondary p-12 gap-3">
       <p
@@ -9,7 +13,7 @@ export const DressCode = () => {
         Código de vestimenta para nuestra boda
       </p>
       <p className={`${cursiveFont.className} text-6xl text-background`}>
-        Formal
+        {`${dressCode[0].toUpperCase()}${dressCode.slice(1)}`}
       </p>
     </div>
   );

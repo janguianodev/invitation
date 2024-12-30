@@ -5,7 +5,7 @@ import { FcGoogle } from "react-icons/fc";
 
 export default function SignUpForm() {
   const handleSignIn = async () => {
-    await signIn("google", { callbackUrl: "/dashboard" });
+    await signIn("google", { callbackUrl: "/my-invitations" });
   };
 
   return (

@@ -41,8 +41,6 @@ export const getUserInvitations = async (): Promise<InvitationsI[]> => {
         bibleReference: invitation.bibleReference as string,
         bibleImage: invitation.bibleImage as string,
         specialRequestImage: invitation.specialRequestImage as string,
-        primaryColor: invitation.primaryColor,
-        secondaryColor: invitation.secondaryColor,
         recomendedLodging: invitation.recomendedLodging,
         recomendedLodgingLink: invitation.recomendedLodgingLink,
         createdAt: invitation.createdAt,

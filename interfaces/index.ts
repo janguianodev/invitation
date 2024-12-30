@@ -5,3 +5,5 @@ export type { InvitationSetupFormI, Itinerary } from "./invitation-setup-form";
 export type { TemplatesI } from "./templates";
 
 export type { InvitationsI } from "./invitations";
+
+export type { InvitationDataI, EventI, Couple } from "./invitation";

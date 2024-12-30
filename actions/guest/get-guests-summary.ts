@@ -2,18 +2,23 @@
 
 import prisma from "@/lib/prisma";
 
-export const getGuestsSummary = async () => {
+export const getGuestsSummary = async (invitation_slug: string) => {
   try {
-    const attendingCount = await getAttendingGuests();
+    const attendingCount = await getAttendingGuests(invitation_slug);
 
-    const notAttendingCount = await getNotAttendingGuests();
+    const notAttendingCount = await getNotAttendingGuests(invitation_slug);
 
     const pendingCount = await prisma.guest.count({
-      where: { confirmedPeople: null, deletedAt: null, isGroup: true },
+      where: {
+        confirmedPeople: null,
+        deletedAt: null,
+        isGroup: true,
+        invitationId: invitation_slug,
+      },
     });
 
     const totalCount = await prisma.guest.count({
-      where: { deletedAt: null, isGroup: false },
+      where: { deletedAt: null, isGroup: false, invitationId: invitation_slug },
     });
 
     return {
@@ -28,9 +33,14 @@ export const getGuestsSummary = async () => {
   }
 };
 
-const getAttendingGuests = async () => {
+const getAttendingGuests = async (invitation_slug: string) => {
   const attendees = await prisma.guest.findMany({
-    where: { confirmedPeople: { gt: 0 }, deletedAt: null, isGroup: true },
+    where: {
+      confirmedPeople: { gt: 0 },
+      deletedAt: null,
+      isGroup: true,
+      invitationId: invitation_slug,
+    },
   });
 
   return attendees.reduce(
@@ -39,9 +49,14 @@ const getAttendingGuests = async () => {
   );
 };
 
-const getNotAttendingGuests = async () => {
+const getNotAttendingGuests = async (invitation_slug: string) => {
   const groups = await prisma.guest.findMany({
-    where: { isGroup: true, deletedAt: null, confirmedPeople: { not: null } },
+    where: {
+      isGroup: true,
+      deletedAt: null,
+      confirmedPeople: { not: null },
+      invitationId: invitation_slug,
+    },
     select: {
       invitedPeople: true,
       confirmedPeople: true,

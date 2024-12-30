@@ -1,28 +1,15 @@
 "use server";
 
-import { GuestFormInputs } from "@/app/(authenticated)/guests/[guestId]/utils/schema";
-import { auth } from "@/auth.config";
+import { GuestFormInputs } from "@/app/(authenticated)/my-invitations/[invitation_slug]/guests/[guestId]/utils/schema";
 import prisma from "@/lib/prisma";
 import { nanoid } from "nanoid";
 import { revalidatePath } from "next/cache";
 
-export const createOrUpdateGuest = async (data: GuestFormInputs) => {
-  const session = await auth();
-
+export const createOrUpdateGuest = async (
+  data: GuestFormInputs,
+  invitation_slug: string
+) => {
   try {
-    const invitation = await prisma.invitation.findFirst({
-      where: {
-        createdByUserId: session?.user.id,
-      },
-    });
-
-    if (!invitation) {
-      return {
-        ok: false,
-        error: "No se encontró la invitación de ese invitado",
-      };
-    }
-
     const { id, guestSlug, name, guestPasses, ...rest } = data;
 
     const slug = guestSlug || generateSlug(name);
@@ -36,7 +23,7 @@ export const createOrUpdateGuest = async (data: GuestFormInputs) => {
           ...rest,
           name,
           guestSlug: slug,
-          invitationId: invitation.id,
+          invitationId: invitation_slug,
         },
       });
 
@@ -51,7 +38,7 @@ export const createOrUpdateGuest = async (data: GuestFormInputs) => {
           data: guestPasses.map((pass, index) => ({
             name: pass.name,
             guestSlug: `${slug}-${index}`,
-            invitationId: invitation.id,
+            invitationId: invitation_slug,
             parentGroupId: guest.id,
           })),
         });
@@ -65,7 +52,7 @@ export const createOrUpdateGuest = async (data: GuestFormInputs) => {
           ...rest,
           name,
           guestSlug: slug,
-          invitationId: invitation.id,
+          invitationId: invitation_slug,
         },
       });
 
@@ -74,7 +61,7 @@ export const createOrUpdateGuest = async (data: GuestFormInputs) => {
           data: guestPasses.map((pass, index) => ({
             name: pass.name,
             guestSlug: `${slug}-${index}`,
-            invitationId: invitation.id,
+            invitationId: invitation_slug,
             parentGroupId: guest.id,
           })),
         });
@@ -84,7 +71,7 @@ export const createOrUpdateGuest = async (data: GuestFormInputs) => {
       }
     }
 
-    revalidatePath("/guests");
+    revalidatePath(`my-invitations/${invitation_slug}/guests`);
     return { ok: true, guests: {} };
   } catch (error) {
     console.error("Error crear/actualizar invitado:", error);
