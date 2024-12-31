@@ -1,5 +1,7 @@
+import { auth } from "@/auth.config";
 import { Navbar } from "@/components/ui/navbar/Navbar";
 import Sidebar from "@/components/ui/sidebar/Sidebar";
+import { redirect } from "next/navigation";
 
 // Cambia esta metadata a datos dinámicos según el usuario
 export const metadata = {
@@ -7,11 +9,17 @@ export const metadata = {
   description: "Dashboard page",
 };
 
-export default function DashboardLayout({
+export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await auth();
+
+  if (!session?.user?.email) {
+    redirect("/auth/sign-in");
+  }
+
   return (
     <main className="h-screen flex">
       <Sidebar />
