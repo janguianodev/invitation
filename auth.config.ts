@@ -61,13 +61,10 @@ export const authConfig = {
       return session;
     },
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.SECRET,
   session: {
     strategy: "jwt",
   },
 } satisfies NextAuthConfig;
-
-const secret = process.env.NEXTAUTH_SECRET;
-console.log(secret);
 
 export const { signIn, signOut, auth, handlers } = NextAuth(authConfig);
