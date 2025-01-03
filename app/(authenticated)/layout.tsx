@@ -24,12 +24,12 @@ export default async function DashboardLayout({
     <main className="h-screen flex">
       <Sidebar />
 
-      <div className="flex flex-col flex-1">
+      <div className="flex flex-col flex-1 w-full">
         <div className="w-full">
           <Navbar />
         </div>
 
-        <div className="flex-1 p-0 sm:p-4 overflow-y-auto">{children}</div>
+        <div className="flex-1 p-2 sm:p-4 overflow-y-auto">{children}</div>
       </div>
     </main>
   );
