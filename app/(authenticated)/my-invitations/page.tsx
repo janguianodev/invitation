@@ -18,7 +18,7 @@ export default async function InvitationsPage() {
         </Link>
       </div>
 
-      <div className="mb-10 mt-4 w-full">
+      <div className="mb-10 mt-4">
         {invitations!.length === 0 ? (
           <p className="text-center text-gray-500 mt-16">
             No hay invitaciones creadas
