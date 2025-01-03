@@ -17,9 +17,11 @@ interface Props<T extends object> {
 
 export const Table = <T extends object>({ columns, payload }: Props<T>) => {
   return (
-    <table className="w-full text-left border border-gray-300 rounded-lg">
-      <TableHeader columns={columns} />
-      <TableBody columns={columns} payload={payload} />
-    </table>
+    <div className="w-full overflow-x-auto shadow-md">
+      <table className="w-full text-left border border-gray-300">
+        <TableHeader columns={columns} />
+        <TableBody columns={columns} payload={payload} />
+      </table>
+    </div>
   );
 };
