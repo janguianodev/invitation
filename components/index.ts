@@ -1,4 +1,5 @@
 export * from "./dashboard/GuestsSummary";
+export * from "./dashboard/ExportCSV";
 export * from "./invitation/ConfirmAssistance";
 export * from "./invitation/DressCode";
 export * from "./invitation/EventCountdown";

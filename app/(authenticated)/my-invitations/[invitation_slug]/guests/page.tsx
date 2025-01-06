@@ -1,9 +1,10 @@
-import { GuestsSummary, Table, Title } from "@/components";
+import { ExportCSV, GuestsSummary, Table, Title } from "@/components";
 import Link from "next/link";
 import { getGuestsByInvitationId, getGuestsSummary } from "@/actions";
 import { columns } from "./utils/columns";
 import { GuestI } from "./interfaces/GuestInterface";
 import { renderActions } from "./utils/actions";
+import { getOrganizedGuestsByInvitationId } from "@/actions/guest/get-organized-guests";
 
 interface Props {
   params: {
@@ -15,6 +16,9 @@ export default async function GuestsPage({ params }: Props) {
   const { invitation_slug } = params;
 
   const guests: GuestI[] = await getGuestsByInvitationId(invitation_slug);
+  const organizedGuestData = await getOrganizedGuestsByInvitationId(
+    invitation_slug
+  );
   const guestsSummary = await getGuestsSummary(invitation_slug);
 
   return (
@@ -23,7 +27,8 @@ export default async function GuestsPage({ params }: Props) {
 
       <Title title="Lista de Invitados" />
 
-      <div className="flex justify-end mb-5">
+      <div className="flex justify-between mb-5 mt-3">
+        <ExportCSV data={organizedGuestData} />
         <Link
           href={`/my-invitations/${invitation_slug}/guests/new`}
           className="btn-primary"
