@@ -56,5 +56,5 @@ export interface GuestI {
   invited: number | null;
   confirmed: number | null;
   confirmationCode: string | null;
-  confirmedGuestsNames: string;
+  confirmedGuestsNames: string[];
 }
