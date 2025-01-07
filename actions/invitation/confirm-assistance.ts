@@ -53,7 +53,10 @@ export const confirmAssistance = async (invitedPeople: DenyAssistanceProps) => {
       },
       data: {
         confirmedPeople: invitedPeople.confirmedGuests,
-        confirmationCode: await generateConfirmationCode(),
+        confirmationCode: await generateConfirmationCode(
+          mainGuest.name,
+          mainGuest.id
+        ),
       },
     });
 
@@ -75,16 +78,15 @@ export const confirmAssistance = async (invitedPeople: DenyAssistanceProps) => {
   }
 };
 
-export const generateConfirmationCode = async () => {
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  const codeLength = 8;
-  let confirmationCode = "";
+export const generateConfirmationCode = async (
+  mainGuestName: string,
+  mainGuestId: string
+) => {
+  const initials = mainGuestName
+    .split(" ")
+    .map((name) => name[0].toUpperCase())
+    .join("");
+  const code = mainGuestId.slice(-5).toUpperCase();
 
-  for (let i = 0; i < codeLength; i++) {
-    const randomIndex = Math.floor(Math.random() * characters.length);
-    confirmationCode += characters[randomIndex];
-  }
-
-  return confirmationCode;
+  return `${initials}-${code}`;
 };
