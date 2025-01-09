@@ -17,7 +17,7 @@ export const cleanFormData = (
       } else if (Array.isArray(value)) {
         formData.append(key, JSON.stringify(value));
       } else if (typeof value === "object" && value !== null) {
-        formData.append(key, JSON.stringify(value));
+        formData.append(key, "");
       }
     }
   }

@@ -12,7 +12,6 @@ import { AlertVariant } from "@/utils";
 import { TemplateImage } from "@/components";
 import { useRouter } from "next/navigation";
 import { cleanFormData } from "../utils/cleanFormData";
-import { validateImageSrc } from "../utils/validateImgSrc";
 import { initializeDefaultValues } from "../utils/initializeDefaultValues";
 import { InvitationImages } from "@/interfaces/invitation-setup-form";
 import { useState } from "react";
@@ -57,6 +56,10 @@ export const InvitationSetupForm = ({ invitation, slug }: Props) => {
     };
 
     const { formValues } = cleanFormData(cleanedData, formData);
+
+    if (invitationTyped.couple?.id) {
+      formValues.append("coupleId", invitationTyped.couple.id);
+    }
 
     const response = await saveInvitationData(formValues);
     if (!response.ok) {
@@ -256,15 +259,15 @@ export const InvitationSetupForm = ({ invitation, slug }: Props) => {
           {errors.brideImage && (
             <span className="text-red-500">{errors.brideImage.message}</span>
           )}
-          {(watch("brideImage") || invitationTyped.brideImage) && (
+          {
             <TemplateImage
-              src={validateImageSrc(invitationTyped.brideImage as string)}
+              src={invitationTyped.brideImage as string}
               alt="Imagen de la novia"
               width={200}
               height={200}
               priority
             />
-          )}
+          }
         </div>
         <div className="flex flex-col gap-1">
           <label className="text-gray-600" htmlFor="image">
@@ -279,15 +282,15 @@ export const InvitationSetupForm = ({ invitation, slug }: Props) => {
           {errors.eventDateImage && (
             <span className="text-red-500">Este campo es requerido</span>
           )}
-          {(watch("eventDateImage") || invitationTyped.eventDateImage) && (
+          {
             <TemplateImage
-              src={validateImageSrc(invitationTyped.eventDateImage as string)}
+              src={invitationTyped.eventDateImage as string}
               alt="Imagen de la fecha del evento"
               width={200}
               height={200}
               priority
             />
-          )}
+          }
         </div>
         <div className="flex flex-col gap-1">
           <label className="text-gray-600" htmlFor="image">
@@ -302,15 +305,15 @@ export const InvitationSetupForm = ({ invitation, slug }: Props) => {
           {errors.bibleImage && (
             <span className="text-red-500">Este campo es requerido</span>
           )}
-          {(watch("bibleImage") || invitationTyped.bibleImage) && (
+          {
             <TemplateImage
-              src={validateImageSrc(invitationTyped.bibleImage as string)}
+              src={invitationTyped.bibleImage as string}
               alt="Imagen de la biblia"
               width={200}
               height={200}
               priority
             />
-          )}
+          }
         </div>
         <div className="flex flex-col gap-1">
           <label className="text-gray-600" htmlFor="image">
@@ -327,18 +330,15 @@ export const InvitationSetupForm = ({ invitation, slug }: Props) => {
           {errors.specialRequestImage && (
             <span className="text-red-500">Este campo es requerido</span>
           )}
-          {(watch("specialRequestImage") ||
-            invitationTyped.specialRequestImage) && (
+          {
             <TemplateImage
-              src={validateImageSrc(
-                invitationTyped.specialRequestImage as string
-              )}
+              src={invitationTyped.specialRequestImage as string}
               alt="Imagen de la petición especial"
               width={200}
               height={200}
               priority
             />
-          )}
+          }
         </div>
 
         <div className="flex flex-col gap-1 md:col-span-2">

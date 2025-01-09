@@ -1,23 +1,27 @@
 "use server";
 
-import { auth } from "@/auth.config";
 import prisma from "@/lib/prisma";
 
-export const getCoupleSlug = async () => {
-  const session = await auth();
-
+export const getCoupleSlug = async (invitationId: string) => {
   try {
-    const couple = await prisma.couple.findFirst({
+    const invitation = await prisma.invitation.findUnique({
       where: {
-        userId: session?.user.id,
+        id: invitationId,
+      },
+      include: {
+        couple: {
+          select: {
+            coupleSlug: true,
+          },
+        },
       },
     });
 
-    if (!couple) {
-      return { ok: false, error: "No se encontró la pareja" };
+    if (!invitation) {
+      return { ok: false, error: "No se encontró la invitación" };
     }
 
-    return { ok: true, coupleSlug: couple.coupleSlug };
+    return { ok: true, coupleSlug: invitation.couple?.coupleSlug };
   } catch (error) {
     console.error("Error al obtener el slug de la pareja:", error);
     return { ok: false, error: "Error al obtener el slug de la pareja" };

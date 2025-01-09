@@ -10,6 +10,19 @@ export const getGuestsByInvitationId = async (invitation_slug: string) => {
         deletedAt: null,
         isGroup: true,
       },
+      include: {
+        invitation: {
+          select: {
+            couple: {
+              select: {
+                coupleSlug: true,
+                partner1Name: true,
+                partner2Name: true,
+              },
+            },
+          },
+        },
+      },
       orderBy: { createdAt: "desc" },
     });
 

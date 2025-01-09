@@ -20,15 +20,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     guest_slug_id
   );
 
+  const brideName = invitationData?.couple?.partner1Name.split(" ")[0];
+  const groomName = invitationData?.couple?.partner2Name.split(" ")[0];
+
+  if (!invitationData) {
+    return {
+      title: "Invitación no encontrada",
+      description: "La invitación que buscas no existe",
+    };
+  }
+
   return {
-    title: `Boda ${invitationData?.couple?.partner1Name.split(" ")[0]} & ${
-      invitationData?.couple?.partner2Name.split(" ")[0]
-    }`,
+    title: `Boda ${brideName} & ${groomName}`,
     description: invitationData?.welcomeMessage,
     openGraph: {
-      title: `Boda ${invitationData?.couple?.partner1Name.split(" ")[0]} & ${
-        invitationData?.couple?.partner2Name.split(" ")[0]
-      }`,
+      title: `Boda ${brideName} & ${groomName}`,
       description: invitationData?.welcomeMessage || "",
       images: [{ url: invitationData?.brideImage || "" }],
     },

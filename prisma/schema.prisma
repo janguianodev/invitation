@@ -32,7 +32,7 @@ model User {
 
   //relations 
   invitation Invitation[]
-  Couple     Couple?
+  Couple     Couple[]
 }
 
 model Couple {
@@ -46,7 +46,7 @@ model Couple {
 
   //relations
   user   User   @relation(fields: [userId], references: [id])
-  userId String @unique
+  userId String
 
   invitation Invitation[] @relation("CoupleToInvitation")
 

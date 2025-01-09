@@ -1,13 +1,21 @@
 import { template1Font } from "@/fonts";
-import React from "react";
 
-export const Footer = () => {
+interface Props {
+  data: {
+    partner1Name: string;
+    partner2Name: string;
+  };
+}
+
+export const Footer = ({ data }: Props) => {
+  const { partner1Name, partner2Name } = data;
+
   return (
     <div
       className={`${template1Font.className} flex w-full justify-center text-xs bg-invitation-tertiary p-12`}
     >
       <span className={`text-invitation-secondary antialiased font-bold `}>
-        Ana &amp; Josue
+        {partner1Name.split(" ")[0]} & {partner2Name.split(" ")[0]}
       </span>
       <span className="text-invitation-secondary">
         &copy; {new Date().getFullYear()}
