@@ -3,10 +3,10 @@ import { MdModeEdit } from "react-icons/md";
 import { GuestI } from "../interfaces/GuestInterface";
 import { DeleteGuest } from "../components/DeleteGuest";
 import { CopyInvitationLink } from "../components/CopyInvitationLink";
-import { getCoupleSlug } from "@/actions";
 
-export const renderActions = async (item: GuestI) => {
-  const coupleSlug = await getCoupleSlug();
+export const renderActions = (item: GuestI) => {
+  const { invitation } = item;
+  const { couple } = invitation;
 
   return (
     <div className="flex space-x-2">
@@ -16,10 +16,7 @@ export const renderActions = async (item: GuestI) => {
       >
         <MdModeEdit size={20} />
       </Link>
-      <CopyInvitationLink
-        guest={item}
-        coupleSlug={coupleSlug.coupleSlug ?? ""}
-      />
+      <CopyInvitationLink guest={item} coupleSlug={couple?.coupleSlug ?? ""} />
       <DeleteGuest guest={item} />
     </div>
   );

@@ -21,13 +21,21 @@ export default async function GuestsPage({ params }: Props) {
   );
   const guestsSummary = await getGuestsSummary(invitation_slug);
 
+  const brideName = guests[0]?.invitation?.couple?.partner1Name;
+  const groomName = guests[0]?.invitation?.couple?.partner2Name;
+
   return (
     <div>
       <GuestsSummary data={guestsSummary} />
 
-      <Title title="Lista de Invitados" />
+      <div className="flex flex-col">
+        <Title title="Lista de Invitados" />
+        <p className="text-center text-gray-500 mt-3 md:mt-0">
+          Boda {brideName} y {groomName}
+        </p>
+      </div>
 
-      <div className="flex justify-between mb-5 mt-3">
+      <div className="flex flex-col justify-between mb-5 mt-3 md:flex-row md:items-center md:justify-between md:gap-3">
         <ExportCSV data={organizedGuestData} />
         <Link
           href={`/my-invitations/${invitation_slug}/guests/new`}

@@ -99,24 +99,38 @@ export const saveInvitationData = async (formData: FormData) => {
       }
 
       // Crear o actualizar la pareja asociada a la invitación
-      const couple = await tx.couple.upsert({
-        where: { userId: session.user.id },
-        create: {
-          coupleSlug: createCoupleSlug(
-            brideName as string,
-            groomName as string
-          ),
-          partner1Name: brideName as string,
-          partner2Name: groomName as string,
-          userId: session.user.id,
-          invitation: { connect: { id: invitation.id } },
-        },
-        update: {
-          partner1Name: brideName as string,
-          partner2Name: groomName as string,
-          updatedAt: new Date(),
+      // Buscar si ya existe una pareja con el mismo id
+      let couple = await tx.couple.findUnique({
+        where: {
+          id: (rest.coupleId as string) || "",
         },
       });
+
+      // Si no existe, crear una nueva pareja
+      if (!couple) {
+        couple = await tx.couple.create({
+          data: {
+            coupleSlug: createCoupleSlug(
+              brideName as string,
+              groomName as string
+            ),
+            partner1Name: brideName as string,
+            partner2Name: groomName as string,
+            userId: session.user.id,
+            invitation: { connect: { id: invitation.id } },
+          },
+        });
+      } else {
+        // Actualizar si ya existe una pareja con el mismo slug
+        couple = await tx.couple.update({
+          where: { id: couple.id },
+          data: {
+            partner1Name: brideName as string,
+            partner2Name: groomName as string,
+            updatedAt: new Date(),
+          },
+        });
+      }
 
       // Actualizar la invitación con el coupleId
       const updatedInvitation = await tx.invitation.update({
