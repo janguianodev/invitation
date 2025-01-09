@@ -18,6 +18,13 @@ interface Props {
   invitationData: InvitationDataI;
 }
 
+const placeholderImages = {
+  brideImage: "https://placehold.co/300?text=imagen+principal",
+  eventDateImage: "https://placehold.co/300?text=imagen+fecha",
+  bibleImage: "https://placehold.co/300?text=imagen+biblia",
+  specialRequestImage: "https://placehold.co/300?text=imagen+especial",
+};
+
 export const Template1 = ({ invitationData }: Props) => {
   return (
     <>
@@ -27,7 +34,8 @@ export const Template1 = ({ invitationData }: Props) => {
           eventDate: invitationData.eventDate || new Date(),
           partner1Name: invitationData.couple?.partner1Name || "",
           partner2Name: invitationData.couple?.partner2Name || "",
-          image: invitationData.brideImage || "",
+          //placehoder image if no image is provided
+          image: invitationData.brideImage || placeholderImages.brideImage,
         }}
       />
 
@@ -39,7 +47,7 @@ export const Template1 = ({ invitationData }: Props) => {
         data={{
           bibleReference: invitationData.bibleReference || "",
           bibleVerse: invitationData.bibleVerse || "",
-          image: invitationData.bibleImage || "",
+          image: invitationData.bibleImage || placeholderImages.bibleImage,
         }}
       />
 
@@ -57,7 +65,9 @@ export const Template1 = ({ invitationData }: Props) => {
       {/* Countdown para la boda */}
       <EventCountdown
         eventDate={invitationData.eventDate || new Date()}
-        image={invitationData.eventDateImage || ""}
+        image={
+          invitationData.eventDateImage || placeholderImages.eventDateImage
+        }
       />
 
       {/* itinerario */}
@@ -69,7 +79,10 @@ export const Template1 = ({ invitationData }: Props) => {
       {/* No niños o información importante para los invitados */}
       <SpecialRequest
         specialRequest={invitationData.specialRequest || ""}
-        image={invitationData.specialRequestImage || ""}
+        image={
+          invitationData.specialRequestImage ||
+          placeholderImages.specialRequestImage
+        }
       />
 
       {/* Regalo o contribución */}
@@ -91,7 +104,12 @@ export const Template1 = ({ invitationData }: Props) => {
         }}
       />
 
-      <Footer />
+      <Footer
+        data={{
+          partner1Name: invitationData.couple?.partner1Name || "",
+          partner2Name: invitationData.couple?.partner2Name || "",
+        }}
+      />
     </>
   );
 };
