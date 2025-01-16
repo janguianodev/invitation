@@ -10,8 +10,6 @@ export interface GuestI {
   invitation: {
     couple: {
       coupleSlug: string | null;
-      partner1Name: string | null;
-      partner2Name: string | null;
     } | null;
   };
 }
