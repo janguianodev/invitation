@@ -16,8 +16,6 @@ export const getGuestsByInvitationId = async (invitation_slug: string) => {
             couple: {
               select: {
                 coupleSlug: true,
-                partner1Name: true,
-                partner2Name: true,
               },
             },
           },
