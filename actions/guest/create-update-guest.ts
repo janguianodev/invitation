@@ -80,6 +80,12 @@ export const createOrUpdateGuest = async (
 };
 
 const generateSlug = (name: string): string => {
-  const baseSlug = name.toLowerCase().split(" ").join("_").replace(/\s+/g, "-");
-  return `${baseSlug}-${nanoid(8)}`;
+  const normalized = name.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+  const baseSlug = normalized
+    .toLowerCase()
+    .replace(/\s+/g, "_")
+    .replace(/[^a-z0-9_]/g, "");
+
+  return `${baseSlug}_${nanoid(8)}`;
 };
