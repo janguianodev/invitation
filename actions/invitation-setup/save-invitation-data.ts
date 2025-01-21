@@ -159,9 +159,16 @@ export const saveInvitationData = async (formData: FormData) => {
   }
 };
 
-const createCoupleSlug = (brideName: string, groomName: string) => {
-  const bride = brideName.toLowerCase().split(" ")[0];
-  const groom = groomName.toLowerCase().split(" ")[0];
+const createCoupleSlug = (brideName: string, groomName: string): string => {
+  const normalizeName = (name: string) =>
+    name
+      .toLowerCase()
+      .split(" ")[0]
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
 
-  return `${bride}_y_${groom}-${nanoid(8)}`;
+  const brideSlug = normalizeName(brideName);
+  const groomSlug = normalizeName(groomName);
+
+  return `${brideSlug}-${groomSlug}-${nanoid(6)}`;
 };
