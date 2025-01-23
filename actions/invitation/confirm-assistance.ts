@@ -47,6 +47,11 @@ export const confirmAssistance = async (invitedPeople: DenyAssistanceProps) => {
 
     await Promise.all(updates);
 
+    console.log(
+      "confirmationCode",
+      await generateConfirmationCode(mainGuest.name, mainGuest.id)
+    );
+
     await prisma.guest.update({
       where: {
         id: mainGuest.id,
