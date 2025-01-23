@@ -82,11 +82,16 @@ export const generateConfirmationCode = async (
   mainGuestName: string,
   mainGuestId: string
 ) => {
+  console.log("mainGuestName", mainGuestName);
+  console.log("mainGuestId", mainGuestId);
+
   const initials = mainGuestName
     .split(" ")
     .map((name) => name[0].toUpperCase())
     .join("");
-  const code = mainGuestId.slice(-5).toUpperCase();
+  const code = mainGuestId.slice(-5).toUpperCase(); //fix this
+
+  // error logged: Error updating guest information: TypeError: Cannot read properties of undefined (reading 'toUpperCase')
 
   return `${initials}-${code}`;
 };
