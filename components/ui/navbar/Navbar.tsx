@@ -7,10 +7,17 @@ import { IoLogOutOutline, IoMenu } from "react-icons/io5";
 import { TbLayoutSidebarLeftCollapseFilled } from "react-icons/tb";
 
 export const Navbar = () => {
+  const [isLoading, setIsLoading] = React.useState(true);
   const { data: session } = useSession();
   const isSidebarOpen = useSidebarStore((state) => state.isSidebarOpen);
   const openSidebar = useSidebarStore((state) => state.openSidebar);
   const closeSidebar = useSidebarStore((state) => state.closeSidebar);
+
+  React.useEffect(() => {
+    if (session) {
+      setIsLoading(false);
+    }
+  }, [session]);
 
   return (
     <div className="flex flex-row justify-between items-center bg-secondary p-4 text-white">
@@ -26,7 +33,7 @@ export const Navbar = () => {
         )}
       </div>
       <p className="text-center text-white w-full ">
-        Welcome, {session?.user?.name}
+        {isLoading ? "Loading..." : `Welcome, ${session?.user?.name}`}
       </p>
       <div />
       <button onClick={() => signOut()}>

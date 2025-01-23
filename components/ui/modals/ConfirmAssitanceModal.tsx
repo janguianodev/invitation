@@ -1,7 +1,7 @@
 "use client";
 
 import { template1Font } from "@/fonts";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -27,6 +27,7 @@ export const ConfirmAssitanceModal = ({ invitedPeople, closeModal }: Props) => {
   const {
     register,
     watch,
+    setValue,
     handleSubmit,
     formState: { errors },
   } = useForm<ConfirmAssistanceInputs>({
@@ -36,7 +37,17 @@ export const ConfirmAssitanceModal = ({ invitedPeople, closeModal }: Props) => {
     },
   });
 
-  const numInputs = watch("confirmedGuests") || 0; // Observa el valor actual del select
+  const confirmedGuests = watch("confirmedGuests") || 0; // Número seleccionado
+
+  // Sincroniza el tamaño del array de guestPasses
+  useEffect(() => {
+    setValue(
+      "guestPasses",
+      Array.from({ length: confirmedGuests }).map(() => ({
+        name: "", // Inicializa con valores vacíos
+      }))
+    );
+  }, [confirmedGuests, setValue]);
 
   const onSubmit = async (data: ConfirmAssistanceInputs) => {
     const newData = {
@@ -100,7 +111,7 @@ export const ConfirmAssitanceModal = ({ invitedPeople, closeModal }: Props) => {
             )}
           </div>
           <div>
-            {Array.from({ length: numInputs }).map((_, index) => (
+            {Array.from({ length: confirmedGuests }).map((_, index) => (
               <div key={index} className="mt-2">
                 <label htmlFor={`guestPasses.${index}.name`}>
                   Nombre del Pase {index + 1}
