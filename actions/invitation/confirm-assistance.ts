@@ -96,6 +96,12 @@ export const generateConfirmationCode = async (
   console.log("mainGuestName", mainGuestName);
   console.log("mainGuestId", mainGuestId);
 
+  console.log(
+    "initials",
+    mainGuestName.split(" ").map((name) => name[0])
+  );
+  console.log("code", mainGuestId.slice(-5));
+
   const initials = mainGuestName
     .split(" ")
     .map((name) => name[0].toUpperCase())
