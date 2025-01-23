@@ -84,5 +84,5 @@ const generateSlug = (name: string): string => {
 
   const baseSlug = normalized.toLowerCase().trim().replace(/\s+/g, "-");
 
-  return `${baseSlug}_${nanoid(8)}`;
+  return `${baseSlug}-${nanoid(8)}`;
 };

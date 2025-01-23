@@ -24,15 +24,11 @@ export const confirmAssistance = async (invitedPeople: DenyAssistanceProps) => {
       };
     }
 
-    console.log("mainGuest", mainGuest);
-
     const getAllGuests = await prisma.guest.findMany({
       where: {
         parentGroupId: mainGuest.id,
       },
     });
-
-    console.log("getAllGuests", getAllGuests);
 
     const confirmedGuests = invitedPeople.guestPasses || [];
     const updates = getAllGuests.map((guest, index) => {
@@ -49,14 +45,7 @@ export const confirmAssistance = async (invitedPeople: DenyAssistanceProps) => {
       });
     });
 
-    console.log("updates", updates);
-
     await Promise.all(updates);
-
-    console.log(
-      "confirmationCode",
-      await generateConfirmationCode(mainGuest.name, mainGuest.id)
-    );
 
     await prisma.guest.update({
       where: {
@@ -66,7 +55,8 @@ export const confirmAssistance = async (invitedPeople: DenyAssistanceProps) => {
         confirmedPeople: invitedPeople.confirmedGuests,
         confirmationCode: await generateConfirmationCode(
           mainGuest.name,
-          mainGuest.id
+          mainGuest.id,
+          invitedPeople.confirmedGuests
         ),
       },
     });
@@ -91,24 +81,14 @@ export const confirmAssistance = async (invitedPeople: DenyAssistanceProps) => {
 
 export const generateConfirmationCode = async (
   mainGuestName: string,
-  mainGuestId: string
+  mainGuestId: string,
+  confirmedGuests: number
 ) => {
-  console.log("mainGuestName", mainGuestName);
-  console.log("mainGuestId", mainGuestId);
-
-  console.log(
-    "initials",
-    mainGuestName.split(" ").map((name) => name[0])
-  );
-  console.log("code", mainGuestId.slice(-5));
-
   const initials = mainGuestName
     .split(" ")
     .map((name) => name[0].toUpperCase())
     .join("");
-  const code = mainGuestId.slice(-5).toUpperCase(); //fix this
+  const code = mainGuestId.slice(-5).toUpperCase();
 
-  // error logged: Error updating guest information: TypeError: Cannot read properties of undefined (reading 'toUpperCase')
-
-  return `${initials}-${code}`;
+  return `${initials}-${confirmedGuests}-${code}`;
 };

@@ -29,7 +29,10 @@ export default async function DashboardLayout({
           <Navbar />
         </div>
 
-        <div className="flex-1 p-2 sm:p-4 overflow-y-auto">{children}</div>
+        {/* substract the height of the navbar */}
+        <div className="flex-1 p-2 sm:p-4 overflow-y-auto h-[calc(100vh - 64px)]">
+          {children}
+        </div>
       </div>
     </main>
   );

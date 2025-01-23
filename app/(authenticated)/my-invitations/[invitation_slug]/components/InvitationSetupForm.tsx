@@ -248,7 +248,7 @@ export const InvitationSetupForm = ({ invitation, slug }: Props) => {
         <div></div>
         <div className="flex flex-col gap-1">
           <label className="text-gray-600" htmlFor="image">
-            Imagen de la novia
+            Imagen principal
           </label>
           <input
             type="file"
@@ -262,7 +262,7 @@ export const InvitationSetupForm = ({ invitation, slug }: Props) => {
           {
             <TemplateImage
               src={invitationTyped.brideImage as string}
-              alt="Imagen de la novia"
+              alt="Imagen principal"
               width={200}
               height={200}
               priority

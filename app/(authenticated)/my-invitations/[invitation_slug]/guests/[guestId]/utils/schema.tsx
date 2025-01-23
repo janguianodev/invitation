@@ -3,7 +3,7 @@ import * as z from "zod";
 export const GuestFormSchema = z.object({
   id: z.string().default(""),
   guestSlug: z.string().default(""),
-  name: z.string().min(1, "El nombre es requerido"),
+  name: z.string().min(1, "El nombre es requerido").trim(),
   phoneNumber: z.string().min(1, "El teléfono de contacto es requerido"),
   invitedPeople: z.coerce.number().optional(),
   confirmedPeople: z.coerce.number().optional().nullable(),

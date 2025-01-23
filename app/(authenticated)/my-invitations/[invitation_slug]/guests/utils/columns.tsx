@@ -20,7 +20,11 @@ export const columns = {
   confirmedPeople: {
     name: "Confirmados",
     width: "5%",
-    getter: (item: GuestI) => item.confirmedPeople || 0,
+    getter: (item: GuestI) => {
+      if (item.confirmedPeople === null) return "No ha respondido";
+
+      return item.confirmedPeople;
+    },
   },
   invitationDetails: {
     name: "No asistirán",
@@ -34,7 +38,13 @@ export const columns = {
   message: {
     name: "Mensaje",
     width: "20%",
-    getter: (item: GuestI) => item.message || "No proporcionado",
+    getter: (item: GuestI) => {
+      if (item.confirmedPeople === null) return "No ha respondido";
+
+      if (item.confirmedPeople && item.confirmedPeople > 0) return "No aplica";
+
+      return item.message || "-";
+    },
   },
   actions: {
     name: "Acciones",
