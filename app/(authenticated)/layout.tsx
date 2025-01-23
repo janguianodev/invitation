@@ -21,7 +21,7 @@ export default async function DashboardLayout({
   }
 
   return (
-    <main className="h-screen flex">
+    <main className="h-screen flex overflow-hidden">
       <Sidebar />
 
       <div className="flex flex-col flex-1 w-full">
@@ -30,9 +30,7 @@ export default async function DashboardLayout({
         </div>
 
         {/* substract the height of the navbar */}
-        <div className="flex-1 p-2 sm:p-4 overflow-y-auto h-[calc(100vh - 64px)]">
-          {children}
-        </div>
+        <div className="flex-1 p-2 sm:p-4 overflow-y-auto">{children}</div>
       </div>
     </main>
   );
