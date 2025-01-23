@@ -24,11 +24,15 @@ export const confirmAssistance = async (invitedPeople: DenyAssistanceProps) => {
       };
     }
 
+    console.log("mainGuest", mainGuest);
+
     const getAllGuests = await prisma.guest.findMany({
       where: {
         parentGroupId: mainGuest.id,
       },
     });
+
+    console.log("getAllGuests", getAllGuests);
 
     const confirmedGuests = invitedPeople.guestPasses || [];
     const updates = getAllGuests.map((guest, index) => {
@@ -44,6 +48,8 @@ export const confirmAssistance = async (invitedPeople: DenyAssistanceProps) => {
         },
       });
     });
+
+    console.log("updates", updates);
 
     await Promise.all(updates);
 
