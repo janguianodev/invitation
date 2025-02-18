@@ -17,7 +17,8 @@ export const getDaysToEvent = (eventDate: Date) => {
 
   // Si la fecha ya pasó
   if (today.isAfter(event)) {
-    return "Gracias por acompañarnos";
+    // short thanks message
+    return "Gracias";
   }
 
   // Calcula la diferencia en días

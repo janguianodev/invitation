@@ -15,8 +15,8 @@ export const EventCountdown = ({ eventDate, image }: Props) => {
       return "es nuestro gran día";
     }
 
-    if (daysToEvent === "Gracias por acompañarnos") {
-      return "en nuestro gran día";
+    if (daysToEvent === "Gracias") {
+      return "por acompañarnos";
     }
 
     return "para nuestro gran día";
@@ -33,7 +33,7 @@ export const EventCountdown = ({ eventDate, image }: Props) => {
     >
       <div className="absolute inset-0 bg-white bg-opacity-50"></div>
 
-      <div className="relative z-10 text-center">
+      <div className="relative z-10 text-center p-8">
         <AnimatedP
           className={`${cursiveFont.className} text-9xl text-invitation-primary drop-shadow-md font-bold`}
           text={daysToEvent}
