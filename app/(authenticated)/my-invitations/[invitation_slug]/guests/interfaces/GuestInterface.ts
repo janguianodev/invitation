@@ -12,4 +12,7 @@ export interface GuestI {
       coupleSlug: string | null;
     } | null;
   };
+  groupMembers: {
+    name: string | null;
+  }[];
 }

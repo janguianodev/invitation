@@ -16,6 +16,7 @@ export const createSchema = (invitedPeople: number) =>
         z.object({
           name: z
             .string()
+            .trim()
             .min(1, "El nombre es obligatorio")
             .max(50, "El nombre no puede tener más de 50 caracteres"),
         })

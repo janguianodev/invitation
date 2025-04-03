@@ -46,6 +46,20 @@ export const columns = {
       return item.message || "-";
     },
   },
+  groupMembers: {
+    name: "Miembros del grupo",
+    width: "20%",
+    getter: (item: GuestI) => {
+      if (item.confirmedPeople === 0) return "No asistirán";
+
+      if (item.confirmedPeople === null) return "No ha respondido";
+
+      return item.groupMembers
+        .filter((member) => member.name !== "")
+        .map((member) => member.name)
+        .join(", ");
+    },
+  },
   actions: {
     name: "Acciones",
     width: "10%",

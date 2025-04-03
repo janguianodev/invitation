@@ -20,6 +20,11 @@ export const getGuestsByInvitationId = async (invitation_slug: string) => {
             },
           },
         },
+        groupMembers: {
+          select: {
+            name: true,
+          },
+        },
       },
       orderBy: { createdAt: "desc" },
     });
