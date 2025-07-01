@@ -1,31 +1,31 @@
+import { template2CursiveFont, template2Font } from "@/fonts";
 import { InvitationDataI } from "../interfaces/invitation";
 import {
-  CountdownT1,
   DressCode,
-  DresscodeT1,
   EventCountdown,
   Footer,
   Gift,
   GroomBrideParents,
-  GuestMessageT1,
-  HeaderT1,
   InvitationHeader,
   Itinerary,
-  ItineraryT1,
-  MessageT1,
   MessageToGest,
-  ParentsT1,
-  PhraseT1,
   SpecialPhrase,
   SpecialRequest,
-  SpecialRequestT1,
   WelcomeMessage,
-  FooterT1,
+  HeaderT2,
+  ParentsT2,
+  MessageT2,
+  PhraseT2,
+  GuestMessageT2,
+  CountDownT2,
+  ItineraryT2,
+  DresscodeT2,
+  SpecialRequestT2,
+  GiftT2,
+  FooterT2,
   AssistanceSection,
   Assistance,
 } from "@/components";
-import { GiftT1 } from "../components/invitation/template1/GiftT1";
-import { cursiveFont, template1Font } from "@/fonts";
 
 interface Props {
   invitationData: InvitationDataI;
@@ -38,8 +38,13 @@ const placeholderImages = {
   specialRequestImage: "https://placehold.co/300?text=imagen+especial",
 };
 
-export const Template1 = ({ invitationData }: Props) => {
+export const Template2 = ({ invitationData }: Props) => {
   const data = {
+    customUI: {
+      template: "template2",
+      fontClass: template2Font.className,
+      cursiveFontClass: template2CursiveFont.className,
+    },
     header: {
       eventDate: invitationData.eventDate || new Date(),
       partner1Name: invitationData.couple?.partner1Name || "",
@@ -90,9 +95,9 @@ export const Template1 = ({ invitationData }: Props) => {
         invitedGuests: invitationData.guests.invited || 0,
       },
       customUI: {
-        template: "invitation",
-        fontClass: template1Font.className,
-        cursiveFontClass: cursiveFont.className,
+        template: "template2",
+        fontClass: template2Font.className,
+        cursiveFontClass: template2CursiveFont.className,
       },
     },
     footer: {
@@ -105,52 +110,52 @@ export const Template1 = ({ invitationData }: Props) => {
     <>
       {/* Header */}
       <InvitationHeader>
-        <HeaderT1 data={data.header} />
+        <HeaderT2 data={data.header} />
       </InvitationHeader>
 
       {/* Mensaje de bienvenida */}
       <WelcomeMessage>
-        <MessageT1 data={data.welcomeMessage} />
+        <MessageT2 data={data.welcomeMessage} />
       </WelcomeMessage>
 
       {/* Frase de los novios */}
       <SpecialPhrase>
-        <PhraseT1 data={data.specialPhrase} />
+        <PhraseT2 data={data.specialPhrase} />
       </SpecialPhrase>
 
       {/* Padres de los novios */}
       <GroomBrideParents>
-        <ParentsT1 data={data.groomBrideParents} />
+        <ParentsT2 data={data.groomBrideParents} />
       </GroomBrideParents>
 
       {/* Mensaje al invitado */}
       <MessageToGest>
-        <GuestMessageT1 data={data.guestMessage} />
+        <GuestMessageT2 data={data.guestMessage} />
       </MessageToGest>
 
       {/* Countdown para la boda */}
       <EventCountdown>
-        <CountdownT1 data={data.eventCountdown} />
+        <CountDownT2 data={data.eventCountdown} />
       </EventCountdown>
 
       {/* itinerario */}
       <Itinerary>
-        <ItineraryT1 data={data.itinerary} />
+        <ItineraryT2 data={data.itinerary} />
       </Itinerary>
 
       {/* código de vestimenta */}
       <DressCode>
-        <DresscodeT1 data={data.dressCode} />
+        <DresscodeT2 data={data.dressCode} />
       </DressCode>
 
       {/* No niños o información importante para los invitados */}
       <SpecialRequest>
-        <SpecialRequestT1 data={data.specialRequest} />
+        <SpecialRequestT2 data={data.specialRequest} />
       </SpecialRequest>
 
       {/* Regalo o contribución */}
       <Gift>
-        <GiftT1 data={data.gift} />
+        <GiftT2 data={data.gift} />
       </Gift>
 
       <AssistanceSection>
@@ -161,7 +166,7 @@ export const Template1 = ({ invitationData }: Props) => {
       </AssistanceSection>
 
       <Footer>
-        <FooterT1 data={data.footer} />
+        <FooterT2 data={data.footer} />
       </Footer>
     </>
   );
