@@ -26,8 +26,8 @@ export const CountDownT2 = ({ data }: Props) => {
       </h2>
 
       <div className="flex flex-col sm:flex-row justify-center items-center gap-6">
-        <CountdownBox value={months} label="MESES" />
-        <CountdownBox value={days} label="DÍAS" />
+        <CountdownBox value={months} label={months === 1 ? "MES" : "MESES"} />
+        <CountdownBox value={days} label={days === 1 ? "DÍA" : "DÍAS"} />
       </div>
     </div>
   );
