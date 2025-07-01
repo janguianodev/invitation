@@ -1,6 +1,9 @@
 import { getInvitationDataBySlug } from "@/actions";
+import { auth } from "@/auth.config";
 import { InvitationDataI } from "@/interfaces";
 import { Template1 } from "@/templates/Template1";
+// import { Template1 } from "@/templates/Template1";
+import { Template2 } from "@/templates/Template2";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -44,6 +47,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function GuestInvitationPage({ params }: Props) {
   const { couple_slug, guest_slug_id } = params;
 
+  //get server session
+  const session = await auth();
+  const loggedInUserEmail = session?.user.email || null;
+
   const invitationData: InvitationDataI | null = await getInvitationDataBySlug(
     couple_slug,
     guest_slug_id
@@ -53,5 +60,8 @@ export default async function GuestInvitationPage({ params }: Props) {
     notFound();
   }
 
-  return <Template1 invitationData={invitationData} />;
+  if (loggedInUserEmail === "emilyangon15@gmail.com") {
+    return <Template1 invitationData={invitationData} />;
+  }
+  return <Template2 invitationData={invitationData} />;
 }

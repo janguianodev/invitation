@@ -1,20 +1,7 @@
-import { cursiveFont, template1Font } from "@/fonts";
-
 interface Props {
-  dressCode: string;
+  children: React.ReactNode;
 }
 
-export const DressCode = ({ dressCode }: Props) => {
-  return (
-    <div className="flex flex-col justify-center items-center bg-invitation-secondary p-12 gap-3">
-      <p
-        className={`${template1Font.className} text-lg sm:text-2xl text-center text-background`}
-      >
-        Código de vestimenta para nuestra boda
-      </p>
-      <p className={`${cursiveFont.className} text-6xl text-background`}>
-        {`${dressCode[0].toUpperCase()}${dressCode.slice(1)}`}
-      </p>
-    </div>
-  );
+export const DressCode = ({ children }: Props) => {
+  return <>{children}</>;
 };

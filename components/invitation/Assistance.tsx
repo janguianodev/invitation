@@ -1,6 +1,5 @@
-import { cursiveFont } from "@/fonts";
-import { ConfirmedAssistance } from "./ConfirmedAssistance";
 import { ConfirmAssistance } from "./ConfirmAssistance";
+import { ConfirmedAssistance } from "./ConfirmedAssistance";
 import { DeniedAssistance } from "./DeniedAssistance";
 
 interface Props {
@@ -10,9 +9,14 @@ interface Props {
     confirmationCode: string;
     invitedGuests: number;
   };
+  customUI: {
+    template: string;
+    fontClass: string;
+    cursiveFontClass: string;
+  };
 }
 
-export const Assistance = ({ data }: Props) => {
+export const Assistance = ({ data, customUI }: Props) => {
   const {
     confirmedGuests,
     confirmedGuestsNames,
@@ -20,18 +24,27 @@ export const Assistance = ({ data }: Props) => {
     invitedGuests,
   } = data;
 
+  const { template, fontClass, cursiveFontClass } = customUI;
+
   return (
     <>
       <div className="flex flex-row justify-center px-12 pt-12">
         <p
-          className={`${cursiveFont.className} text-invitation-secondary text-6xl font-bold`}
+          className={`${cursiveFontClass} text-${template}-secondary text-6xl font-bold`}
         >
           Asistencia
         </p>
       </div>
 
       {confirmedGuests === null && (
-        <ConfirmAssistance invitedPeople={invitedGuests || 0} />
+        <ConfirmAssistance
+          invitedPeople={invitedGuests || 0}
+          customUI={{
+            template,
+            fontClass,
+            cursiveFontClass,
+          }}
+        />
       )}
 
       {confirmedGuests !== null && confirmedGuests > 0 && (
@@ -40,10 +53,16 @@ export const Assistance = ({ data }: Props) => {
             confirmationCode: confirmationCode || "",
             confirmedGuestsNames: confirmedGuestsNames || [],
           }}
+          customUI={{
+            template,
+            fontClass,
+          }}
         />
       )}
 
-      {confirmedGuests === 0 && <DeniedAssistance />}
+      {confirmedGuests === 0 && (
+        <DeniedAssistance customUI={{ template, fontClass }} />
+      )}
     </>
   );
 };

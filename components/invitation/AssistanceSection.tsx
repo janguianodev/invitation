@@ -2,6 +2,6 @@ interface Props {
   children?: React.ReactNode;
 }
 
-export const SpecialRequest = ({ children }: Props) => {
+export const AssistanceSection = ({ children }: Props) => {
   return <>{children}</>;
 };

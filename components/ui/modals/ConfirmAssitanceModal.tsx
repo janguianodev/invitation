@@ -16,9 +16,17 @@ import { AlertVariant } from "@/utils";
 interface Props {
   invitedPeople: number;
   closeModal: () => void;
+  customUI: {
+    template: string;
+  };
 }
 
-export const ConfirmAssitanceModal = ({ invitedPeople, closeModal }: Props) => {
+export const ConfirmAssitanceModal = ({
+  invitedPeople,
+  closeModal,
+  customUI,
+}: Props) => {
+  const { template } = customUI;
   const { showAlert } = useAlert();
   const pathname = usePathname();
   const getGuestSlug = pathname.split("/").slice(-1)[0];
@@ -134,7 +142,7 @@ export const ConfirmAssitanceModal = ({ invitedPeople, closeModal }: Props) => {
         <div className="flex flex-row justify-end gap-3 mt-3">
           <button
             type="submit"
-            className="bg-invitation-secondary text-white px-2 py-1 rounded"
+            className={`bg-${template}-secondary text-white px-2 py-1 rounded`}
           >
             Confirmar
           </button>

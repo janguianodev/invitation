@@ -1,6 +1,5 @@
 "use client";
 
-import { template1Font } from "@/fonts";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -15,9 +14,15 @@ import { AlertVariant } from "@/utils";
 
 interface Props {
   closeModal: () => void;
+  customUI: {
+    template: string;
+    fontClass: string;
+  };
 }
 
-export const DenyAssistance = ({ closeModal }: Props) => {
+export const DenyAssistance = ({ closeModal, customUI }: Props) => {
+  const { template, fontClass } = customUI;
+
   const { showAlert } = useAlert();
   const pathname = usePathname();
   const getGuestSlug = pathname.split("/").slice(-1)[0];
@@ -53,7 +58,7 @@ export const DenyAssistance = ({ closeModal }: Props) => {
   };
 
   return (
-    <div className={`${template1Font.className}`}>
+    <div className={`${fontClass}`}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-3">
           <div className="flex flex-col gap-1">
@@ -71,7 +76,9 @@ export const DenyAssistance = ({ closeModal }: Props) => {
           />
         </div>
         <div className="flex flex-row justify-end gap-3 mt-3">
-          <button className="bg-invitation-secondary text-white px-2 py-1 rounded">
+          <button
+            className={`bg-${template}-secondary text-white px-2 py-1 rounded`}
+          >
             Enviar respuesta
           </button>
         </div>

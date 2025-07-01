@@ -22,6 +22,11 @@ const config: Config = {
           secondary: "#808C77",
           tertiary: "#E5E8E3",
         },
+        template2: {
+          primary: "#B3CEE5",
+          secondary: "#275072",
+          tertiary: "#edf4f9",
+        },
       },
     },
   },
