@@ -60,7 +60,7 @@ export default async function GuestInvitationPage({ params }: Props) {
     notFound();
   }
 
-  if (loggedInUserEmail === "emilyangon15@gmail.com") {
+  if (loggedInUserEmail === "anguiano.balderas@gmail.com") {
     return <Template2 invitationData={invitationData} />;
   }
   return <Template1 invitationData={invitationData} />;
