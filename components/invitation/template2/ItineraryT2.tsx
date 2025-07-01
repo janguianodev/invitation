@@ -1,6 +1,6 @@
 import { template2CursiveFont } from "@/fonts";
 import { EventI } from "@/interfaces";
-import { eventTypes, EventType } from "@/utils";
+import { eventTypes, EventType, AnimatedLi } from "@/utils";
 import Link from "next/link";
 
 interface Props {
@@ -39,7 +39,8 @@ export const ItineraryT2 = ({ data }: Props) => {
               : "--:--";
 
             return (
-              <li
+              <AnimatedLi
+                animationkey="fadeInRight"
                 key={index}
                 className="flex items-start gap-4 sm:gap-6 relative"
               >
@@ -79,7 +80,7 @@ export const ItineraryT2 = ({ data }: Props) => {
                     </Link>
                   )}
                 </div>
-              </li>
+              </AnimatedLi>
             );
           })}
         </ul>

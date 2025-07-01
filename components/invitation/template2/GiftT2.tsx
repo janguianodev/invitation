@@ -1,6 +1,7 @@
 import { template2CursiveFont, template2Font } from "@/fonts";
 import { IoMdMail } from "react-icons/io";
 import Link from "next/link";
+import { AnimatedDiv, AnimatedP } from "@/utils";
 
 interface Props {
   data: {
@@ -25,17 +26,20 @@ export const GiftT2 = ({ data }: Props) => {
       </h3>
 
       {/* Mensaje */}
-      <p
+      <AnimatedP
+        animationkey="fadeIn"
+        text={giftRegistryMsg}
         className={`${template2Font.className} text-gray-700 max-w-xl text-2xl sm:text-2xl leading-relaxed`}
-      >
-        {giftRegistryMsg}
-      </p>
+      />
 
       {/* Ícono si aplica */}
       {isSobre && (
-        <div className="w-14 h-14 flex items-center justify-center rounded-full border border-template2-secondary text-template2-secondary">
+        <AnimatedDiv
+          animationkey="fadeIn"
+          className="w-14 h-14 flex items-center justify-center rounded-full border border-template2-secondary text-template2-secondary"
+        >
           <IoMdMail size={28} />
-        </div>
+        </AnimatedDiv>
       )}
 
       {/* Botón si hay link */}

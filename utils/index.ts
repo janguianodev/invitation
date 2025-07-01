@@ -4,6 +4,7 @@ export * from "./cloudinary";
 export * from "./components/AnimatedLi";
 export * from "./components/AnimatedP";
 export * from "./components/LinkButton";
+export * from "./components/AnimatedDiv";
 export * from "./invitation-sections";
 export * from "./format-date";
 export * from "./itinerary";
