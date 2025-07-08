@@ -12,6 +12,7 @@ export const GuestFormSchema = z.object({
     z.object({
       id: z.string().optional().default(""),
       name: z.string().default(""),
+      confirmedPeople: z.coerce.number().optional().nullable(),
     })
   ),
   isGroup: z.boolean().default(true),

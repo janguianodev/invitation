@@ -47,6 +47,7 @@ export const getGuestByIdAndInvitation = async (
       guestPasses: guestPasses.map((pass) => ({
         id: pass.id,
         name: pass.name ?? "",
+        confirmedPeople: pass.confirmedPeople,
       })),
     };
   } catch (error) {

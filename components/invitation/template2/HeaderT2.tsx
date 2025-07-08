@@ -1,4 +1,4 @@
-import { template2Font, template2CursiveFont } from "@/fonts";
+import { template2Font } from "@/fonts";
 import { AnimatedP } from "@/utils";
 
 interface props {
@@ -22,7 +22,7 @@ export const HeaderT2 = ({ data }: props) => {
   };
   return (
     <div
-      className="w-full h-screen flex justify-center items-start"
+      className="w-full h-screen flex justify-center items-center"
       style={{
         backgroundImage: `url('${image}')`,
         backgroundPosition: "top center",
@@ -30,12 +30,6 @@ export const HeaderT2 = ({ data }: props) => {
       }}
     >
       <div className="flex items-center flex-col text-center w-full sm:w-1/2 p-12 gap-4">
-        <AnimatedP
-          animationkey="fadeIn"
-          text="El amor nunca se da por vencido, jamás pierde la fe, siempre tiene esperanzas y se mantiene firme en toda circunstancia."
-          className={`${template2CursiveFont.className} text-white antialiased text-4xl drop-shadow-lg`}
-        />
-        {/* agregar una sombra blanca al texto */}
         <AnimatedP
           animationkey="fadeIn"
           text={coupleNames()}
