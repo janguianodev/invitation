@@ -1,5 +1,3 @@
-"use client";
-
 import { template2Font } from "@/fonts";
 import { AnimatedDiv, getTimeToEventInMonthsAndDays } from "@/utils";
 
@@ -12,8 +10,8 @@ interface Props {
 export const CountDownT2 = ({ data }: Props) => {
   const { eventDate } = data;
 
-  const time = getTimeToEventInMonthsAndDays(eventDate);
-  const { months, days } = time;
+  const { months, days } = getTimeToEventInMonthsAndDays(eventDate);
+  const isToday = months === 0 && days === 0;
 
   return (
     <div className="bg-white py-16 px-6 sm:px-12 text-center text-black">
@@ -32,13 +30,17 @@ export const CountDownT2 = ({ data }: Props) => {
         {days > 0 && (
           <CountdownBox value={days} label={days === 1 ? "DÍA" : "DÍAS"} />
         )}
+        {isToday && (
+          <p className="text-md tracking-wide text-gray-600 italic">
+            ¡HOY ES NUESTRO DÍA!
+          </p>
+        )}
       </div>
     </div>
   );
 };
 
 const CountdownBox = ({ value, label }: { value: number; label: string }) => (
-  // <div className="border border-template2-secondary rounded-md px-6 py-4 w-48 sm:w-60 flex flex-col items-center text-template2-secondary bg-template2-tertiary">
   <AnimatedDiv
     animationkey="fadeIn"
     className="border border-template2-secondary rounded-md px-6 py-4 w-48 sm:w-60 flex flex-col items-center text-template2-secondary bg-template2-tertiary"
@@ -47,5 +49,4 @@ const CountdownBox = ({ value, label }: { value: number; label: string }) => (
     <div className="w-8 h-[2px] bg-template2-secondary my-2" />
     <span className="text-xs tracking-widest">{label}</span>
   </AnimatedDiv>
-  // </div>
 );
